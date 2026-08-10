@@ -1,0 +1,51 @@
+name: Scientific review
+description: Challenge a claim, assumption, source, model boundary, or feasibility gate.
+title: "[Review] "
+labels: [review]
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for helping make AETHER more falsifiable. Point to the exact claim or artifact and separate sourced evidence from interpretation.
+  - type: input
+    id: claim
+    attributes:
+      label: Claim or artifact
+      description: Link to the file, line, table, figure, parameter, or gate under review.
+    validations:
+      required: true
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Review type
+      options:
+        - Incorrect or unsupported claim
+        - Missing constraint or failure mode
+        - Weak or outdated source
+        - Model or calculation concern
+        - Governance or incentive concern
+        - Presentation or interpretation concern
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and reasoning
+      description: Explain the concern and provide primary sources or a reproducible calculation where possible.
+    validations:
+      required: true
+  - type: textarea
+    id: consequence
+    attributes:
+      label: Expected consequence
+      description: State what should change if the review is correct, including any affected feasibility gate.
+    validations:
+      required: true
+  - type: checkboxes
+    id: conduct
+    attributes:
+      label: Review checks
+      options:
+        - label: I have distinguished sourced facts, derived results, assumptions, and speculation.
+          required: true
+        - label: I have not included credentials, private data, or an undisclosed security exploit.
+          required: true

@@ -1,0 +1,11 @@
+metric,value,unit,interpretation
+gate_100gt_twh_y,91666.667,TWh/year,100 GtCO2/year regional dispatch power gate at 3 GJ/tCO2 plus 10% delivery and firming penalty
+best_case_supported_gtco2_y,121.972,GtCO2/year,largest AETHER scale supported in the representative regional dispatch screen
+market_supported_gtco2_y,15.458,GtCO2/year,market regional reference supported scale
+dedicated_supported_gtco2_y,47.929,GtCO2/year,dedicated AETHER corridor supported scale
+firm_colocated_supported_gtco2_y,64.262,GtCO2/year,firm colocated clean-power backbone supported scale
+upper_tail_supported_gtco2_y,121.972,GtCO2/year,upper-tail AI energy abundance supported scale
+passes_100gt_case_count,1,count,number of regional dispatch cases clearing the 100 GtCO2/year gate
+passes_50gt_case_count,2,count,number of regional dispatch cases clearing the 50 GtCO2/year gate
+median_hourly_match_share,0.684702,share,median representative-day served-load share across regional dispatch cases
+region_count,7,count,regional archetypes in the screening model

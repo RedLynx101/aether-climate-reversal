@@ -1,0 +1,84 @@
+key,cited_in_paper,in_bibtex,coverage_status,entry_type,year,title,url,doi
+agility_robofab_2023,true,true,ok,misc,2023,Opening RoboFab: World's First Factory for Humanoid Robots,https://www.agilityrobotics.com/content/opening-robofab-worlds-first-factory-for-humanoid-robots,
+alcott_2005_jevons_paradox,true,true,ok,article,2005,Jevons' Paradox,,10.1016/j.ecolecon.2005.03.020
+amazon_robotics_750k_robots_2024,true,true,ok,misc,2024,How Amazon deploys collaborative robots in its operations to benefit employees and customers,https://www.aboutamazon.com/news/operations/how-amazon-deploys-robots-in-its-operations-facilities,
+aschenbrenner_2024_situational_awareness,true,true,ok,misc,2024,Situational Awareness: The Decade Ahead,https://situational-awareness.ai/,
+berkeley_lab_queued_up_2025,true,true,ok,misc,2025,"Queued Up: 2025 Edition, Characteristics of Power Plants Seeking Transmission Interconnection As of the End of 2024",https://eta.lbl.gov/publications/queued-2025-edition-characteristics,
+california_energy_commission_2024_tseg,true,true,ok,misc,2025,2024 Total System Electric Generation,https://www.energy.ca.gov/data-reports/energy-almanac/california-electricity-data/2024-total-system-electric-generation,
+chatterjee_huang_2020_unrealistic_dac,true,true,ok,article,2020,Unrealistic energy and materials requirement for direct air capture in deep mitigation pathways,https://www.nature.com/articles/s41467-020-17203-7,10.1038/s41467-020-17203-7
+climeworks_mammoth_2024,true,true,ok,misc,2024,Climeworks switches on world's largest direct air capture plant,https://climeworks.com/press-release/climeworks-switches-on-worlds-largest-direct-air-capture-plant-mammoth,
+cornell_public_trust_doctrine,true,true,ok,misc,2026,Public trust doctrine,https://www.law.cornell.edu/wex/public_trust_doctrine,
+eia_texas_energy_profile_2024,true,true,ok,misc,2025,Texas State Energy Profile and Analysis,https://www.eia.gov/states/TX/overview,
+epa_class_vi_wells_2026,true,true,ok,misc,2026,Class VI - Wells used for Geologic Sequestration of Carbon Dioxide,https://www.epa.gov/uic/class-vi-wells-used-geologic-sequestration-carbon-dioxide,
+epa_current_class_vi_projects_2026,true,true,ok,misc,2026,Current Class VI Projects under Review at EPA,https://www.epa.gov/uic/current-class-vi-projects-under-review-epa,
+epa_subpart_rr_mrv_2026,true,true,ok,misc,2026,Subpart RR: Geologic Sequestration of Carbon Dioxide,https://www.epa.gov/ghgreporting/subpart-rr-geologic-sequestration-carbon-dioxide,
+eu_crcf_2024,true,true,ok,misc,2024,Carbon Removals and Carbon Farming (CRCF) Regulation,https://climate.ec.europa.eu/eu-action/carbon-removals-and-carbon-farming/carbon-removals-and-carbon-farming-crcf-regulation_en,
+fair_v13_smith_2018,true,true,ok,article,2018,FAIR v1.3: a simple emissions-based impulse response and carbon cycle model,https://gmd.copernicus.org/articles/11/2273/2018/,10.5194/gmd-11-2273-2018
+figure_botq_2025,true,true,ok,misc,2025,BotQ: A High-Volume Manufacturing Facility for Humanoid Robots,https://www.figure.ai/news/botq,
+figure_ramping_2026,true,true,ok,misc,2026,Ramping Figure 03 Production,https://www.figure.ai/news/ramping-figure-03-production,
+fusion_industry_association_2025,true,true,ok,misc,2025,Over $2.5 Billion Invested in Fusion Industry in Past Year,https://www.fusionindustryassociation.org/over-2-5-billion-invested-in-fusion-industry-in-past-year/,
+georgetown_atmospheric_trust_2023,true,true,ok,misc,2023,Up in the Air: How the Atmospheric Trust Doctrine is Being Used to Fight Climate Change,https://www.law.georgetown.edu/environmental-law-review/blog/up-in-the-air-how-the-atmospheric-trust-doctrine-is-being-used-to-fight-climate-change/,
+giro_2023_ai_polymer_membranes,true,true,ok,article,2023,"AI powered, automated discovery of polymer membranes for carbon capture",https://www.nature.com/articles/s41524-023-01088-3,10.1038/s41524-023-01088-3
+global_carbon_budget_2025,true,true,ok,article,2026,Global Carbon Budget 2025,https://essd.copernicus.org/articles/18/3211/2026/,10.5194/essd-18-3211-2026
+google_kairos_2024,true,true,ok,misc,2024,New nuclear clean energy agreement with Kairos Power,https://blog.google/outreach-initiatives/sustainability/google-kairos-power-nuclear-energy-agreement/,
+helion_microsoft_fusion_2023,true,true,ok,misc,2023,Helion announces world's first fusion energy purchase agreement with Microsoft,https://www.helionenergy.com/articles/helion-announces-worlds-first-fusion-ppa-with-microsoft/,
+iaea_nuclear_status_2025,true,true,ok,techreport,2025,Status and Prospects for Nuclear Power 2025,https://www.iaea.org/sites/default/files/gc/gov-inf-2025-8-gc69-inf-4.pdf,
+iea_critical_minerals_outlook_2025,true,true,ok,misc,2025,Global Critical Minerals Outlook 2025,https://www.iea.org/reports/global-critical-minerals-outlook-2025/overview-of-outlook-for-key-minerals,
+iea_electricity_2026,true,true,ok,misc,2026,Electricity 2026,https://www.iea.org/reports/electricity-2026/flexibility,
+iea_energy_ai_2025,true,true,ok,misc,2025,Energy and AI,https://www.iea.org/reports/energy-and-ai/executive-summary,
+iea_geothermal_future_2024,true,true,ok,misc,2024,The Future of Geothermal Energy,https://www.iea.org/reports/the-future-of-geothermal-energy/executive-summary,
+iea_global_energy_review_2026,true,true,ok,misc,2026,Global Energy Review 2026,https://www.iea.org/reports/global-energy-review-2026/electricity-supply,
+iea_state_energy_innovation_2026,true,true,ok,misc,2026,The State of Energy Innovation 2026,https://www.iea.org/reports/the-state-of-energy-innovation-2026/executive-summary,
+ifr_world_robotics_2025,true,true,ok,misc,2025,World Robotics 2025 Industrial Robots,https://ifr.org/worldrobotics/report-2025,
+ipcc_ar6_wg1_ch5_carbon_cycle,true,true,ok,incollection,2021,Chapter 5: Global Carbon and Other Biogeochemical Cycles and Feedbacks,https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-5/,
+ipcc_ar6_wg1_ch7_forcing_sensitivity,true,true,ok,incollection,2021,"Chapter 7: The Earth's Energy Budget, Climate Feedbacks, and Climate Sensitivity",https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-7/,
+ipcc_ar6_wg1_fig_5_32_cdr_pulse,true,true,ok,misc,2021,Figure 5.32: Carbon cycle response to instantaneous carbon dioxide removal from the atmosphere,https://www.ipcc.ch/report/ar6/wg1/figures/chapter-5/figure-5-32/,
+ipcc_ar6_wg1_ts_tcre_2021,true,true,ok,incollection,2021,Technical Summary,https://www.ipcc.ch/report/ar6/wg1/chapter/technical-summary/,
+ipcc_ar6_wg3_ch12,true,true,ok,incollection,2022,Chapter 12: Cross-sectoral perspectives,https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-12/,
+ipcc_ar6_wg3_ch6_ccs_storage,true,true,ok,incollection,2022,Chapter 6: Energy Systems,https://www.ipcc.ch/report/ar6/wg3/chapter/chapter-6/,
+ipcc_ar6_wg3_technical_summary_cdr,true,true,ok,incollection,2022,Technical Summary,https://www.ipcc.ch/report/ar6/wg3/chapter/technical-summary/,
+irena_power_costs_2024,true,true,ok,misc,2025,Renewable Power Generation Costs in 2024,https://www.irena.org/Digital-Report/Renewable-Power-Generation-Costs-in-2024,
+joos_2013_impulse_response,true,true,ok,article,2013,Carbon dioxide and climate impulse response functions for the computation of greenhouse gas metrics: a multi-model analysis,https://acp.copernicus.org/articles/13/2793/2013/,10.5194/acp-13-2793-2013
+keith_2018_process_dac,true,true,ok,article,2018,A Process for Capturing CO2 from the Atmosphere,https://www.sciencedirect.com/science/article/pii/S2542435118302253,10.1016/j.joule.2018.05.006
+kokotajlo_et_al_2025_ai_2027,true,true,ok,misc,2025,AI 2027,https://ai-2027.com/,
+larsen_et_al_2026_ai_2040,true,true,ok,misc,2026,AI 2040: Plan A,https://ai-2040.com/,
+mcqueen_drennan_2024_warehouse_dac,true,true,ok,article,2024,The use of warehouse automation technology for scalable and low-cost direct air capture,https://www.frontiersin.org/journals/climate/articles/10.3389/fclim.2024.1415642/full,10.3389/fclim.2024.1415642
+microsoft_constellation_crane_2024,true,true,ok,misc,2024,"Constellation to Launch Crane Clean Energy Center, Restoring Jobs and Carbon-free Power to the Grid",https://investors.constellationenergy.com/news-releases/news-release-details/constellation-launch-crane-clean-energy-center-restoring-jobs/,
+national_academies_dac_ch5_2018,true,true,ok,book,2019,"Negative Emissions Technologies and Reliable Sequestration: A Research Agenda, Chapter 5: Direct Air Capture",https://www.ncbi.nlm.nih.gov/books/NBK541435/?report=printable,10.17226/25259
+national_academies_net_reliable_sequestration,true,true,ok,book,2019,Negative Emissions Technologies and Reliable Sequestration: A Research Agenda,https://www.nationalacademies.org/read/25259/chapter/9,10.17226/25259
+national_academies_ocean_cdr_2021,true,true,ok,book,2022,A Research Strategy for Ocean-based Carbon Dioxide Removal and Sequestration,https://www.nationalacademies.org/read/26278/,10.17226/26278
+national_academies_ocean_cdr_2022,true,true,ok,book,2022,A Research Strategy for Ocean-based Carbon Dioxide Removal and Sequestration,https://www.nationalacademies.org/projects/DELS-OSB-20-02/publication/26278,
+ncses_us_rd_2023,true,true,ok,misc,2025,Discovery: R&D Activity and Research Publications,https://ncses.nsf.gov/pubs/nsb20257/table/DISC-2,
+netl_carbon_storage_atlas_v_2015,true,true,ok,misc,2015,"Carbon Storage Atlas, Fifth Edition",https://netl.doe.gov/node/5841,
+netl_sorbent_dac_2025,true,true,ok,techreport,2025,Direct Air Capture Case Studies: Sorbent System (Rev. 1),https://www.osti.gov/biblio/2520078,10.2172/2520078
+nist_chemistry_webbook_co2,true,true,ok,misc,2026,NIST Chemistry WebBook: Carbon dioxide,https://webbook.nist.gov/cgi/cbook.cgi?Formula=CO2&NoIon=on&cIR=on&cTG=on,
+nist_chemistry_webbook_co2_calculated,true,true,ok,misc,2026,CO2 splitting enthalpy calculation from NIST CO2 formation enthalpy,,
+nist_cryogenic_fluid_properties,true,true,ok,misc,2026,Cryogenic Fluid Properties,https://trc.nist.gov/cryogenics/fluidProperties.html,
+nist_thermophysical_fluids_2009,true,true,ok,misc,2009,Thermophysical Properties of Fluids,https://www.nist.gov/publications/thermophysical-properties-fluids,
+noaa_gml_global_co2_2026,true,true,ok,misc,2026,Trends in Atmospheric Carbon Dioxide: Global Monthly Mean CO2,https://www.gml.noaa.gov/ccgg/trends/global.html,
+noaa_gml_mauna_loa_co2_2026,true,true,ok,misc,2026,Trends in Atmospheric Carbon Dioxide: Monthly Average Mauna Loa CO2,https://gml.noaa.gov/ccgg/trends/,
+nrel_atb_2024_electricity,true,true,ok,misc,2024,2024 Electricity Annual Technology Baseline,https://atb.nrel.gov/electricity/2024/technologies,
+nrel_atb_land_wind_2024,true,true,ok,misc,2024,Land-Based Wind: 2024 Electricity Annual Technology Baseline,https://atb.nrel.gov/electricity/2024b/land-based_wind,
+nrel_atb_nuclear_2024,true,true,ok,misc,2024,Nuclear: 2024 Electricity Annual Technology Baseline,https://atb.nrel.gov/electricity/2024/nuclear,
+nrel_solar_land_use_2013,true,true,ok,techreport,2013,Land-Use Requirements for Solar Power Plants in the United States,https://docs.nrel.gov/docs/fy13osti/56290.pdf,
+onepointfive_stratos_2026,true,true,ok,misc,2026,About 1PointFive,https://www.1pointfive.com/about,
+osha_graphite_natural_chemicaldata_2020,true,true,ok,misc,2020,"Graphite (Natural), Respirable Fraction",https://www.osha.gov/chemicaldata/665,
+ostrom_governing_commons_1990,true,true,ok,book,1990,Governing the Commons: The Evolution of Institutions for Collective Action,,
+oxford_offsetting_principles_2024,true,true,ok,misc,2024,Oxford Principles for Net Zero Aligned Carbon Offsetting: Revised 2024,https://www.smithschool.ox.ac.uk/sites/default/files/2024-02/Oxford-Principles-for-Net-Zero-Aligned-Carbon-Offsetting-revised-2024.pdf,
+pubchem_magnesium_carbonate_2026,true,true,ok,misc,2026,PubChem Compound Summary for Magnesium Carbonate,https://pubchem.ncbi.nlm.nih.gov/compound/Magnesium-carbonate,
+realmonte_2019_daccs_iam,true,true,ok,article,2019,An inter-model assessment of the role of direct air capture in deep mitigation pathways,https://www.nature.com/articles/s41467-019-10842-5,10.1038/s41467-019-10842-5
+roads_to_removal_2023,true,true,ok,techreport,2023,Roads to Removal: Options for Carbon Dioxide Removal in the United States,https://www.osti.gov/biblio/2301853,10.2172/2301853
+sorrell_2009_jevons_rebound,true,true,ok,article,2009,Jevons' Paradox Revisited: The Evidence for Backfire from Improved Energy Efficiency,,10.1016/j.enpol.2008.12.003
+sriram_2023_opendac,true,true,ok,misc,2023,The Open DAC 2023 Dataset and Challenges for Sorbent Discovery in Direct Air Capture,https://arxiv.org/abs/2311.00341,
+state_of_cdr_2026,true,true,ok,misc,2026,The State of Carbon Dioxide Removal: 3rd Edition,https://www.stateofcdr.org/report/3rd-edition,
+thompson_2012_learning_by_doing,true,true,ok,article,2012,The Relationship between Unit Cost and Cumulative Quantity and the Evidence for Organizational Learning-by-Doing,,10.1257/jep.26.3.203
+unitree_g1_product_2026,true,true,ok,misc,2026,Unitree G1 Humanoid Robot,https://www.unitree.com/mobile/g1/,
+usgs_anderson_storage_risk_liability_2017,true,true,ok,article,2017,"Risk, liability, and economic issues with long-term CO2 storage--A review",https://www.usgs.gov/publications/risk-liability-and-economic-issues-long-term-co2-storage-a-review,10.1007/s11053-016-9303-6
+usgs_circular_1386_geologic_storage,true,true,ok,techreport,2013,National Assessment of Geologic Carbon Dioxide Storage Resources--Results,https://pubs.usgs.gov/circ/1386/,
+usgs_graphite_mcs_2026,true,true,ok,misc,2026,Mineral Commodity Summaries 2026: Graphite (Natural),https://pubs.usgs.gov/periodicals/mcs2026/mcs2026-graphite.pdf,
+usgs_mcs_2025_cement,true,true,ok,techreport,2025,Mineral Commodity Summaries 2025,https://doi.org/10.3133/mcs2025,10.3133/mcs2025
+worldsteel_figures_2025,true,true,ok,misc,2025,World Steel in Figures 2025,https://worldsteel.org/data/world-steel-in-figures/world-steel-in-figures-2025/,
+wri_scaling_dac_impacts_2024,true,true,ok,misc,2024,Direct Air Capture: Assessing Impacts to Enable Responsible Scaling,https://publications.wri.org/scaling-dac-in-the-us/introduction,
+wright_1936_learning_curve,true,true,ok,article,1936,Factors Affecting the Cost of Airplanes,,10.2514/8.155
+young_2023_dacs_cost_targets,true,true,ok,article,2023,The cost of direct air capture and storage can be reduced via strategic deployment but is unlikely to fall below stated cost targets,https://www.sciencedirect.com/science/article/pii/S2590332223003007,10.1016/j.oneear.2023.06.004
+zickfeld_2021_asymmetry,true,true,ok,article,2021,Asymmetry in the climate-carbon cycle response to positive and negative CO2 emissions,https://www.nature.com/articles/s41558-021-01061-2,10.1038/s41558-021-01061-2

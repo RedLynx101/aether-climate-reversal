@@ -1,0 +1,18 @@
+parameter,value,unit,source_key
+"Mauna Loa CO2 monthly mean, May 2026",432.34,ppm,noaa_gml_mauna_loa_co2_2026
+"Global CO2 trend, Feb 2026",428.53,ppm,noaa_gml_global_co2_2026
+"Fossil CO2 emissions, 2025",38.1,GtCO2/yr,global_carbon_budget_2025
+"Total anthropogenic CO2 emissions, 2025 preliminary",42.2,GtCO2/yr,global_carbon_budget_2025
+"Current global CDR, 2026",2.2,GtCO2/yr,state_of_cdr_2026
+"Current novel CDR, 2025",0.00204,GtCO2/yr,state_of_cdr_2026
+DAC theoretical minimum separation energy,0.5,GJ/tCO2,ipcc_ar6_wg3_ch12
+DAC current technology total energy range low,4.0,GJ/tCO2,ipcc_ar6_wg3_ch12
+DAC current technology total energy range high,10.0,GJ/tCO2,ipcc_ar6_wg3_ch12
+CO2 formation enthalpy,-393.51,kJ/mol,nist_chemistry_webbook_co2
+CO2 to C + O2 theoretical split energy,8.941478544405184,GJ/tCO2,nist_chemistry_webbook_co2_calculated
+CO2 per atmospheric ppm,7.8,GtCO2/ppm,standard_atmosphere_conversion
+Supercritical CO2 density in geologic storage,600,kg/m3,national_academies_net_reliable_sequestration
+"Industrial robot installations, 2024",542076,robots,ifr_world_robotics_2025
+"Operational stock of industrial robots, 2024",4663698,robots,ifr_world_robotics_2025
+"Solar PV generation increase, 2025",600,TWh,iea_global_energy_review_2026
+"Global electricity generation increase, 2025",850,TWh,iea_global_energy_review_2026

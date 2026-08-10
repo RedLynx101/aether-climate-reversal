@@ -1,0 +1,9 @@
+comparator,display_name,annual_generation_twh_y,share_of_3gj_balanced_target,relationship_to_aether,source_keys,evidence_class
+2025_global_electricity_increment,2025 global electricity growth,850.000,0.009273,"Current annual growth anchor; not all clean, not all additional, and not assignable to AETHER.",iea_global_energy_review_2026,verified_source_anchor
+2025_solar_generation_increment,2025 solar generation growth,600.000,0.006545,"Solar is scaling fast, but variable generation still needs land, transmission, storage, and firming.",iea_global_energy_review_2026,verified_source_anchor
+iea_data_center_2030,IEA 2030 data-centre demand,950.000,0.010364,Competing demand and market-pull signal for clean firm power.,iea_energy_ai_2025,verified_source_anchor
+current_global_nuclear_generation,Current global nuclear generation,2617.500,0.028555,Firm clean comparator; current global nuclear generation is still small relative to AETHER power demand.,iaea_nuclear_status_2025,verified_source_anchor
+iea_geothermal_2050_case,IEA cost-effective geothermal 2050 case,6000.000,0.065455,Firm clean upside from drilling/geothermal learning; still a minority of the 3 GJ/tCO2 AETHER case.,iea_geothermal_future_2024,verified_source_anchor
+microsoft_constellation_crane,Microsoft/Constellation Crane PPA,6.803,0.000074,Firm-power market-pull signal measured in single-digit TWh/year.,microsoft_constellation_crane_2024,company_primary_source_signal
+google_kairos_agreement,Google/Kairos advanced nuclear agreement,4.073,0.000044,Advanced nuclear market-pull signal measured in a few TWh/year.,google_kairos_2024,company_primary_source_signal
+helion_microsoft_fusion_ppa,Helion/Microsoft fusion PPA,0.394,0.000004,Fusion upside signal; high technical risk and not a base-case AETHER power source.,helion_microsoft_fusion_2023;fusion_industry_association_2025,company_primary_source_high_risk_signal

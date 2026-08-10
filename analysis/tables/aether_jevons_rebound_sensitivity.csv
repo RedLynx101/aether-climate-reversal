@@ -1,0 +1,8 @@
+gross_removal_gtco2_y,current_emissions_gtco2_y,jevons_or_policy_rebound_fraction_of_gross_removal,induced_or_delayed_emissions_gtco2_y,net_removal_gtco2_y,simple_ppm_y,interpretation
+100.0,42.2,0.0,0.0,57.8,7.41025641025641,net-negative
+100.0,42.2,0.1,10.0,47.8,6.128205128205128,net-negative
+100.0,42.2,0.25,25.0,32.8,4.205128205128205,net-negative
+100.0,42.2,0.5,50.0,7.799999999999997,0.9999999999999997,net-negative
+100.0,42.2,0.578,57.8,0.0,0.0,break-even
+100.0,42.2,0.75,75.0,-17.200000000000003,-2.2051282051282057,net-positive
+100.0,42.2,1.0,100.0,-42.2,-5.410256410256411,net-positive

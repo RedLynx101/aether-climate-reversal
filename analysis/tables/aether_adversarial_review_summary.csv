@@ -1,0 +1,7 @@
+metric,value,unit,interpretation
+review_panel_count,8,count,number of expert review panels in the adversarial gauntlet
+high_risk_panel_count,8,count,panels scoring 4 or 5 on current reviewer risk
+p0_falsification_test_count,5,count,tests that can directly force a major reframing of the paper
+average_risk_score,4.62,score_1_to_5,mean reviewer risk before the next evidence upgrade
+average_evidence_maturity_score,1.88,score_1_to_5,mean current maturity of evidence against likely reviewer attack
+feedback_packet_question_count,7,count,reviewer-facing questions ready for scientist feedback

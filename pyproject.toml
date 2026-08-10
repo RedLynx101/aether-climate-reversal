@@ -1,0 +1,16 @@
+﻿[project]
+name = "aether-research"
+version = "0.1.0"
+description = "AETHER: Atmospheric Engineering Through High-Energy Removal research scaffolding for climate reversal, durable carbon removal, robotics scaling, and clean energy scenario modeling."
+requires-python = ">=3.11"
+dependencies = [
+  "numpy",
+  "pandas",
+  "matplotlib",
+  "scipy",
+  "fair>=2.2.4",
+]
+
+[tool.ruff]
+line-length = 100
+

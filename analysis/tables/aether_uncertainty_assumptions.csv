@@ -1,0 +1,16 @@
+parameter,label,low,mode,high,unit,interpretation
+energy_gj_tco2,Full-system energy intensity,1.25,2.25,5.5,GJ/tCO2,Lower values make the clean-energy constraint less binding.
+clean_addition_growth_rate,Annual clean-addition growth,0.04,0.15,0.24,fraction/year,Growth rate for annual global clean-generation additions through 2046.
+aether_clean_share,AETHER share of new clean generation,0.15,0.5,0.75,fraction,Share of new clean generation that can be allocated to AETHER after other demand claims.
+clean_deliverability_fraction,Clean-energy deliverability,0.55,0.85,1.0,fraction,"Discount for interconnection, firming, transmission, downtime, and siting mismatch."
+robot_output_growth_rate,Annual robot-output growth,0.1,0.24,0.38,fraction/year,Growth rate for robot production relevant to AETHER construction and operations.
+aether_robot_share,AETHER share of robot output,0.05,0.25,0.45,fraction,Share of robot output available for AETHER rather than the rest of the economy.
+robots_per_mtco2_y_capacity,Robots per MtCO2/year capacity,15.0,75.0,400.0,robots per Mt/y,Lower values mean each robot-mediated deployment system supports more removal capacity.
+storage_terminal_gtco2_y,Terminal storage capacity,35.0,105.0,160.0,GtCO2/year,"Geologic, mineral, ocean, biomass, and product storage throughput available by 2046."
+cost_usd_tco2,Delivered cost,25.0,75.0,220.0,USD/tCO2,"Full delivered cost after learning, energy, storage, MRV, finance, and operations."
+annual_budget_trillion_usd,Annual budget,2.0,7.0,14.0,trillion USD/year,"Public, private, and treaty-backed annual spending capacity."
+durability_fraction_100y,100-year durable credit fraction,0.68,0.85,0.96,fraction,Fraction of gross captured CO2 credited after lifecycle and 100-year durability haircuts.
+residual_emissions_2046_gtco2_y,Residual emissions in 2046,5.0,15.0,35.0,GtCO2/year,Positive emissions remaining when the AETHER system reaches industrial scale.
+rebound_fraction_of_gross,Rebound or delayed-abatement fraction,0.02,0.18,0.65,fraction of gross removal,Extra emissions or delayed abatement induced by cheap removal.
+gross_overbuild_factor,Gross overbuild factor,1.0,1.18,1.35,multiple of 100 Gt/y,Program design capacity above 100 Gt/y to cover durability and downtime.
+execution_realization_fraction,Execution realization,0.65,0.95,1.08,fraction,"Coordination, permitting, supply-chain, and operations realization of designed capacity."

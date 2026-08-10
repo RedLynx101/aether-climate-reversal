@@ -1,0 +1,19 @@
+metric,value,unit,interpretation
+sample_count,20000.0,samples,Monte Carlo draws using explicit AETHER v0.8 assumption ranges.
+gross_100_probability,0.0075,probability,Share of samples with gross terminal capacity at or above 100 GtCO2/year.
+durable_100_probability,0.0009,probability,Share of samples crediting at least 100 GtCO2/year after lifecycle and 100-year durability haircuts.
+positive_climate_reversal_probability,0.56045,probability,Share of samples with positive net removal after residual emissions and rebound.
+strong_reversal_probability,0.01495,probability,Share of samples with net removal after emissions and rebound at least as large as current annual anthropogenic emissions.
+gross_capacity_p10,17.09382715908618,GtCO2/year,10th percentile terminal gross capacity.
+gross_capacity_p50,37.390900709607465,GtCO2/year,Median terminal gross capacity.
+gross_capacity_p90,69.14403344788032,GtCO2/year,90th percentile terminal gross capacity.
+durable_credit_p10,14.097311578613654,GtCO2/year,10th percentile 100-year durable credited removal.
+durable_credit_p50,30.843555113407845,GtCO2/year,Median 100-year durable credited removal.
+durable_credit_p90,57.89155400623373,GtCO2/year,90th percentile 100-year durable credited removal.
+net_after_emissions_rebound_p10,-12.635410090126332,GtCO2/year,10th percentile net removal after residual emissions and rebound.
+net_after_emissions_rebound_p50,2.048245246278806,GtCO2/year,Median net removal after residual emissions and rebound.
+net_after_emissions_rebound_p90,23.023038297469093,GtCO2/year,90th percentile net removal after residual emissions and rebound.
+median_clean_energy_available,34049.4841111096,TWh/year,Median AETHER-deliverable clean generation in 2046.
+median_robot_capacity,283.56544652947207,GtCO2/year,Median robot-limited terminal capacity.
+median_storage_capacity,101.02202032759766,GtCO2/year,Median storage-limited terminal capacity.
+median_budget_capacity,72.72045728205279,GtCO2/year,Median budget-limited terminal capacity.

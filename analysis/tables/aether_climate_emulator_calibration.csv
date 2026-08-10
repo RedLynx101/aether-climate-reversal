@@ -1,0 +1,2 @@
+calibration_target,ecs_target_c,tcr_target_c,achieved_tcr_c,mixed_heat_capacity_wyr_m2_c,deep_ocean_heat_capacity_wyr_m2_c,ocean_heat_exchange_w_m2_c,climate_feedback_lambda_w_m2_c,calibration_note
+central AR6-style screening pair,3.000,1.800,1.800,12.000,100.000,0.950,1.310,Grid-search two-box screening emulator; calibrated to approximate TCR while ECS is set by lambda = F2x/ECS. This is not FAIR and not an Earth-system model.

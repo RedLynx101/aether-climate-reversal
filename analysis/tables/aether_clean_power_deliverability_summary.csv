@@ -1,0 +1,8 @@
+metric,value,unit,interpretation
+target_100gt_3gj_gate_twh_y,91666.667,TWh/year,delivered clean-power gate for 100 GtCO2/year at 3 GJ/tCO2 plus 10% delivery/firming penalty
+best_case_max_gtco2_y,135.605,GtCO2/year,largest modeled AETHER scale that clears the delivered clean-power gate
+market_unlocked_max_gtco2_y,6.391,GtCO2/year,market-led case deliverable AETHER scale after ordinary demand and grid/hourly penalties
+dedicated_corridors_max_gtco2_y,44.929,GtCO2/year,dedicated AETHER corridor case deliverable scale
+firm_backbone_max_gtco2_y,44.73,GtCO2/year,firm clean-power backbone case deliverable scale
+passes_100gt_case_count,1,count,number of cases clearing the 100 GtCO2/year 3 GJ/tCO2 delivered clean-power gate
+passes_50gt_case_count,1,count,number of cases clearing the 50 GtCO2/year 3 GJ/tCO2 delivered clean-power gate

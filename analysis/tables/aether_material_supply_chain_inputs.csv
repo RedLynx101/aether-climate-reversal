@@ -1,0 +1,5 @@
+parameter_id,value,unit,evidence_class,source_keys,note
+global_crude_steel_2024_mt_y,1885.0,Mt/year,source-backed anchor,worldsteel_figures_2025,World Steel Association 2025 report for 2024 crude steel production.
+global_cement_2024_mt_y,4000.0,Mt/year,source-backed anchor,usgs_mcs_2025_cement,USGS MCS 2025 cement chapter rounded world production.
+global_refined_copper_proxy_mt_y,27.0,Mt/year,screening proxy,iea_critical_minerals_outlook_2025,Rounded refined copper market proxy; next version should replace with ICSG/USGS refined production data.
+aether_material_buildout_years,20.0,years,scenario assumption,aether_model_assumptions_2026,Matches the 2026-2046 AETHER buildout premise.

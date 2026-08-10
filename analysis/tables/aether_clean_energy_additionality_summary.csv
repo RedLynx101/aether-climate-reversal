@@ -1,0 +1,7 @@
+summary_id,value,unit,interpretation
+target_3gj_balanced_gross_generation_twh_y,91666.700,TWh/year,Gross clean generation required for the 3 GJ/tCO2 balanced AETHER power case.
+best_case_additional_generation_twh_y,122512.416,TWh/year,Best additional AETHER clean generation across the additionality scenarios.
+best_case_share_of_target,1.336499,fraction,Best modeled share of the 3 GJ/tCO2 balanced power gate.
+market_unlocked_share_of_target,0.211953,fraction,Modeled share of AETHER power target in the market-unlocked case.
+aether_dedicated_share_of_target,0.747838,fraction,Modeled share of AETHER power target in the dedicated-buildout case.
+data_center_2030_share_of_target,0.010364,fraction,IEA 2030 data-centre demand as a share of the 3 GJ/tCO2 balanced AETHER power gate.

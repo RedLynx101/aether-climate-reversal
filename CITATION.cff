@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use or review AETHER, cite Noah Hicks, the repository, and the specific version or commit."
+title: "AETHER: Atmospheric Engineering Through High-Energy Removal"
+type: software
+authors:
+  - family-names: Hicks
+    given-names: Noah
+version: 0.45
+date-released: 2026-08-10
+url: "https://aetherclimate.com"
+repository-code: "https://github.com/RedLynx101/aether-climate-reversal"
+abstract: "An open, conditional feasibility research program for climate reversal through AI- and robotics-accelerated carbon-removal infrastructure."
+keywords:
+  - carbon dioxide removal
+  - climate reversal
+  - robotics
+  - artificial intelligence
+  - planetary engineering
+license:
+  - Apache-2.0
+  - CC-BY-4.0

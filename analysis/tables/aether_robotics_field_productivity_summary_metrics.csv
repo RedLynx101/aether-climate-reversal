@@ -1,0 +1,12 @@
+metric,value,unit,interpretation
+high_p50_annual_production_robots,13220956.40,robots/year,Median annual robot production requirement after field-productivity multipliers in the high robot-intensity stress case.
+push_p50_annual_production_robots,840142.21,robots/year,Median annual robot production requirement after field-productivity multipliers in the AETHER automation-push case.
+deep_p50_annual_production_robots,116483.29,robots/year,Median annual robot production requirement after field-productivity multipliers in the deep modular case.
+high_p50_stock_million,61.020868,million robots,Median robot stock after field-productivity multipliers in the high robot-intensity stress case.
+push_p50_stock_million,4.529033,million robots,Median robot stock after field-productivity multipliers in the AETHER automation-push case.
+deep_p50_stock_million,0.702881,million robots,Median robot stock after field-productivity multipliers in the deep modular case.
+push_ifr_pass_share,0.000000,share,Share of AETHER automation-push samples below current annual industrial robot installations on a count basis.
+deep_ifr_pass_share,1.000000,share,Share of deep modular abundance samples below current annual industrial robot installations on a count basis.
+high_p50_multiple_ifr,24.389489,multiple,Median high-intensity field-productivity-adjusted production requirement relative to IFR 2024 installations.
+push_p50_multiple_ifr,1.549861,multiple,Median automation-push field-productivity-adjusted production requirement relative to IFR 2024 installations.
+deep_p50_multiple_ifr,0.214884,multiple,Median deep modular field-productivity-adjusted production requirement relative to IFR 2024 installations.

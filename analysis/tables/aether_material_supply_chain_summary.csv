@@ -1,0 +1,5 @@
+summary_id,metric,value,interpretation
+legacy_media_is_disqualifying,legacy NaOH low/high share of cement-production proxy,425.0% to 725.0%,Legacy high-makeup DAC chemistry cannot be the AETHER base case at 100 GtCO2/year.
+advanced_media_still_large,advanced DACCS media replacement at 0.5% to 2.0% of captured CO2,200 to 800 Mt/year,Even optimistic media lifetimes create large chemical manufacturing and recycling systems.
+power_minerals_are_parallel_constraint,power-system copper proxy share of current refined copper market,10.2%,"Copper, transformers, grid hardware, and interconnection compete with all other electrification demand."
+structural_materials_are_big_not_impossible,power-system steel plus all-air contactor steel annual share of current steel production,4.6%,Optimized structural mass looks more like a major industrial allocation than a physical impossibility.

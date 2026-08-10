@@ -1,0 +1,5 @@
+﻿"technology","display_name","capacity_factor","firm_or_variable","solar_total_area_acres_per_gwh_y","source_keys","note"
+"utility_solar_pv","Utility solar PV","0.24","variable","3.5","nrel_atb_2024_electricity;nrel_solar_land_use_2013","Scenario capacity factor for high-resource utility PV; land proxy uses NREL all-solar total-area generation-weighted average."
+"land_based_wind","Land-based wind","0.42","variable","","nrel_atb_2024_electricity;nrel_atb_land_wind_2024","Scenario capacity factor between current U.S. market-average values and high-quality future ATB resource/technology cases."
+"nuclear_fission","Nuclear fission","0.93","firm","","nrel_atb_nuclear_2024;iaea_nuclear_status_2025","NREL ATB modeling capacity factor; current global nuclear scale from IAEA."
+"advanced_geothermal","Advanced geothermal","0.85","firm","","iea_geothermal_future_2024;nrel_atb_2024_electricity","Scenario capacity factor derived from IEA geothermal cost-effective capacity/output and high-utilization geothermal operations."

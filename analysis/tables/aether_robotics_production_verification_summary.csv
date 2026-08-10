@@ -1,0 +1,17 @@
+metric,value,unit,interpretation
+high_required_robots_y,1492147.460000,robots/year,High robot-intensity translation annual robot production plus replacement requirement.
+push_required_robots_y,233799.920000,robots/year,AETHER automation-push annual robot production plus replacement requirement.
+deep_required_robots_y,53251.370000,robots/year,Deep modular abundance annual robot production plus replacement requirement.
+high_multiple_ifr,2.752654,multiple,High case relative to IFR 2024 annual industrial robot installations.
+push_multiple_ifr,0.431305,multiple,Automation-push case relative to IFR 2024 annual industrial robot installations.
+deep_multiple_ifr,0.098236,multiple,Deep modular case relative to IFR 2024 annual industrial robot installations.
+high_figure_botq_factories,124.345622,BotQ-equivalent lines,High case as Figure BotQ first-generation line equivalents.
+push_figure_botq_factories,19.483327,BotQ-equivalent lines,Automation-push case as Figure BotQ first-generation line equivalents.
+deep_figure_botq_factories,4.437614,BotQ-equivalent lines,Deep modular case as Figure BotQ first-generation line equivalents.
+high_figure_hourly_lines,170.336468,one-hour-cadence lines,High case as Figure one-robot-per-hour line equivalents.
+push_figure_hourly_lines,26.689489,one-hour-cadence lines,Automation-push case as Figure one-robot-per-hour line equivalents.
+deep_figure_hourly_lines,6.078924,one-hour-cadence lines,Deep modular case as Figure one-robot-per-hour line equivalents.
+verified_external_or_company_claim_rows,9.000000,rows,Rows that can be used as external anchors with their evidence class visible.
+company_primary_claim_rows,7.000000,rows,"Company-primary or vendor-product rows, still not independent audits."
+unresolved_social_media_lead_rows,1.000000,rows,Social-media leads that should not be cited as paper facts.
+production_anchor_count,5.000000,flow anchors,Annualized production-flow anchors compared with AETHER annual robot requirements.

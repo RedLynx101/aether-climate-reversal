@@ -1,0 +1,46 @@
+name: Reproducibility report
+description: Report a model, data, build, or document-generation result that cannot be reproduced.
+title: "[Reproducibility] "
+labels: [reproducibility]
+body:
+  - type: input
+    id: revision
+    attributes:
+      label: Revision
+      description: Commit hash, tag, or repository version tested.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Operating system, Python or Node version, and relevant tool versions.
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command and output
+      description: Provide the smallest command that reproduces the issue and the relevant error or differing result.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and observed result
+      description: State what the repository documents led you to expect and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: proposed_fix
+    attributes:
+      label: Proposed fix or next test
+      description: Optional, but useful if you have isolated the cause.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy check
+      options:
+        - label: I removed credentials, private filesystem paths, and unrelated personal information from the report.
+          required: true

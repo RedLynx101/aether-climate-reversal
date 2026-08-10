@@ -1,0 +1,4 @@
+config,fair_version,ocean_heat_capacity,ocean_heat_transfer,deep_ocean_efficacy,forcing_4co2_w_m2,run_type,interpretation
+central_diagnostic,2.2.4,4.0;10.0;100.0,1.25;0.7;0.15,1.1,7.86,forcing-driven FAIR diagnostic,Central diagnostic continuation run; not a calibrated constrained AR6 ensemble.
+faster_response,2.2.4,3.0;8.0;80.0,1.05;0.55;0.12,1.05,7.86,forcing-driven FAIR diagnostic,Higher near-term response stress test.
+slower_ocean_lag,2.2.4,6.0;14.0;140.0,1.55;0.9;0.2,1.2,7.86,forcing-driven FAIR diagnostic,Stronger ocean-lag stress test.

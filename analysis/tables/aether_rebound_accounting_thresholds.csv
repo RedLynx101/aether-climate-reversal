@@ -1,0 +1,4 @@
+accounting_layer,removal_before_rebound_gtco2_y,emissions_baseline_gtco2_y,rebound_headroom_gtco2_y,break_even_rebound_fraction_of_gross,break_even_rebound_percent_of_gross,interpretation
+simple_gross,100.000000,42.200000,57.800000,0.578000,57.800,gross removal before lifecycle or MRV
+durable_after_lca_25kg,83.915860,42.200000,41.715860,0.417159,41.716,100-year durable removal after the 25 kgCO2/MWh lifecycle case
+creditable_after_lca_mrv_25kg,65.269976,42.200000,23.069976,0.230700,23.070,creditable removal after the 25 kgCO2/MWh lifecycle case and provisional MRV buffers

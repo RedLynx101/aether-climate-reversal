@@ -1,0 +1,22 @@
+scenario,robot_class,display_name,unit_cost_usd,useful_hours_per_year,lifetime_years,annual_maintenance_fraction_of_capex,energy_kwh_per_useful_hour,supervisor_ratio_robots_per_human,integration_overhead_fraction,delivered_cost_usd_per_useful_hour,evidence_grade,source_basis
+high_robot_intensity_translation,industrial_factory_robot,Industrial factory robots,100000.00,4500.00,10.00,0.1000,2.0000,40.00,0.2500,8.1306,B/C,IFR industrial-robot scale plus scenario cost assumptions
+high_robot_intensity_translation,mobile_logistics_robot,Mobile logistics robots,45000.00,4000.00,6.00,0.1200,1.0000,75.00,0.2000,5.1860,B/C,Amazon-style designed-environment fleet plus scenario cost assumptions
+high_robot_intensity_translation,humanoid_generalist,Humanoid and generalist field robots,120000.00,2500.00,5.00,0.1800,0.8000,8.00,0.3500,38.1564,C,"Unitree/Figure/Agility price and factory leads, not audited productivity"
+high_robot_intensity_translation,autonomous_construction_equipment,Autonomous construction equipment,450000.00,2500.00,8.00,0.1500,25.0000,5.00,0.3000,86.1250,C,Scenario assumption; needs construction-robot productivity sources
+high_robot_intensity_translation,drilling_subsurface_robotics,Drilling and subsurface robotics,800000.00,2200.00,8.00,0.1800,30.0000,4.00,0.3500,177.9423,D,Scenario assumption; needs drilling automation and well-cost sources
+high_robot_intensity_translation,mrv_drones_sensor_nodes,MRV drones and sensor networks,12000.00,2500.00,4.00,0.2500,0.2000,100.00,0.2500,4.0075,C,"Scenario assumption tied to MRV automation, not method-specific yet"
+high_robot_intensity_translation,robotic_lab_workcell,Robotic lab workcells,300000.00,5000.00,7.00,0.1200,5.0000,10.00,0.3000,31.0979,C,Autonomous-lab analogy; needs CDR-specific R&D throughput data
+aether_automation_push,industrial_factory_robot,Industrial factory robots,60000.00,6000.00,10.00,0.0800,1.8000,100.00,0.1500,3.0521,B/C,Scenario assumes mass-manufactured industrial automation
+aether_automation_push,mobile_logistics_robot,Mobile logistics robots,20000.00,5500.00,7.00,0.0800,0.8000,200.00,0.1200,1.3825,B/C,Scenario assumes designed AETHER logistics environments
+aether_automation_push,humanoid_generalist,Humanoid and generalist field robots,35000.00,4500.00,6.00,0.1200,0.7000,50.00,0.2000,4.6208,C,Scenario assumes useful supervised autonomy improves substantially
+aether_automation_push,autonomous_construction_equipment,Autonomous construction equipment,250000.00,4000.00,10.00,0.1000,20.0000,25.00,0.2000,19.5600,C,Scenario assumes modular construction with robotic equipment
+aether_automation_push,drilling_subsurface_robotics,Drilling and subsurface robotics,450000.00,3500.00,10.00,0.1200,25.0000,20.00,0.2200,40.3036,D,Scenario assumes improved storage-field automation
+aether_automation_push,mrv_drones_sensor_nodes,MRV drones and sensor networks,4000.00,5000.00,5.00,0.1500,0.1500,500.00,0.1200,0.4978,C,Scenario assumes dense autonomous monitoring networks
+aether_automation_push,robotic_lab_workcell,Robotic lab workcells,140000.00,7000.00,8.00,0.0800,4.0000,40.00,0.1800,7.3396,C,Scenario assumes AETHER-directed autonomous labs
+deep_modular_abundance,industrial_factory_robot,Industrial factory robots,35000.00,7000.00,12.00,0.0600,1.5000,250.00,0.0800,1.1682,C,Upper-tail mass-manufacturing scenario
+deep_modular_abundance,mobile_logistics_robot,Mobile logistics robots,10000.00,6500.00,8.00,0.0500,0.6000,500.00,0.0600,0.4741,C,Upper-tail designed logistics and low-cost robot supply
+deep_modular_abundance,humanoid_generalist,Humanoid and generalist field robots,15000.00,5500.00,7.00,0.0800,0.6000,200.00,0.1000,1.1284,D,Upper-tail humanoid/generalist productivity assumption
+deep_modular_abundance,autonomous_construction_equipment,Autonomous construction equipment,140000.00,5200.00,12.00,0.0700,15.0000,100.00,0.1200,6.0236,D,Upper-tail autonomous construction assumption
+deep_modular_abundance,drilling_subsurface_robotics,Drilling and subsurface robotics,250000.00,4800.00,12.00,0.0800,18.0000,80.00,0.1200,11.2526,D,Upper-tail subsurface automation assumption
+deep_modular_abundance,mrv_drones_sensor_nodes,MRV drones and sensor networks,1500.00,7500.00,6.00,0.0800,0.1000,1500.00,0.0600,0.1120,C/D,Upper-tail sensor-network cost and autonomy assumption
+deep_modular_abundance,robotic_lab_workcell,Robotic lab workcells,70000.00,8000.00,10.00,0.0600,3.0000,120.00,0.1000,2.3723,C/D,Upper-tail autonomous-lab cost and throughput assumption

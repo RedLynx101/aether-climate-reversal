@@ -1,0 +1,6 @@
+binding_constraint,count_all_samples,share_all_samples,count_failed_durable_samples,share_failed_durable_samples
+clean_energy,13468,0.6734,13468,0.6740066059453508
+robot_supply,836,0.0418,836,0.04183765388849965
+storage,964,0.0482,959,0.04799319387448704
+budget,4472,0.2236,4471,0.22375137623861474
+program_execution,260,0.013,248,0.012411170053047742

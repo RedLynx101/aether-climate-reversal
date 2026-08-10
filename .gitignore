@@ -1,0 +1,51 @@
+﻿# Python and local environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Raw or third-party data stay local unless explicitly cleared for redistribution.
+data/raw/*
+data/external/*
+!data/raw/.gitkeep
+!data/external/.gitkeep
+
+# Processed data, validated tables, figures, and manuscript artifacts are part of
+# the public research record and are intentionally tracked.
+!data/processed/
+!analysis/figures/
+!analysis/tables/
+!manuscript/figures/
+
+# Local/editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+
+# Secrets and machine-specific deployment state
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+service-account*.json
+.vercel/
+
+# Generated local website and test artifacts
+website/.next/
+website/dist/
+website/node_modules/
+coverage/
+work/
+
+# Large reference files can be tracked deliberately, but avoid accidental dumps.
+references/pdfs/*.tmp
+references/web-archives/*.tmp
+

@@ -1,0 +1,5 @@
+effectiveness_case,effectiveness_display_name,base_effectiveness,minimum_effectiveness,drawdown_penalty_per_ppm,overshoot_penalty_per_ratio,low_ppm_penalty,management_floor_ppm,interpretation
+fixed_0p96_current,Fixed 0.96 current screen,0.960000,0.960000,0.00000000,0.000000,0.000000,350.000000,Current v0.31 assumption retained as the reference comparison.
+optimistic_active_management,Optimistic active management,0.980000,0.840000,0.00080000,0.025000,0.035000,350.000000,Assumes improved monitoring and pathway selection keep land/ocean compensation relatively low.
+conservative_state_dependent,Conservative state-dependent,0.920000,0.700000,0.00180000,0.060000,0.080000,350.000000,Assumes removal effectiveness declines as ppm falls and cumulative removals become large.
+asymmetry_stress,Asymmetry stress,0.850000,0.600000,0.00280000,0.095000,0.120000,350.000000,Stress case for stronger land/ocean compensation and emission-removal asymmetry.

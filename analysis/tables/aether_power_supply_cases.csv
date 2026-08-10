@@ -1,0 +1,6 @@
+﻿"case","display_name","delivered_aether_electricity_twh_y","average_power_tw","linear_20y_annual_generation_addition_twh_y","multiple_of_2025_global_electricity_increment","multiple_of_2025_solar_generation_increment","interpretation"
+"near_thermo_1gj_storage","Near-thermodynamic 1 GJ/tCO2 storage","27777.8","3.17","1388.9","1.63","2.31","Physics-favorable lower-energy stress test."
+"portfolio_lifecycle_energy","Current AETHER portfolio plus storage lifecycle","64750","7.39","3237.5","3.81","5.4","Current pathway portfolio with storage/lifecycle energy penalty."
+"advanced_3gj_storage","Advanced 3 GJ/tCO2 capture and storage","83333.3","9.51","4166.7","4.9","6.94","Main non-splitting AETHER energy case."
+"current_dac_like_8gj","Current DAC-like 8 GJ/tCO2","222222.2","25.37","11111.1","13.07","18.52","Energy-cost failure case."
+"advanced_3gj_full_splitting","Advanced capture plus 100% CO2 splitting","331707.7","37.87","16585.4","19.51","27.64","Compact-product but energy-prohibitive case."

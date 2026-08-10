@@ -1,0 +1,11 @@
+gate_id,test,gate_status,priority,paper_use_rule
+G1_CO2_split,"Separate fossil/industrial CO2, land-use CO2, and CDR removals before a full FAIR run.",partial,P0,must pass before publication-grade temperature claims
+G2_CDR_methods,"Split CDR by method, durability, leakage, MRV, and lifecycle boundary.",partial,P0,must pass before publication-grade temperature claims
+G3_CH4_N2O,Replace aggregate non-CO2 forcing with CH4 and N2O trajectories.,fail,P0,must pass before publication-grade temperature claims
+G4_aerosol_precursors,"Replace aggregate aerosol forcing with SO2, BC, OC, nitrate, and cloud-interaction inputs.",fail,P0,must pass before publication-grade temperature claims
+G5_lifecycle_species,"Convert lifecycle CO2e into annual CO2, CH4, N2O, replacement, recycling, and decommissioning traces.",fail,P0,must pass before publication-grade temperature claims
+G6_land_use_forcing,"Add land-use CO2, albedo, and biogeophysical forcing for land-intensive pathways.",fail,P1,needed before stronger method claims
+G7_historical_spinup,"Initialize from historical emissions, concentration, forcing, and observed-temperature state.",partial,P0,must pass before publication-grade temperature claims
+G8_ZEC_net_negative,Run zero-emissions commitment and net-negative response diagnostics.,fail,P0,must pass before publication-grade temperature claims
+G9_uncertainty_ensemble,"Run ensemble ranges across climate response, forcing, carbon-cycle, and lifecycle parameters.",fail,P0,must pass before publication-grade temperature claims
+G10_ocean_chemistry,Add ocean chemistry and alkalinity feedback treatment for ocean CDR claims.,fail,P1,needed before stronger method claims

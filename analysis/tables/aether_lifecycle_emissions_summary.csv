@@ -1,0 +1,5 @@
+power_case,power_emissions_kgco2_mwh,gross_portfolio_gtco2_y,annual_lifecycle_emissions_gtco2e_y,lifecycle_emissions_fraction_of_gross,durable_after_lca_100y_gtco2_y,creditable_after_lca_and_mrv_gtco2_y,gross_required_for_100gt_durable_after_lca_gtco2_y,gross_required_for_100gt_creditable_after_lca_mrv_gtco2_y,interpretation
+near_zero_clean_power,5.000,100.000000,11.001751,0.110018,85.195676,66.328410,117.376849,150.764959,"Dedicated very-low-carbon power with residual construction, backup, and balancing emissions."
+low_carbon_mixed_power,25.000,100.000000,12.296750,0.122967,83.915860,65.269976,119.166985,153.209800,"Low-carbon but not zero-carbon electricity after firming, transmission, curtailment, and backup are counted."
+grid_leakage_case,100.000,100.000000,17.153000,0.171530,79.116546,61.300850,126.395811,163.129875,A warning case where AETHER pulls from an incompletely decarbonized grid or displaces clean power from other uses.
+fossil_contaminated_case,250.000,100.000000,26.865500,0.268655,69.517919,53.362598,143.847804,187.397173,Disqualifying stress test: removal powered by materially fossil-contaminated energy.

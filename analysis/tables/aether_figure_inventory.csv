@@ -1,0 +1,42 @@
+figure_id,paper_order,alt_text,file,referenced_in_paper,file_exists,width_px,height_px,size_kb,submission_action
+Figure 1,1,AETHER energy demand at 100 GtCO2/year,analysis/figures/energy_by_pathway_100gt.png,true,true,1400,900,34.5,add journal caption and verify final layout
+Figure 2,2,AETHER clean-power capacity requirements,analysis/figures/clean_energy_capacity_requirements_100gt.png,true,true,1700,1060,41.8,add journal caption and verify final layout
+Figure 3,3,AETHER air-contactor physical scale,analysis/figures/air_contactor_physical_scale_100gt.png,true,true,1700,1060,41.6,add journal caption and verify final layout
+Figure 4,4,Storage-state volumes at 100 GtCO2/year,analysis/figures/storage_state_volumes_100gt.png,true,true,1400,900,31.4,add journal caption and verify final layout
+Figure 5,5,Conversion and storage-state ledger for 100 GtCO2/year,analysis/figures/conversion_storage_ledger_100gt.png,true,true,1700,1120,50.2,add journal caption and verify final layout
+Figure 6,6,Jevons and policy rebound sensitivity,analysis/figures/jevons_rebound_sensitivity_100gt.png,true,true,1400,900,38.7,add journal caption and verify final layout
+Figure 7,7,Robot fleet scale for 100 GtCO2/year,analysis/figures/robot_fleet_requirements_100gt.png,true,true,1400,900,41.3,add journal caption and verify final layout
+Figure 8,8,Robotics scale anchors vs AETHER needs,analysis/figures/robotics_scale_anchors_vs_aether.png,true,true,1600,1040,46.9,add journal caption and verify final layout
+Figure 9,9,Reduced-form atmospheric CO2 pathways,analysis/figures/carbon_cycle_atmospheric_co2_pathways.png,true,true,1500,950,58.4,add journal caption and verify final layout
+Figure 10,10,State-dependent carbon-removal effectiveness,analysis/figures/state_dependent_carbon_removal_effectiveness.png,true,true,1500,920,40.7,add journal caption and verify final layout
+Figure 11,11,AETHER climate-response temperature proxy,analysis/figures/climate_response_temperature_proxy.png,true,true,1740,1030,82.0,add journal caption and verify final layout
+Figure 12,12,AETHER FAIR-readiness climate input deck,analysis/figures/fair_readiness_climate_input_deck.png,true,true,1600,980,76.5,add journal caption and verify final layout
+Figure 13,13,AETHER forcing-driven FAIR execution,analysis/figures/fair_forcing_execution_comparison.png,true,true,1600,980,76.1,add journal caption and verify final layout
+Figure 14,14,AETHER species-emissions FAIR handoff,analysis/figures/species_emissions_handoff_gap_matrix.png,true,true,1600,980,64.9,add journal caption and verify final layout
+Figure 15,15,AETHER pathway portfolio at 100 GtCO2/year,analysis/figures/pathway_portfolio_100gt.png,true,true,1500,920,42.8,add journal caption and verify final layout
+Figure 16,16,AETHER portfolio against assessed CDR pathway ranges,analysis/figures/pathway_source_ranges_vs_aether.png,true,true,1600,980,43.3,add journal caption and verify final layout
+Figure 17,17,Integrated feasibility screen for AETHER,analysis/figures/integrated_feasibility_screen_2046.png,true,true,1500,900,46.0,add journal caption and verify final layout
+Figure 18,18,Integrated capacity paths for AETHER,analysis/figures/integrated_capacity_paths_2026_2046.png,true,true,1500,900,64.8,add journal caption and verify final layout
+Figure 19,19,AETHER deployment timepaths and cumulative durable removal,analysis/figures/deployment_timepath_capacity_and_cumulative.png,true,true,1700,1100,95.4,add journal caption and verify final layout
+Figure 20,20,Storage lifecycle durability filter,analysis/figures/storage_lifecycle_net_durable_100y.png,true,true,1500,930,40.0,add journal caption and verify final layout
+Figure 21,21,Storage injection and processing burden,analysis/figures/storage_injection_processing_burden.png,true,true,1500,930,35.2,add journal caption and verify final layout
+Figure 22,22,Regional storage and injection corridors,analysis/figures/regional_storage_injection_corridors.png,true,true,1600,1000,59.3,add journal caption and verify final layout
+Figure 23,23,Material and industrial supply-chain pressure,analysis/figures/material_supply_chain_pressure.png,true,true,1600,1020,56.3,add journal caption and verify final layout
+Figure 24,24,MRV and credit-integrity filter,analysis/figures/mrv_credit_integrity_overbuild.png,true,true,1900,980,63.9,add journal caption and verify final layout
+Figure 25,25,Lifecycle emissions and creditable removal sensitivity,analysis/figures/lifecycle_emissions_net_credit_sensitivity.png,true,true,1680,960,45.3,add journal caption and verify final layout
+Figure 26,26,Clean-power additionality gate,analysis/figures/clean_energy_additionality_gate.png,true,true,1680,960,47.2,add journal caption and verify final layout
+Figure 27,27,AETHER uncertainty success probabilities,analysis/figures/uncertainty_success_probabilities.png,true,true,1480,900,29.0,add journal caption and verify final layout
+Figure 28,28,AETHER uncertainty sensitivity tornado,analysis/figures/uncertainty_sensitivity_tornado.png,true,true,1480,960,39.1,add journal caption and verify final layout
+Figure 29,29,AETHER uncertainty distribution evidence gaps,analysis/figures/uncertainty_distribution_evidence_gaps.png,true,true,1900,1000,60.7,add journal caption and verify final layout
+Figure 30,30,AETHER correlated uncertainty scenario families,analysis/figures/correlated_uncertainty_success_frontier.png,true,true,1600,980,46.2,add journal caption and verify final layout
+Figure 31,31,AETHER adversarial reviewer risk register,analysis/figures/adversarial_review_risk_register.png,true,true,1600,960,51.4,add journal caption and verify final layout
+Figure 32,32,AETHER feasibility gate scorecard,analysis/figures/feasibility_gate_scorecard.png,true,true,1800,1320,90.2,add journal caption and verify final layout
+Figure 33,33,AETHER delivered cost stack by scenario,analysis/figures/cost_stack_by_scenario.png,true,true,1600,980,38.5,add journal caption and verify final layout
+Figure 34,34,AETHER technology acceleration frontier,analysis/figures/technology_acceleration_frontier.png,true,true,1700,1240,51.0,add journal caption and verify final layout
+Figure 35,35,AETHER robot hour cost scenarios,analysis/figures/robot_hour_cost_scenarios.png,true,true,1480,900,34.0,add journal caption and verify final layout
+Figure 36,36,AETHER climate emulator temperature paths,analysis/figures/climate_emulator_temperature_paths.png,true,true,1500,900,77.1,add journal caption and verify final layout
+Figure 37,37,AETHER clean-power deliverability gate,analysis/figures/clean_power_deliverability_gate.png,true,true,1600,980,48.0,add journal caption and verify final layout
+Figure 38,38,AETHER regional clean-power dispatch gate,analysis/figures/regional_power_dispatch_gate.png,true,true,1600,930,41.7,add journal caption and verify final layout
+Figure 39,39,AETHER robotics productivity capacity stack,analysis/figures/robotics_productivity_capacity_stack.png,true,true,1550,940,57.8,add journal caption and verify final layout
+Figure 40,40,AETHER robotics field productivity distribution gate,analysis/figures/robotics_field_productivity_distribution_gate.png,true,true,1600,1040,64.4,add journal caption and verify final layout
+Figure 41,41,AETHER robotics production verification gate,analysis/figures/robotics_production_verification_gate.png,true,true,1600,960,70.0,add journal caption and verify final layout

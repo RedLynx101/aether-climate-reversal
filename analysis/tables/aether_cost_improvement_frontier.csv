@@ -1,0 +1,6 @@
+﻿"scenario","display_name","delivered_cost_usd_tco2","annual_cost_trillion_usd_y_at_100gt","reduction_factor_vs_current","log10_reduction_orders","current_to_scenario_annual_savings_trillion_usd_y","interpretation"
+"current_dac_like","Current DAC-like","605.56","60.556","1","0","0","Scenario frontier point."
+"aether_automation_push","AETHER automation push","85.93","8.593","7.05","0.848","51.962","Serious abundance case but still almost /year before durable overbuild."
+"moonshot_modular","Moonshot modular","40.33","4.033","15.01","1.176","56.522","Scenario frontier point."
+"deep_abundance_floor","Deep abundance floor","24.17","2.417","25.06","1.399","58.139","Lower bound under current explicit floors; still +/year at 100 GtCO2/year."
+"splitting_default_failure","Full splitting default","217.08","21.708","2.79","0.446","38.847","Compact storage but energy and product handling prevent deep cost collapse."

@@ -1,0 +1,41 @@
+scenario,display_name,component,component_label,cost_usd_tco2,share_of_total,classified_automatable
+current_dac_like,Current DAC-like,energy,Energy,155.55555555555557,0.25688073394495414,False
+current_dac_like,Current DAC-like,contactor_capex,Plant/contactors,170.0,0.28073394495412846,True
+current_dac_like,Current DAC-like,sorbent_materials,Sorbents/materials,80.0,0.13211009174311927,True
+current_dac_like,Current DAC-like,compression_transport_storage,Compression/transport/storage,35.0,0.05779816513761468,True
+current_dac_like,Current DAC-like,mrv_insurance_liability,MRV/insurance/liability,15.0,0.024770642201834864,True
+current_dac_like,Current DAC-like,robot_ops_maintenance,Robot O&M,65.0,0.10733944954128441,True
+current_dac_like,Current DAC-like,finance_permitting_overhead,Finance/permitting/overhead,85.0,0.14036697247706423,True
+current_dac_like,Current DAC-like,product_handling,Carbon/O2 product handling,0.0,0.0,True
+aether_automation_push,AETHER automation push,energy,Energy,19.930555555555554,0.2319379343785356,False
+aether_automation_push,AETHER automation push,contactor_capex,Plant/contactors,24.0,0.2792952965896234,True
+aether_automation_push,AETHER automation push,sorbent_materials,Sorbents/materials,10.0,0.11637304024567642,True
+aether_automation_push,AETHER automation push,compression_transport_storage,Compression/transport/storage,14.0,0.16292225634394697,True
+aether_automation_push,AETHER automation push,mrv_insurance_liability,MRV/insurance/liability,5.0,0.05818652012283821,True
+aether_automation_push,AETHER automation push,robot_ops_maintenance,Robot O&M,4.0,0.04654921609827057,True
+aether_automation_push,AETHER automation push,finance_permitting_overhead,Finance/permitting/overhead,9.0,0.10473573622110878,True
+aether_automation_push,AETHER automation push,product_handling,Carbon/O2 product handling,0.0,0.0,True
+moonshot_modular,Moonshot modular,energy,Energy,8.333333333333334,0.2066115702479339,False
+moonshot_modular,Moonshot modular,contactor_capex,Plant/contactors,10.0,0.24793388429752064,True
+moonshot_modular,Moonshot modular,sorbent_materials,Sorbents/materials,5.0,0.12396694214876032,True
+moonshot_modular,Moonshot modular,compression_transport_storage,Compression/transport/storage,8.0,0.1983471074380165,True
+moonshot_modular,Moonshot modular,mrv_insurance_liability,MRV/insurance/liability,3.0,0.0743801652892562,True
+moonshot_modular,Moonshot modular,robot_ops_maintenance,Robot O&M,2.0,0.04958677685950413,True
+moonshot_modular,Moonshot modular,finance_permitting_overhead,Finance/permitting/overhead,4.0,0.09917355371900825,True
+moonshot_modular,Moonshot modular,product_handling,Carbon/O2 product handling,0.0,0.0,True
+splitting_default_failure,Full splitting default,energy,Energy,116.08333333333334,0.5347408829174665,False
+splitting_default_failure,Full splitting default,contactor_capex,Plant/contactors,20.0,0.09213051823416506,True
+splitting_default_failure,Full splitting default,sorbent_materials,Sorbents/materials,8.0,0.03685220729366603,True
+splitting_default_failure,Full splitting default,compression_transport_storage,Compression/transport/storage,8.0,0.03685220729366603,True
+splitting_default_failure,Full splitting default,mrv_insurance_liability,MRV/insurance/liability,5.0,0.023032629558541264,True
+splitting_default_failure,Full splitting default,robot_ops_maintenance,Robot O&M,5.0,0.023032629558541264,True
+splitting_default_failure,Full splitting default,finance_permitting_overhead,Finance/permitting/overhead,10.0,0.04606525911708253,True
+splitting_default_failure,Full splitting default,product_handling,Carbon/O2 product handling,45.0,0.20729366602687138,True
+deep_abundance_floor,Deep abundance floor,energy,Energy,4.166666666666667,0.1724137931034483,False
+deep_abundance_floor,Deep abundance floor,contactor_capex,Plant/contactors,6.0,0.2482758620689655,True
+deep_abundance_floor,Deep abundance floor,sorbent_materials,Sorbents/materials,3.0,0.12413793103448276,True
+deep_abundance_floor,Deep abundance floor,compression_transport_storage,Compression/transport/storage,5.0,0.20689655172413793,True
+deep_abundance_floor,Deep abundance floor,mrv_insurance_liability,MRV/insurance/liability,2.0,0.08275862068965517,True
+deep_abundance_floor,Deep abundance floor,robot_ops_maintenance,Robot O&M,1.5,0.06206896551724138,True
+deep_abundance_floor,Deep abundance floor,finance_permitting_overhead,Finance/permitting/overhead,2.5,0.10344827586206896,True
+deep_abundance_floor,Deep abundance floor,product_handling,Carbon/O2 product handling,0.0,0.0,True

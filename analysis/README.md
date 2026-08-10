@@ -1,0 +1,211 @@
+﻿# AETHER Analysis
+
+This folder holds reproducible model outputs, generated figures, and later notebooks.
+
+## Current Scripts
+
+- `scenario-models/aether_scenario_model.py`: physical scenario model for 100 GtCO2/year energy, storage, air-throughput, cost, plant-count, and robot-hour assumptions.
+- `scenario-models/aether_transition_model.py`: transition model for learning curves, Jevons/rebound sensitivity, plant economies of scale, robot-fleet requirements, and 20-year buildout pathways.
+- `scenario-models/aether_clean_energy_market_model.py`: clean-energy buildout sensitivity model using current annual electricity growth as a starting point.
+- `scenario-models/aether_carbon_cycle_model.py`: reduced-form Joos impulse-response model for atmospheric CO2 paths under emissions, removal, and rebound scenarios.
+- `scenario-models/aether_pathway_portfolio_model.py`: pathway portfolio model for 100 GtCO2/year allocation, costs, energy, and bottlenecks.
+- `scenario-models/aether_integrated_feasibility_model.py`: integrated feasibility frontier model for clean energy, robot supply, storage, budget, rebound, and 2026-2046 capacity paths.
+- `scenario-models/aether_storage_lifecycle_model.py`: storage lifecycle and regionalization screen for gross-to-durable removal, injection burden, lifecycle penalty, and 100-year retention.
+- `scenario-models/aether_conversion_storage_ledger_model.py`: conversion and storage-state ledger for gas CO2, supercritical CO2, solid carbon, O2 coproduct, and mineral-carbonate proxies.
+- `scenario-models/aether_uncertainty_sensitivity_model.py`: Monte Carlo uncertainty and sensitivity screen across coupled AETHER feasibility assumptions.
+- `scenario-models/aether_uncertainty_distribution_evidence_model.py`: evidence-grade, source-key, distribution-rationale, and correlation registry for uncertainty inputs.
+- `scenario-models/aether_lifecycle_emissions_model.py`: explicit lifecycle-emissions and clean-power-emissions sensitivity screen.
+- `scenario-models/aether_clean_energy_additionality_model.py`: clean-power additionality, competing demand, market-design, and policy-friction screen.
+- `scenario-models/aether_climate_emulator_model.py`: dynamic two-box climate-emulator screen with non-CO2 forcing, aerosols, and ocean heat-uptake lag.
+- `scenario-models/aether_fair_readiness_model.py`: FAIR-readiness climate input deck joining emissions/removal pulses to forcing and temperature screens.
+- `scenario-models/aether_fair_forcing_execution_model.py`: forcing-driven FAIR 2.2.4 diagnostic execution from AETHER aggregate forcing paths.
+- `scenario-models/aether_species_emissions_handoff_model.py`: species-emissions handoff and publication-gate matrix for replacing aggregate forcing placeholders.
+- `scenario-models/aether_robotics_productivity_model.py`: useful robot task-hours, class economics, fleet stock, replacement flow, and autonomy-productivity screen.
+- `scenario-models/aether_robotics_production_verification_model.py`: robotics production-rate evidence gate and scale-credibility screen.
+- `scenario-models/aether_robotics_field_productivity_distribution_model.py`: robotics field-productivity distribution stress test.
+- `scenario-models/aether_state_dependent_carbon_model.py`: state-dependent removal-effectiveness screen around reduced-form carbon-cycle paths.
+- `scenario-models/aether_correlated_uncertainty_model.py`: correlated scenario-family uncertainty screen.
+- `scenario-models/aether_adversarial_review_model.py`: adversarial reviewer-panel, falsification-test, and scientist-feedback register.
+- `scenario-models/aether_cost_stack_model.py`: delivered-cost stack and automation-leverage model for energy, capex, materials, storage, MRV, robot O&M, finance, and carbon/O2 handling.
+- `../scripts/make_aether_figures.ps1`: generates the main PNG figures from the CSV outputs.
+- `../scripts/make_aether_rebound_figure.ps1`: generates the corrected diverging rebound figure.
+
+## Current Tables
+
+- `tables/aether_scenario_summary.csv`
+- `tables/aether_parameter_table.csv`
+- `tables/aether_learning_curve_costs.csv`
+- `tables/aether_jevons_rebound_sensitivity.csv`
+- `tables/aether_economies_of_scale.csv`
+- `tables/aether_robot_fleet_requirements.csv`
+- `tables/aether_robotics_scale_comparison.csv`
+- `tables/aether_robotics_task_ladder.csv`
+- `tables/aether_robotics_productivity_class_costs.csv`
+- `tables/aether_robotics_task_demand.csv`
+- `tables/aether_robotics_productivity_by_task.csv`
+- `tables/aether_robotics_productivity_summary.csv`
+- `tables/aether_robotics_production_claims.csv`
+- `tables/aether_robotics_production_scale_comparison.csv`
+- `tables/aether_robotics_production_ramp_paths.csv`
+- `tables/aether_robotics_production_verification_summary.csv`
+- `tables/aether_robotics_field_productivity_distribution_assumptions.csv`
+- `tables/aether_robotics_field_productivity_distribution_samples.csv`
+- `tables/aether_robotics_field_productivity_distribution_summary.csv`
+- `tables/aether_robotics_field_productivity_bottlenecks.csv`
+- `tables/aether_robotics_field_productivity_summary_metrics.csv`
+- `tables/aether_20y_buildout_pathways.csv`
+- `tables/aether_clean_energy_buildout_sensitivity.csv`
+- `tables/aether_carbon_cycle_pathways.csv`
+- `tables/aether_carbon_cycle_summary.csv`
+- `tables/aether_removal_effectiveness_cases.csv`
+- `tables/aether_state_dependent_carbon_pathways.csv`
+- `tables/aether_state_dependent_carbon_summary.csv`
+- `tables/aether_pathway_portfolio_allocation.csv`
+- `tables/aether_pathway_portfolio_summary.csv`
+- `tables/aether_pathway_source_gap_analysis.csv`
+- `tables/aether_integrated_feasibility_scenarios.csv`
+- `tables/aether_integrated_feasibility_timepaths.csv`
+- `tables/aether_integrated_feasibility_bottlenecks.csv`
+- `tables/aether_storage_lifecycle_routes.csv`
+- `tables/aether_storage_lifecycle_summary.csv`
+- `tables/aether_conversion_state_ledger.csv`
+- `tables/aether_splitting_fraction_sensitivity.csv`
+- `tables/aether_uncertainty_assumptions.csv`
+- `tables/aether_uncertainty_samples.csv`
+- `tables/aether_uncertainty_summary.csv`
+- `tables/aether_uncertainty_bottlenecks.csv`
+- `tables/aether_uncertainty_sensitivity.csv`
+- `tables/aether_uncertainty_distribution_registry.csv`
+- `tables/aether_uncertainty_distribution_upgrade_priorities.csv`
+- `tables/aether_uncertainty_correlation_hypotheses.csv`
+- `tables/aether_correlated_uncertainty_scenarios.csv`
+- `tables/aether_correlated_uncertainty_samples.csv`
+- `tables/aether_correlated_uncertainty_summary.csv`
+- `tables/aether_correlated_uncertainty_family_effects.csv`
+- `tables/aether_adversarial_review_panels.csv`
+- `tables/aether_falsification_tests.csv`
+- `tables/aether_scientist_feedback_packet.csv`
+- `tables/aether_adversarial_review_summary.csv`
+- `tables/aether_cost_stack_components.csv`
+- `tables/aether_cost_stack_scenarios.csv`
+- `tables/aether_robot_labor_costs.csv`
+- `tables/aether_cost_reduction_requirements.csv`
+- `tables/aether_cost_improvement_frontier.csv`
+- `tables/aether_cost_bucket_reduction_factors.csv`
+- `tables/aether_trillion_rd_program_comparators.csv`
+- `tables/aether_power_supply_cases.csv`
+- `tables/aether_power_system_tech_assumptions.csv`
+- `tables/aether_clean_power_portfolio_requirements.csv`
+- `tables/aether_clean_power_portfolio_summary.csv`
+- `tables/aether_air_contactor_scale.csv`
+- `tables/aether_sorbent_inventory_scale.csv`
+- `tables/aether_air_contactor_scale_summary.csv`
+- `tables/aether_feasibility_gate_scorecard.csv`
+- `tables/aether_research_program_milestones.csv`
+- `tables/aether_presentation_key_numbers.csv`
+- `tables/aether_manuscript_claim_evidence_matrix.csv`
+- `tables/aether_prior_art_positioning_matrix.csv`
+- `tables/aether_deployment_timepath_annual.csv`
+- `tables/aether_deployment_timepath_summary.csv`
+- `tables/aether_deployment_gate_crossings.csv`
+- `tables/aether_regional_storage_allocation.csv`
+- `tables/aether_regional_storage_summary.csv`
+- `tables/aether_injection_corridor_requirements.csv`
+- `tables/aether_model_equation_ledger.csv`
+- `tables/aether_dimensioned_unit_checks.csv`
+- `tables/aether_material_supply_chain_inputs.csv`
+- `tables/aether_material_supply_chain_requirements.csv`
+- `tables/aether_material_supply_chain_summary.csv`
+- `tables/aether_mrv_credit_integrity_assumptions.csv`
+- `tables/aether_mrv_credit_integrity_by_pathway.csv`
+- `tables/aether_mrv_credit_integrity_summary.csv`
+- `tables/aether_climate_response_pathways.csv`
+- `tables/aether_climate_response_summary.csv`
+- `tables/aether_lifecycle_emissions_assumptions.csv`
+- `tables/aether_lifecycle_emissions_by_pathway.csv`
+- `tables/aether_lifecycle_emissions_summary.csv`
+- `tables/aether_clean_energy_additionality_cases.csv`
+- `tables/aether_clean_energy_market_pull_comparators.csv`
+- `tables/aether_clean_energy_policy_friction_matrix.csv`
+- `tables/aether_clean_energy_additionality_summary.csv`
+- `tables/aether_clean_power_deliverability_cases.csv`
+- `tables/aether_clean_power_deliverability_scale_targets.csv`
+- `tables/aether_clean_power_deliverability_constraints.csv`
+- `tables/aether_clean_power_deliverability_summary.csv`
+- `tables/aether_regional_power_dispatch_summary.csv`
+- `tables/aether_climate_emulator_pathways.csv`
+- `tables/aether_climate_emulator_summary.csv`
+- `tables/aether_climate_emulator_forcing_assumptions.csv`
+- `tables/aether_climate_emulator_calibration.csv`
+- `tables/aether_fair_readiness_input_deck.csv`
+- `tables/aether_fair_readiness_summary.csv`
+- `tables/aether_fair_readiness_gap_matrix.csv`
+- `tables/aether_fair_readiness_run_manifest.csv`
+- `tables/aether_fair_forcing_temperature_paths.csv`
+- `tables/aether_fair_forcing_summary.csv`
+- `tables/aether_fair_forcing_config.csv`
+- `tables/aether_fair_forcing_delta_vs_emulator.csv`
+- `tables/aether_species_emissions_handoff_pathways.csv`
+- `tables/aether_species_emissions_requirement_matrix.csv`
+- `tables/aether_species_emissions_summary.csv`
+- `tables/aether_species_emissions_publication_gates.csv`
+- `tables/aether_parameter_evidence_summary.csv`
+
+## Current Figures
+
+- `figures/energy_by_pathway_100gt.png`
+- `figures/storage_state_volumes_100gt.png`
+- `figures/conversion_storage_ledger_100gt.png`
+- `figures/jevons_rebound_sensitivity_100gt.png`
+- `figures/robot_fleet_requirements_100gt.png`
+- `figures/robotics_scale_anchors_vs_aether.png`
+- `figures/robotics_productivity_capacity_stack.png`
+- `figures/robotics_production_verification_gate.png`
+- `figures/robotics_field_productivity_distribution_gate.png`
+- `figures/state_dependent_carbon_removal_effectiveness.png`
+- `figures/carbon_cycle_atmospheric_co2_pathways.png`
+- `figures/pathway_portfolio_100gt.png`
+- `figures/pathway_source_ranges_vs_aether.png`
+- `figures/integrated_feasibility_screen_2046.png`
+- `figures/integrated_capacity_paths_2026_2046.png`
+- `figures/storage_lifecycle_net_durable_100y.png`
+- `figures/storage_injection_processing_burden.png`
+- `figures/uncertainty_success_probabilities.png`
+- `figures/uncertainty_sensitivity_tornado.png`
+- `figures/uncertainty_distribution_evidence_gaps.png`
+- `figures/correlated_uncertainty_success_frontier.png`
+- `figures/adversarial_review_risk_register.png`
+- `figures/lifecycle_emissions_net_credit_sensitivity.png`
+- `figures/clean_energy_additionality_gate.png`
+- `figures/clean_power_deliverability_gate.png`
+- `figures/regional_power_dispatch_gate.png`
+- `figures/climate_emulator_temperature_paths.png`
+- `figures/fair_readiness_climate_input_deck.png`
+- `figures/fair_forcing_execution_comparison.png`
+- `figures/species_emissions_handoff_gap_matrix.png`
+- `figures/cost_stack_by_scenario.png`
+- `figures/technology_acceleration_frontier.png`
+- `figures/clean_energy_capacity_requirements_100gt.png`
+- `figures/air_contactor_physical_scale_100gt.png`
+- `figures/feasibility_gate_scorecard.png`
+- `figures/deployment_timepath_capacity_and_cumulative.png`
+- `figures/regional_storage_injection_corridors.png`
+- `figures/material_supply_chain_pressure.png`
+- `figures/mrv_credit_integrity_overbuild.png`
+- `figures/climate_response_temperature_proxy.png`
+- `figures/robot_hour_cost_scenarios.png`
+
+The current figures were manually inspected after generation on 2026-06-10.
+
+Keep generated figures reproducible. Do not paste screenshots into the manuscript unless the data and script are also present.
+- `scenario-models/aether_deployment_timepath_model.py`: annual deployment, cumulative durable credit, and net-removal timepath model.
+- `scenario-models/aether_regional_storage_injection_model.py`: regional storage allocation and injection-corridor stress test.
+- `scenario-models/aether_equation_ledger_model.py`: equation ledger and unit-check reproducibility layer.
+- `scenario-models/aether_material_supply_chain_model.py`: material and industrial supply-chain pressure screen.
+- `scenario-models/aether_mrv_credit_integrity_model.py`: MRV, credit-integrity, liability, and gross-to-creditable overbuild screen.
+- `scenario-models/aether_climate_response_model.py`: CO2 forcing and CO2-only warming-proxy model from carbon-cycle ppm pathways.
+- `scenario-models/aether_clean_power_deliverability_model.py`: P0 F2 clean-power deliverability gate.
+- `scenario-models/aether_regional_power_dispatch_model.py`: regional clean-power dispatch and colocation screen.
+- `tables/aether_figure_inventory.csv`
+- `tables/aether_submission_readiness_gates.csv`
+- `tables/aether_manuscript_style_audit.csv`

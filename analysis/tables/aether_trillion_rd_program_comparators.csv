@@ -1,0 +1,4 @@
+﻿"program","annual_program_budget_b_usd","twenty_year_program_budget_t_usd","multiple_of_us_total_rd_2023","multiple_of_global_public_energy_rd_2025","multiple_of_public_plus_corporate_energy_rd","annual_budget_as_share_of_current_dac_like_cost","interpretation"
+"AETHER RD&D program 100B/y","100","2","0.11","1.82","0.47","0.0017","Large for energy RD&D but still small relative to current-DAC-like deployment cost."
+"AETHER RD&D program 300B/y","300","6","0.32","5.45","1.4","0.005","Larger than current public+corporate energy R&D, but below total U.S. R&D."
+"AETHER RD&D program 1000B/y","1000","20","1.06","18.18","4.65","0.0165","Comparable to all U.S. R&D and several times current global public+corporate energy R&D."

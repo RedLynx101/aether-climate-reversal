@@ -1,0 +1,7 @@
+check_id,check,status,detail
+style_001_version,Paper status updated to v0.45,pass,Target version v0.45
+style_002_repeated_fair_phrase,Repeated FAIR-readiness caveat removed,pass,Phrase count after cleanup: 0
+style_003_todo_markers,No TODO/TBD/FIXME markers remain in the main paper,pass,Markers found: 0
+style_004_references,Rendered references section present,pass,Citation keys in paper: 83
+style_005_figures,Paper figure links resolve,pass,Referenced figures: 41; missing: 0
+style_006_word_count,Paper length tracked for target-journal editing,tracked,Approximate word count: 25490

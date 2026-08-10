@@ -1,0 +1,11 @@
+check_id,quantity,calculated_value,expected_value,tolerance,unit,equation_id,absolute_error,pass
+check_100gt_ppm,100 GtCO2/year atmosphere-only ppm equivalent,12.820512820512821,12.82,0.02,ppm/year,eq_ppm_equivalent,0.0005128205128208663,True
+check_3gj_100gt_twh,100 GtCO2/year at 3 GJ/tCO2,83333.33333333333,83333.33,1.0,TWh/year,eq_energy_twh,0.003333333326736465,True
+check_1gj_100gt_twh,100 GtCO2/year at 1 GJ/tCO2,27777.777777777777,27777.78,1.0,TWh/year,eq_energy_twh,0.002222222221462289,True
+check_splitting_floor_twh,100 GtCO2/year ideal splitting floor,248333.3333333333,248333.33,5.0,TWh/year,eq_co2_splitting_energy,0.003333333326736465,True
+check_supercritical_volume,100 GtCO2/year as supercritical CO2 at 600 kg/m3,166.66666666666666,166.67,0.2,km3/year,eq_supercritical_volume,0.0033333333333303017,True
+check_solid_carbon_mass,solid carbon from splitting 100 GtCO2/year,27.291834717504173,27.3,0.1,Gt carbon/year,eq_solid_carbon_mass,0.008165282495827597,True
+check_o2_mass,oxygen coproduct from splitting 100 GtCO2/year,72.70702916415773,72.7,0.1,Gt O2/year,eq_o2_coproduct_mass,0.007029164157728474,True
+check_storage_capacity_years,"U.S. 3,000 GtCO2 storage anchor at 54 GtCO2/year",55.55555555555556,55.56,0.1,years,eq_storage_capacity_years,0.004444444444445139,True
+check_one_mt_wells,54 GtCO2/year at one MtCO2/year per well before pressure multiplier,54000.0,54000.0,1.0,well equivalents,eq_geologic_well_equivalents,0.0,True
+check_all_air_contactor_reference,all-air NASEM-reference contactor face area,3771.0,3771.0,2.0,km2,eq_air_contactor_area,0.0,True
