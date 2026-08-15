@@ -345,7 +345,7 @@ a:hover .arrow-down { transform: translateY(3px); }
 
 .public-hero-image {
   animation: atmosphere-breathe 18s ease-in-out infinite alternate;
-  background: url('/art/living-atmosphere.png') 58% center / cover no-repeat, #5f9a92;
+  background: url('/art/living-atmosphere.webp') 58% center / cover no-repeat, #5f9a92;
   transform: scale(1.015);
 }
 
@@ -664,7 +664,7 @@ a:hover .arrow-down { transform: translateY(3px); }
 .autonomy-infrastructure { display: grid; grid-template-columns: 1.08fr .92fr; min-height: 900px; }
 
 .autonomy-visual {
-  background: linear-gradient(0deg, rgba(9, 39, 31, .7), transparent 52%), url('/art/autonomous-infrastructure.png') 58% center / cover no-repeat, #4c8174;
+  background: linear-gradient(0deg, rgba(9, 39, 31, .7), transparent 52%), url('/art/autonomous-infrastructure.webp') 58% center / cover no-repeat, #4c8174;
   min-height: 720px;
   position: relative;
 }
