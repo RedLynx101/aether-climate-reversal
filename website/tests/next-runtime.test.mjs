@@ -89,9 +89,8 @@ test.after(() => {
 
 test("serves the Vercel production story and canonical redirect", async () => {
   const routes = [
-    ["/", "Operate the climate-recovery system"],
-    ["/living-atmosphere", "Operate the climate-recovery system"],
-    ["/model", "Inside the systems model"],
+    ["/", "The atmosphere is infrastructure"],
+    ["/evidence", "Show the system"],
   ];
 
   for (const [pathname, expectedCopy] of routes) {
@@ -101,6 +100,24 @@ test("serves the Vercel production story and canonical redirect", async () => {
     assert.match(response.headers["content-type"] ?? "", /^text\/html\b/i);
     assert.match(html, new RegExp(expectedCopy, "i"));
     assert.match(html, /AETHER/);
+  }
+
+  // The evidence page must keep publishing the failing gates; a silent drop
+  // would turn the ledger into a selective highlight reel.
+  const evidence = await requestSite("/evidence");
+  const evidenceHtml = evidence.body.toString("utf8");
+  for (const expected of ["Publication-grade climate modeling", "Species-level emissions inputs"]) {
+    assert.match(evidenceHtml, new RegExp(expected, "i"), expected);
+  }
+
+  // Paths that were public before the restructure keep resolving.
+  for (const [pathname, destination] of [
+    ["/model", "/evidence"],
+    ["/living-atmosphere", "/"],
+  ]) {
+    const response = await requestSite(pathname);
+    assert.equal(response.status, 308, pathname);
+    assert.equal(response.headers.location, destination, pathname);
   }
 
   for (const pathname of ["/planetary-os", "/carbon-foundry", "/civic-moonshot"]) {
@@ -124,20 +141,17 @@ test("serves the Vercel production story and canonical redirect", async () => {
     assert.ok(chart.body.length > 50_000, `${pathname} should not be empty`);
   }
 
-  const redirect = await requestSite(
-    "/living-atmosphere?source=org",
-    "aetherclimate.org",
-  );
+  const redirect = await requestSite("/evidence?source=org", "aetherclimate.org");
   assert.equal(redirect.status, 308);
   assert.equal(
     redirect.headers.location,
-    "https://aetherclimate.com/living-atmosphere?source=org",
+    "https://aetherclimate.com/evidence?source=org",
   );
 
-  const wwwRedirect = await requestSite("/model?source=www", "www.aetherclimate.com");
+  const wwwRedirect = await requestSite("/evidence?source=www", "www.aetherclimate.com");
   assert.equal(wwwRedirect.status, 308);
   assert.equal(
     wwwRedirect.headers.location,
-    "https://aetherclimate.com/model?source=www",
+    "https://aetherclimate.com/evidence?source=www",
   );
 });

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -20,15 +20,23 @@ export const metadata: Metadata = {
       "What if climate recovery became an inspectable public capability?",
     url: "https://aetherclimate.com",
     siteName: "AETHER",
-    images: [{ url: "/art/aether-social.png", width: 1200, height: 630 }],
+    images: [{ url: "/art/aether-social.jpg", width: 1536, height: 804 }],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "AETHER",
     description: "Climate recovery as public infrastructure.",
-    images: ["/art/aether-social.png"],
+    images: ["/art/aether-social.jpg"],
   },
+};
+
+export const viewport: Viewport = {
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f4f3e9" },
+    { media: "(prefers-color-scheme: dark)", color: "#0d1a17" },
+  ],
 };
 
 export default function RootLayout({
@@ -38,7 +46,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <a className="skip-link" href="#main">Skip to content</a>
+        {children}
+      </body>
     </html>
   );
 }
