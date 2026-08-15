@@ -205,7 +205,7 @@ export default function Home() {
             AI could compress materials discovery, plant design, dispatch, anomaly detection, and system-wide optimization. Robots could build modules, service sites, inspect wells, maintain contactors, and gather field evidence.
           </p>
           <p>
-            The model does not assume that software capability becomes reliable field robotics. Applying duty-cycle, autonomy, task-fit, maintenance, and supervision penalties to the robot requirement removes every passing case in the sampled distribution. That gap is the research, not a footnote to it.
+            The model does not assume that software capability becomes reliable field robotics. In the automation-push case, duty-cycle, autonomy, task-fit, maintenance, and supervision penalties raise median annual production from about 234,000 to 840,000 robots and reduce the count-screen pass share to zero. The deep-modular branch still clears that count screen, but only by assuming infrastructure redesigned around automation. That gap is the research, not a footnote to it.
           </p>
           <div className="role-ledger">
             <div><span>AI systems</span><p>Search, model, allocate, schedule, monitor, diagnose.</p></div>

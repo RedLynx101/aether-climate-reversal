@@ -1107,7 +1107,13 @@ a:hover .arrow-down { transform: translateY(3px); }
 
   .public-hero { min-height: 640px; padding-top: 4rem; }
   .public-hero h1 { margin-top: 8vh; }
-  .hero-status { bottom: 2.5rem; left: 5vw; right: 5vw; }
+  .hero-status {
+    bottom: auto;
+    left: auto;
+    margin-top: 2.5rem;
+    position: relative;
+    right: auto;
+  }
 
   .public-proposition,
   .proposition-columns,

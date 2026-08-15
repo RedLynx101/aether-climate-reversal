@@ -177,7 +177,7 @@ export const constraints = [
     anchor: "840,142 robots/yr",
     anchorNote: "1.55× total 2024 global industrial robot installations",
     reading:
-      "The fleet arithmetic clears only before field-productivity penalties are applied. Afterwards, no sampled case passes.",
+      "The automation-push case falls to a 0% count-screen pass share after field-productivity penalties. The deep-modular case clears the count screen only under stronger robot-native infrastructure assumptions.",
     table: "aether_robotics_field_productivity_distribution_summary.csv",
   },
   {

@@ -7,8 +7,9 @@ This directory contains the production website for [aetherclimate.com](https://a
 ## Routes
 
 - `/` - canonical project introduction
-- `/model` - selected model figures and source-table links
-- `/living-atmosphere` - compatibility alias for the canonical introduction
+- `/evidence` - submission gates, uncertainty results, model figures, and source-table links
+- `/model` - permanent compatibility redirect to `/evidence`
+- `/living-atmosphere` - permanent compatibility redirect to the canonical introduction
 
 Discarded concept routes and assets are not shipped. The working paper and repository remain authoritative for technical claims. The website is possibility-led, but it does not claim that AETHER is feasible, funded, deployed, peer reviewed, or already authorized by law.
 
