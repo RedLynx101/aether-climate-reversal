@@ -46,10 +46,15 @@ BLOCKED_PATTERNS = {
     "personal Codex workspace path": re.compile(r"Documents\\Codex", re.IGNORECASE),
     "personal OneDrive path": re.compile(r"\bOneDrive\b", re.IGNORECASE),
     "private personal-wiki reference": re.compile(r"\bRedWiki\b", re.IGNORECASE),
-    "private historical email": re.compile(r"NoahHicks101@gmail\.com", re.IGNORECASE),
+    "personal email outside approved contact surface": re.compile(
+        r"NoahHicks101@gmail\.com", re.IGNORECASE
+    ),
     "private course identifier": re.compile(r"\b95-724\b"),
     "private submission workflow": re.compile(r"Canvas/Turnitin", re.IGNORECASE),
     "legacy Vinext dependency": re.compile(r"\bvinext\b", re.IGNORECASE),
+}
+APPROVED_PATTERN_LOCATIONS = {
+    ("website/app/components.tsx", "personal email outside approved contact surface"),
 }
 
 
@@ -87,7 +92,7 @@ def main() -> None:
             failures.append(f"tracked text file is not valid UTF-8: {relative}")
             continue
         for label, pattern in BLOCKED_PATTERNS.items():
-            if pattern.search(text):
+            if pattern.search(text) and (relative, label) not in APPROVED_PATTERN_LOCATIONS:
                 failures.append(f"{label} found in {relative}")
 
     required = {
