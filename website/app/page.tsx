@@ -81,9 +81,9 @@ export default function Home() {
         <div className="public-hero-shade" aria-hidden="true" />
         <div className="public-hero-copy">
           <p className="section-code">AETHER / OPEN RESEARCH / NOAH HICKS</p>
-          <h1>The atmosphere is infrastructure. <em>Nobody meters it.</em></h1>
+          <h1>The atmosphere is infrastructure. <em>Nobody controls it.</em></h1>
           <p className="public-hero-deck">
-            AETHER models what it would take to run atmospheric carbon as a metered public utility — and publishes the points where that model breaks.
+            AETHER models what it would take to run atmospheric carbon as a metered public utility. It lays out a scenario for highly autonomous systems to manage our atmosphere directly.
           </p>
           <div className="hero-actions">
             <a className="button button-primary" href="#utility">See the system <Arrow direction="down" /></a>
@@ -92,7 +92,7 @@ export default function Home() {
         </div>
         <div className="hero-status" aria-label="Project status">
           <span>STATUS / CONDITIONAL WORKING PAPER</span>
-          <p>Not peer reviewed. Not a deployment plan. A coupled feasibility test built to be attacked.</p>
+          <p>This is a feasibility test built to be attacked. And when the time comes, it is meant to remind us to push for incredible goals.</p>
         </div>
       </section>
 
@@ -263,7 +263,7 @@ export default function Home() {
       <section className="aether-definition" id="name">
         <div className="definition-heading">
           <p className="section-code">08 / WHAT AETHER MEANS</p>
-          <h2>The name carries the hard part.</h2>
+          <h2>The name focuses on the details.</h2>
           <p>Managing atmospheric carbon at scale takes physical infrastructure, public authority, and an enormous amount of clean energy. The acronym says so out loud.</p>
         </div>
         <div className="definition-word" aria-hidden="true">AETHER</div>
