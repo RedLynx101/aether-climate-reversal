@@ -79,7 +79,11 @@ export function SiteFooter({ note }: { note: string }) {
         <a href="/">Home</a>
         <a href="/evidence">Evidence</a>
         <a href={paperUrl}>Working paper</a>
-        <a href={githubUrl}>GitHub</a>
+      </div>
+      <div className="footer-contact">
+        <span>Contact / contribute</span>
+        <a href="mailto:noahhicks101@gmail.com">noahhicks101@gmail.com</a>
+        <a href={githubUrl}>GitHub <Arrow /></a>
       </div>
       <p className="footer-note">{note}</p>
     </footer>
