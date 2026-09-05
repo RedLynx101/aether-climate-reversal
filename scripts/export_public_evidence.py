@@ -18,13 +18,14 @@ INPUTS = [REGIONAL, ATMOSPHERE, "data/regional-reference/parameters.csv", "data/
 
 
 def artifacts_match(relative: str, existing: bytes, generated: bytes) -> bool:
-    """Require identical data/pixels, not platform-specific PNG compression bytes.
+    """Require identical data/pixels after Git text-newline normalization.
 
     PNG encoders may use different zlib builds across platforms. No pixel
     tolerance is allowed: changed labels, bars, dimensions or colors fail.
+    JSON allows only CRLF-to-LF normalization, not whitespace or value drift.
     """
     if not relative.endswith(".png"):
-        return existing == generated
+        return existing.replace(b"\r\n", b"\n") == generated.replace(b"\r\n", b"\n")
     try:
         with Image.open(io.BytesIO(existing)) as old, Image.open(io.BytesIO(generated)) as new:
             return old.size == new.size and old.convert("RGBA").tobytes() == new.convert("RGBA").tobytes()

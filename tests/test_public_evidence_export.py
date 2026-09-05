@@ -62,6 +62,12 @@ class PublicEvidenceExportTests(unittest.TestCase):
         generated = b'{"case":"ordinary","value":2}\n'
         self.assertFalse(self.exporter.artifacts_match("website/app/evidence.generated.json", existing, generated))
 
+    def test_json_allows_only_git_line_ending_normalization(self) -> None:
+        lf = b'{\n  "value": 1\n}\n'
+        crlf = lf.replace(b'\n', b'\r\n')
+        self.assertTrue(self.exporter.artifacts_match("website/app/evidence.generated.json", crlf, lf))
+        self.assertFalse(self.exporter.artifacts_match("website/app/evidence.generated.json", b'{"value":1}\n', lf))
+
 
 if __name__ == "__main__":
     unittest.main()
