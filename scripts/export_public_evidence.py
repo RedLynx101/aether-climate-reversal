@@ -9,11 +9,27 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
+from PIL import Image, UnidentifiedImageError
 
 ROOT = Path(__file__).resolve().parents[1]
 REGIONAL = "analysis/tables/aether_regional_reference_summary.json"
 ATMOSPHERE = "data/parameters/atmospheric_reference.json"
 INPUTS = [REGIONAL, ATMOSPHERE, "data/regional-reference/parameters.csv", "data/regional-reference/scenarios.json"]
+
+
+def artifacts_match(relative: str, existing: bytes, generated: bytes) -> bool:
+    """Require identical data/pixels, not platform-specific PNG compression bytes.
+
+    PNG encoders may use different zlib builds across platforms. No pixel
+    tolerance is allowed: changed labels, bars, dimensions or colors fail.
+    """
+    if not relative.endswith(".png"):
+        return existing == generated
+    try:
+        with Image.open(io.BytesIO(existing)) as old, Image.open(io.BytesIO(generated)) as new:
+            return old.size == new.size and old.convert("RGBA").tobytes() == new.convert("RGBA").tobytes()
+    except (UnidentifiedImageError, OSError, ValueError):
+        return False
 
 
 def artifacts() -> dict[str, bytes]:
@@ -98,7 +114,7 @@ def main() -> None:
     for relative, content in artifacts().items():
         path=ROOT/relative
         if args.check:
-            if not path.exists() or path.read_bytes()!=content:
+            if not path.exists() or not artifacts_match(relative, path.read_bytes(), content):
                 raise SystemExit(f"Public evidence drift: {relative}; run this exporter")
         else:
             path.parent.mkdir(parents=True,exist_ok=True)
