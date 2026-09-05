@@ -728,9 +728,9 @@ a:hover .arrow-down { transform: translateY(3px); }
 .ppm-row strong { font-size: clamp(2.4rem, 4.6vw, 5.6rem); font-weight: 560; letter-spacing: -.06em; line-height: .85; }
 .ppm-row strong small { font-family: var(--mono); font-size: .8rem; letter-spacing: 0; }
 .ppm-track { align-self: center; background: color-mix(in srgb, var(--ink) 13%, transparent); height: 16px; overflow: hidden; }
-.ppm-track i { background: var(--deep); display: block; height: 100%; }
+.ppm-track i { background: var(--ink); display: block; height: 100%; }
 .ppm-now .ppm-track i { width: 100%; }
-.ppm-goal .ppm-track i { background: var(--green); width: 65.33%; }
+.ppm-goal .ppm-track i { background: var(--green); }
 .ppm-row > p { align-self: center; font-size: .8rem; line-height: 1.55; margin: 0; }
 
 .target-note { align-items: start; display: grid; gap: 1.5rem; grid-template-columns: auto 1fr auto; margin-top: 2rem; }

@@ -226,7 +226,7 @@ export default function Home() {
           </div>
           <div className="ppm-row ppm-goal">
             <div><span>LONG-HORIZON RESTORATION NORTH STAR</span><strong>≈{atmosphere.preindustrial} <small>ppm</small></strong></div>
-            <div className="ppm-track" aria-label={`Approximately ${atmosphere.preindustrial} parts per million`}><i /></div>
+            <div className="ppm-track" aria-label={`Approximately ${atmosphere.preindustrial} parts per million`}><i style={{ width: `${100 / atmosphere.referenceRatio}%` }} /></div>
             <p>0.028% of dry air · a {atmosphere.gapPpm.toFixed(2)} ppm gap from the dated observation · about {atmosphere.reductionPercent.toFixed(1)}% below that concentration</p>
           </div>
         </div>
