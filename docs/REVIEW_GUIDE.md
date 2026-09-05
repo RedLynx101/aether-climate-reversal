@@ -4,9 +4,9 @@ AETHER is open for scientific, engineering, economic, legal, and governance revi
 
 ## Start here
 
-1. Read `manuscript/proposal/AETHER_Conditional_Feasibility_Proposal.pdf` for the concise argument.
-2. Read `manuscript/paper/aether_scientific_paper.md` for the full working paper.
-3. Check `manuscript/review/aether_review_readiness.md` and `analysis/tables/aether_feasibility_gate_scorecard.csv` before treating any result as settled.
+1. Read `manuscript/submission/AETHER_v0.46_working_paper.pdf` for the current argument and regional result.
+2. Read `manuscript/submission/AETHER_v0.46_technical_supplement.pdf` for the worked accounting example and model boundaries.
+3. Check `docs/CORRECTIONS_v0.46.md`, `docs/REGIONAL_REFERENCE.md`, and `analysis/tables/README.md`. Older scorecards and gate tallies are not current readiness evidence.
 4. Use `analysis/tables/aether_ai_scenario_comparison.csv` to see how external AI scenarios are classified.
 
 ## Review boundaries

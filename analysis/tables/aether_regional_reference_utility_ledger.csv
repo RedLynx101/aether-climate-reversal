@@ -1,0 +1,31 @@
+scenario_id,ledger_section,account,amount,unit,note
+ordinary_operations,cash_source,current_load_settlements,120000000.0,USD/year,Current-load emissions settlement; not legacy drawdown funding.
+ordinary_operations,cash_source,legacy_drawdown_funding,180000000.0,USD/year,Separately identified funding for historical atmospheric drawdown.
+ordinary_operations,cash_use,annual_capital_charge,40000000.0,USD/year,Annual capital carrying charge; capital basis is not expensed again.
+ordinary_operations,cash_use,fixed_non_task_opex,25000000.0,USD/year,Fixed O&M excluding task labor and automation system.
+ordinary_operations,cash_use,task_labor,56100000.0,USD/year,"Case-specific operations, maintenance, and verification task hours."
+ordinary_operations,cash_use,automation_system,0.0,USD/year,Explicit automation-system cost; zero in ordinary case.
+ordinary_operations,cash_use,variable_nonenergy_opex,38250000.0,USD/year,Consumables/non-energy variable O&M only.
+ordinary_operations,cash_use,electricity,27189600.5934,USD/year,Electrical demand priced separately from heat.
+ordinary_operations,cash_use,thermal_energy,69832584.01422,USD/year,Thermal-service proxy priced per GJ_HHV fuel-input-equivalent; no conversion efficiency or electrical-equivalent substitution.
+ordinary_operations,cash_use,transport_and_storage,17000000.0,USD/year,Transport/storage service once; not embedded in non-energy O&M.
+ordinary_operations,cash_use,restricted_risk_reserve,7586964.018606,USD/year,Cash reserve tied to risk-adjusted credits; not a physical-emissions debit.
+ordinary_operations,cash_balance,surplus_or_deficit,19040851.373774,USD/year,Sources minus uses; nonnegative because budget is an output cap.
+ordinary_operations,physical_service,current_load_settlement_service,600000.0,tCO2e/year risk-adjusted,Credits allocated first to the current-load settlement obligation.
+ordinary_operations,physical_service,legacy_drawdown_service,158696.401861,tCO2e/year risk-adjusted,Credits remaining after current-load settlement; not financed by relabeling current-load revenue.
+ordinary_operations,physical_service,current_load_service_shortfall,0.0,tCO2e/year risk-adjusted,Unsettled current-load obligation carried as a service shortfall.
+automation_assisted,cash_source,current_load_settlements,120000000.0,USD/year,Current-load emissions settlement; not legacy drawdown funding.
+automation_assisted,cash_source,legacy_drawdown_funding,180000000.0,USD/year,Separately identified funding for historical atmospheric drawdown.
+automation_assisted,cash_use,annual_capital_charge,40000000.0,USD/year,Annual capital carrying charge; capital basis is not expensed again.
+automation_assisted,cash_use,fixed_non_task_opex,25000000.0,USD/year,Fixed O&M excluding task labor and automation system.
+automation_assisted,cash_use,task_labor,29325000.0,USD/year,"Case-specific operations, maintenance, and verification task hours."
+automation_assisted,cash_use,automation_system,12000000.0,USD/year,Explicit automation-system cost; zero in ordinary case.
+automation_assisted,cash_use,variable_nonenergy_opex,40500000.0,USD/year,Consumables/non-energy variable O&M only.
+automation_assisted,cash_use,electricity,28788988.8636,USD/year,Electrical demand priced separately from heat.
+automation_assisted,cash_use,thermal_energy,73940383.07388,USD/year,Thermal-service proxy priced per GJ_HHV fuel-input-equivalent; no conversion efficiency or electrical-equivalent substitution.
+automation_assisted,cash_use,transport_and_storage,18000000.0,USD/year,Transport/storage service once; not embedded in non-energy O&M.
+automation_assisted,cash_use,restricted_risk_reserve,8033256.0197,USD/year,Cash reserve tied to risk-adjusted credits; not a physical-emissions debit.
+automation_assisted,cash_balance,surplus_or_deficit,24412372.04282,USD/year,Sources minus uses; nonnegative because budget is an output cap.
+automation_assisted,physical_service,current_load_settlement_service,600000.0,tCO2e/year risk-adjusted,Credits allocated first to the current-load settlement obligation.
+automation_assisted,physical_service,legacy_drawdown_service,203325.60197,tCO2e/year risk-adjusted,Credits remaining after current-load settlement; not financed by relabeling current-load revenue.
+automation_assisted,physical_service,current_load_service_shortfall,0.0,tCO2e/year risk-adjusted,Unsettled current-load obligation carried as a service shortfall.

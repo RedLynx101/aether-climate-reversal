@@ -5,6 +5,8 @@ import math
 from dataclasses import dataclass
 from pathlib import Path
 
+from aether_carbon_cycle_model import PUBLICATION_METADATA, REFERENCE_BASELINE
+
 ROOT = Path(__file__).resolve().parents[2]
 TABLE_DIR = ROOT / "analysis" / "tables"
 
@@ -184,7 +186,7 @@ def calibrate_parameters() -> tuple[dict[str, float], dict[str, object]]:
         "deep_ocean_heat_capacity_wyr_m2_c": f(deep, 3),
         "ocean_heat_exchange_w_m2_c": f(exchange, 3),
         "climate_feedback_lambda_w_m2_c": f(params["climate_feedback_lambda_w_m2_c"], 3),
-        "calibration_note": "Grid-search two-box screening emulator; calibrated to approximate TCR while ECS is set by lambda = F2x/ECS. This is not FAIR and not an Earth-system model.",
+        "calibration_note": "Grid-search fits only chosen TCR/ECS targets. Historical CO2 uses published RCMIP SSP2-4.5 concentrations; historical non-CO2/aerosol forcing is synthetic. No historical temperature or ocean-state calibration; not FAIR or an Earth-system model.",
     }
     return params, row
 
@@ -204,7 +206,6 @@ def main() -> None:
     for case, case_rows in by_case.items():
         future_by_year = {int(row["year"]): row for row in case_rows}
         first_future = case_rows[0]
-        first_ppm = float(first_future["atmospheric_co2_ppm_reduced_form"])
         display_name = first_future["display_name"]
 
         for policy in FORCING_POLICIES:
@@ -212,8 +213,7 @@ def main() -> None:
             forcing_inputs: list[dict[str, float]] = []
             for year in years:
                 if year <= 2025:
-                    progress = max(0.0, min(1.0, (year - 1850) / (2026 - 1850)))
-                    ppm = PREINDUSTRIAL_CO2_PPM + (first_ppm - PREINDUSTRIAL_CO2_PPM) * (progress ** 1.15)
+                    ppm = REFERENCE_BASELINE[year]["co2_ppm"]
                 else:
                     ppm = float(future_by_year[year]["atmospheric_co2_ppm_reduced_form"])
                 co2_forcing = co2_erf(ppm)
@@ -246,8 +246,13 @@ def main() -> None:
                     continue
                 surface_temp, deep_temp, uptake = temp_by_year[year]
                 out = {
+                    **PUBLICATION_METADATA,
                     "case": case,
                     "display_name": display_name,
+                    "emissions_policy": first_future["emissions_policy"],
+                    "matched_no_aether_case": first_future["matched_no_aether_case"],
+                    "carbon_baseline_id": first_future["carbon_baseline_id"],
+                    "carbon_baseline_method": first_future["carbon_baseline_method"],
                     "forcing_policy": policy.key,
                     "forcing_policy_name": policy.name,
                     "year": year,
@@ -260,7 +265,7 @@ def main() -> None:
                     "deep_ocean_temperature_index_c": f(deep_temp, 6),
                     "ocean_heat_uptake_w_m2": f(uptake, 6),
                     "temperature_change_vs_2026_c": f(surface_temp - temp_2026, 6),
-                    "emulator_caveat": "Two-box screening emulator with scenario non-CO2 and aerosol forcing; not FAIR, not CMIP, and not publication-grade attribution.",
+                    "emulator_caveat": "Conditional hybrid concentration/two-box diagnostic; historical CO2 sourced, non-CO2 history synthetic, thermal state unvalidated. Matched controls isolate AETHER within these assumptions; absolute temperature is not a validated prediction.",
                 }
                 pathway_rows.append(out)
                 case_policy_rows.append(out)
@@ -272,8 +277,13 @@ def main() -> None:
             peak = max(case_policy_rows, key=lambda row: float(row["surface_temperature_anomaly_c"]))
             minimum = min(case_policy_rows, key=lambda row: float(row["surface_temperature_anomaly_c"]))
             summary_rows.append({
+                **PUBLICATION_METADATA,
                 "case": case,
                 "display_name": display_name,
+                "emissions_policy": first_future["emissions_policy"],
+                "matched_no_aether_case": first_future["matched_no_aether_case"],
+                "carbon_baseline_id": first_future["carbon_baseline_id"],
+                "carbon_baseline_method": first_future["carbon_baseline_method"],
                 "forcing_policy": policy.key,
                 "forcing_policy_name": policy.name,
                 "temperature_2026_c": row_2026["surface_temperature_anomaly_c"],
@@ -290,19 +300,20 @@ def main() -> None:
                 "aerosol_forcing_2100_w_m2": final["aerosol_forcing_w_m2"],
                 "total_erf_2100_w_m2": final["total_erf_w_m2"],
                 "avoided_temperature_vs_no_aether_2100_c": "",
-                "model_class": "calibrated two-box screening emulator",
-                "caveat": policy.caveat,
+                "model_class": "TCR-targeted two-box conditional diagnostic; not historically calibrated",
+                "caveat": policy.caveat + " Absolute temperature is not a validated prediction; attribution uses matching CO2 and non-CO2 policies.",
             })
 
-    baseline_final_by_policy = {
-        row["forcing_policy"]: float(row["temperature_2100_c"])
-        for row in summary_rows
-        if row["case"] == "baseline_constant_emissions_no_aether"
-    }
+    baseline_final_by_policy = {(row["case"], row["forcing_policy"]): float(row["temperature_2100_c"]) for row in summary_rows}
     for row in summary_rows:
-        baseline = baseline_final_by_policy[row["forcing_policy"]]
+        baseline = baseline_final_by_policy[(row["matched_no_aether_case"], row["forcing_policy"])]
         avoided = baseline - float(row["temperature_2100_c"])
         row["avoided_temperature_vs_no_aether_2100_c"] = f(avoided, 6)
+
+    by_key = {(row["case"], row["forcing_policy"], row["year"]): row for row in pathway_rows}
+    for row in pathway_rows:
+        control = by_key[(row["matched_no_aether_case"], row["forcing_policy"], row["year"])]
+        row["avoided_temperature_vs_matched_no_aether_c"] = f(float(control["surface_temperature_anomaly_c"]) - float(row["surface_temperature_anomaly_c"]))
 
     forcing_rows = [
         {

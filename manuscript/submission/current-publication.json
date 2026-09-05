@@ -1,0 +1,28 @@
+{
+  "version": "0.46",
+  "builder_sha256": "1e2e964d3ee1dba45754c11bd0e5b2607ffa0f2920345622e79ac98cd8d10f4e",
+  "documents": [
+    {
+      "source": "manuscript/paper/aether_scientific_paper.md",
+      "source_sha256": "61ae40cf3ecb9f483b4a5acdcf26f17b6bd2ce2b7e0b58bd3850b704821e214d",
+      "pdf": "manuscript/submission/AETHER_v0.46_working_paper.pdf",
+      "pdf_sha256": "73c40fb3c8a2b7d097fb6f81e78feddf12bc1db17acec3ef1023792e82b51d6d",
+      "web_pdf": "website/public/papers/AETHER_v0.46_working_paper.pdf",
+      "pages": 10,
+      "assets": {
+        "analysis/figures/regional-carbon-ledger.png": "2176e25832c86c6d57181c167850d37f0b30ed4ce8df2297d28b782634d9e0c0",
+        "analysis/figures/regional-resource-limits.png": "22129dedb9247a8a9a8bde3ed5323f5b2c6dc1bf43169aaf2d0d3d23f2ce34f8",
+        "analysis/figures/regional-funding-ledger.png": "1eba697fd0531a8e94e647e8a8403598e935ef0f0fe2f681f6228164d76c6712"
+      }
+    },
+    {
+      "source": "manuscript/paper/technical_supplement.md",
+      "source_sha256": "810d4995a615a8144d5a673942142e3baeeefb9a4433da0db76748ef135c7630",
+      "pdf": "manuscript/submission/AETHER_v0.46_technical_supplement.pdf",
+      "pdf_sha256": "16a67f2ba2b1deea5e3407e0be959491579aa7dfb78b4d822248fb3765ecdd85",
+      "web_pdf": "website/public/papers/AETHER_v0.46_technical_supplement.pdf",
+      "pages": 6,
+      "assets": {}
+    }
+  ]
+}

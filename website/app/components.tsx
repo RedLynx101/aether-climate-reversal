@@ -1,10 +1,6 @@
 import {
-  gateTally,
   githubUrl,
   paperUrl,
-  submissionGates,
-  tableUrl,
-  type GateStatus,
 } from "./data";
 
 type EvidenceKind = "established" | "model" | "open";
@@ -87,42 +83,5 @@ export function SiteFooter({ note }: { note: string }) {
       </div>
       <p className="footer-note">{note}</p>
     </footer>
-  );
-}
-
-const STATUS_LABEL: Record<GateStatus, string> = {
-  pass: "Pass",
-  partial: "Partial",
-  fail: "Fail",
-};
-
-/**
- * The submission ledger, failures included. Publishing the two failing gates is
- * the point: a reader can check the claim against the generated table rather
- * than taking a summary on trust.
- */
-export function GateLedger() {
-  return (
-    <div className="gate-ledger">
-      <div className="gate-tally" aria-label="Gate tally">
-        <div className="tally-pass"><strong>{gateTally.pass}</strong><span>Pass</span></div>
-        <div className="tally-partial"><strong>{gateTally.partial}</strong><span>Partial</span></div>
-        <div className="tally-fail"><strong>{gateTally.fail}</strong><span>Fail</span></div>
-      </div>
-      <ol className="gate-list">
-        {submissionGates.map((gate) => (
-          <li className={`gate gate-${gate.status}`} key={gate.id}>
-            <span className="gate-id">{gate.id}</span>
-            <h3>{gate.gate}</h3>
-            <span className={`gate-status status-${gate.status}`}>{STATUS_LABEL[gate.status]}</span>
-            <p className="gate-evidence">{gate.evidence}</p>
-            <p className="gate-next"><span>Next</span> {gate.next}</p>
-          </li>
-        ))}
-      </ol>
-      <a className="text-link" href={tableUrl("aether_submission_readiness_gates.csv")}>
-        Inspect the generated ledger <Arrow />
-      </a>
-    </div>
   );
 }

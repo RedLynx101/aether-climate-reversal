@@ -4,6 +4,8 @@ import csv
 from collections import defaultdict
 from pathlib import Path
 
+from aether_carbon_cycle_model import PUBLICATION_METADATA
+
 
 ROOT = Path(__file__).resolve().parents[2]
 TABLE_DIR = ROOT / "analysis" / "tables"
@@ -65,11 +67,11 @@ gap_rows = [
     },
     {
         "fair_variable_family": "CO2 concentration",
-        "current_status": "usable_screen",
+        "current_status": "rejected_off_reference",
         "current_artifact": "aether_climate_emulator_pathways.csv",
-        "publication_gap": "Concentrations are reduced-form outputs, not FAIR carbon-cycle outputs.",
-        "next_action": "Use the deck to compare reduced-form concentrations against FAIR output.",
-        "priority": "P1",
+        "publication_gap": PUBLICATION_METADATA["failure_reason"],
+        "next_action": "Compare against independently historically initialized emissions-driven FAIR output; forcing mode cannot validate the carbon cycle.",
+        "priority": "P0",
     },
     {
         "fair_variable_family": "CO2 radiative forcing",
@@ -179,20 +181,21 @@ gap_rows = [
         "fair_variable_family": "Historical spin-up and calibration",
         "current_status": "provisional_proxy",
         "current_artifact": "aether_climate_emulator_calibration.csv",
-        "publication_gap": "The spin-up is a screening initialization, not an observed historical reconstruction.",
+        "publication_gap": "Historical CO2 is a published RCMIP series; non-CO2 history and thermal state remain synthetic/unvalidated, with no calibrated historical carbon reservoirs.",
         "next_action": "Initialize FAIR with historical emissions and compare 2026 state against observed temperature and concentration.",
         "priority": "P0",
     },
 ]
 
 status_weights = {
+    "rejected_off_reference": 0.0,
     "usable_screen": 1.0,
     "provisional_proxy": 0.62,
     "aggregate_placeholder": 0.35,
     "missing": 0.0,
 }
 readiness_score = sum(status_weights[row["current_status"]] for row in gap_rows) / len(gap_rows)
-critical_gap_count = sum(1 for row in gap_rows if row["priority"] == "P0" and row["current_status"] in {"missing", "aggregate_placeholder", "provisional_proxy"})
+critical_gap_count = sum(1 for row in gap_rows if row["priority"] == "P0" and row["current_status"] in {"missing", "aggregate_placeholder", "provisional_proxy", "rejected_off_reference"})
 missing_or_placeholder_count = sum(1 for row in gap_rows if row["current_status"] in {"missing", "aggregate_placeholder"})
 
 deck_rows: list[dict[str, object]] = []
@@ -207,10 +210,17 @@ for climate in climate_rows:
     effective = f(state, "effective_removal_gtco2_y")
     direct_net = f(state, "direct_net_pulse_gtco2_y")
     ppm_mismatch = f(climate, "co2_ppm") - f(state, "atmospheric_co2_ppm_reduced_form")
+    if abs(ppm_mismatch) > 0.00001:
+        raise RuntimeError(f"Carbon/forcing handoff mismatch for {key}: {ppm_mismatch} ppm")
     deck_rows.append({
+        **PUBLICATION_METADATA,
         "scenario_id": f"{climate['case']}__{climate['forcing_policy']}",
         "case": climate["case"],
         "display_name": climate["display_name"],
+        "emissions_policy": climate["emissions_policy"],
+        "matched_no_aether_case": climate["matched_no_aether_case"],
+        "carbon_baseline_id": climate["carbon_baseline_id"],
+        "carbon_baseline_method": climate["carbon_baseline_method"],
         "forcing_policy": climate["forcing_policy"],
         "forcing_policy_name": climate["forcing_policy_name"],
         "year": year,
@@ -230,7 +240,7 @@ for climate in climate_rows:
         "fair_readiness_score_0_1": round(readiness_score, 4),
         "critical_fair_gap_count": critical_gap_count,
         "missing_or_placeholder_variable_families": missing_or_placeholder_count,
-        "deck_caveat": "FAIR-ready input scaffold, not a FAIR run; species-level non-CO2 and aerosol emissions remain missing.",
+        "deck_caveat": "Conditional hybrid input scaffold, not a calibrated historical state or species-emissions FAIR run. Forcing-mode execution cannot validate these carbon concentrations; species-level non-CO2 and aerosol emissions remain missing.",
     })
 
 groups: dict[tuple[str, str], list[dict[str, object]]] = defaultdict(list)
@@ -247,8 +257,13 @@ for (case, policy), rows in sorted(groups.items()):
     peak = max(rows, key=lambda r: float(r["surface_temperature_anomaly_c"]))
     minimum = min(rows, key=lambda r: float(r["surface_temperature_anomaly_c"]))
     summary_rows.append({
+        **PUBLICATION_METADATA,
         "case": case,
         "display_name": row_2026["display_name"],
+        "emissions_policy": row_2026["emissions_policy"],
+        "matched_no_aether_case": row_2026["matched_no_aether_case"],
+        "carbon_baseline_id": row_2026["carbon_baseline_id"],
+        "carbon_baseline_method": row_2026["carbon_baseline_method"],
         "forcing_policy": policy,
         "forcing_policy_name": row_2026["forcing_policy_name"],
         "temperature_2026_c": row_2026["surface_temperature_anomaly_c"],
@@ -267,7 +282,7 @@ for (case, policy), rows in sorted(groups.items()):
         "fair_readiness_score_0_1": round(readiness_score, 4),
         "critical_fair_gap_count": critical_gap_count,
         "missing_or_placeholder_variable_families": missing_or_placeholder_count,
-        "publication_use": "Use as FAIR/ESM handoff scaffold; do not cite as a FAIR result.",
+        "publication_use": "Quarantined FAIR/ESM handoff scaffold; do not cite as a FAIR result or absolute concentration/temperature evidence.",
     })
 
 manifest_rows = [
@@ -275,14 +290,14 @@ manifest_rows = [
         "artifact": "aether_fair_readiness_input_deck.csv",
         "role": "Annual joined emissions/removal/forcing/temperature deck for FAIR-class handoff",
         "row_count": len(deck_rows),
-        "status": "generated",
-        "next_action": "Run a real FAIR package or ESM workflow against this deck.",
+        "status": "quarantined_hybrid_off_reference",
+        "next_action": "Replace rejected carbon response with a validated historically initialized emissions-driven workflow; forcing-mode continuation does not repair it.",
     },
     {
         "artifact": "aether_fair_readiness_summary.csv",
         "role": "Scenario summary for input deck and climate-emulator consistency",
         "row_count": len(summary_rows),
-        "status": "generated",
+        "status": "quarantined_hybrid_off_reference",
         "next_action": "Compare against FAIR output after species trajectories exist.",
     },
     {
@@ -296,22 +311,27 @@ manifest_rows = [
         "artifact": "aether_climate_emulator_pathways.csv",
         "role": "Source climate-emulator annual forcing and temperature paths",
         "row_count": len(climate_rows),
-        "status": "upstream",
+        "status": "quarantined_hybrid_off_reference",
         "next_action": "Replace with FAIR/ESM outputs later.",
     },
     {
         "artifact": "aether_state_dependent_carbon_pathways.csv",
         "role": "Source annual positive emissions, removal, and net-pulse paths",
         "row_count": len(state_rows),
-        "status": "upstream",
+        "status": "quarantined_hybrid_off_reference",
         "next_action": "Replace hand-set removal effectiveness with calibrated response.",
     },
 ]
 
 deck_fields = [
+    *PUBLICATION_METADATA,
     "scenario_id",
     "case",
     "display_name",
+    "emissions_policy",
+    "matched_no_aether_case",
+    "carbon_baseline_id",
+    "carbon_baseline_method",
     "forcing_policy",
     "forcing_policy_name",
     "year",
@@ -334,8 +354,13 @@ deck_fields = [
     "deck_caveat",
 ]
 summary_fields = [
+    *PUBLICATION_METADATA,
     "case",
     "display_name",
+    "emissions_policy",
+    "matched_no_aether_case",
+    "carbon_baseline_id",
+    "carbon_baseline_method",
     "forcing_policy",
     "forcing_policy_name",
     "temperature_2026_c",

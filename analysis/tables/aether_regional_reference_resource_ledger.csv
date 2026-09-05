@@ -1,0 +1,13 @@
+scenario_id,resource_id,available_quantity,available_unit,use_intensity_per_gross_tco2,maximum_gross_capture_tco2_y,actual_gross_capture_tco2_y,headroom_tco2_y,is_binding,annual_electricity_allowance_twh_y,requested_electricity_load_twh_y,allocated_electricity_twh_y,unserved_requested_load_twh_y,unallocated_electricity_allowance_twh_y,initial_state_gwh,final_state_gwh,storage_state_change_twh_y,boundary_note
+ordinary_operations,nameplate,1000000.0,tCO2/year,1.0,1000000.0,850000.0,150000.0,False,,,,,,,,,
+ordinary_operations,uptime,850000.0,tCO2/year gross capacity,1.0,850000.0,850000.0,0.0,True,,,,,,,,,
+ordinary_operations,electricity,550000.0,MWh/year,0.533129,1031644.429775,850000.0,181644.429775,False,0.55,0.45316,0.45316,0.0,0.09684,0.0,0.0,0.0,"Annual allowance/allocation envelope, not actual generation, dispatch, or curtailment; no electric storage subsystem and zero state change."
+ordinary_operations,thermal,7000000.0,GJ_HHV fuel-input-equivalent/year,6.846332,1022445.338489,850000.0,172445.338489,False,,,,,,,,,
+ordinary_operations,storage,950000.0,tCO2/year gross stored,0.997002,952856.66428,850000.0,102856.66428,False,,,,,,,,,
+ordinary_operations,budget,300000000.0,USD/year,330.540175,951243.649843,850000.0,101243.649843,False,,,,,,,,,
+automation_assisted,nameplate,1000000.0,tCO2/year,1.0,1000000.0,900000.0,100000.0,False,,,,,,,,,
+automation_assisted,uptime,900000.0,tCO2/year gross capacity,1.0,900000.0,900000.0,0.0,True,,,,,,,,,
+automation_assisted,electricity,550000.0,MWh/year,0.533129,1031644.429775,900000.0,131644.429775,False,0.55,0.479816,0.479816,0.0,0.070184,0.0,0.0,0.0,"Annual allowance/allocation envelope, not actual generation, dispatch, or curtailment; no electric storage subsystem and zero state change."
+automation_assisted,thermal,7000000.0,GJ_HHV fuel-input-equivalent/year,6.846332,1022445.338489,900000.0,122445.338489,False,,,,,,,,,
+automation_assisted,storage,950000.0,tCO2/year gross stored,0.997002,952856.66428,900000.0,52856.66428,False,,,,,,,,,
+automation_assisted,budget,300000000.0,USD/year,306.208476,1029804.996553,900000.0,129804.996553,False,,,,,,,,,

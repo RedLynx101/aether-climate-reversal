@@ -1,0 +1,12 @@
+{
+  "current": 428.73,
+  "preindustrial": 280,
+  "observationMonth": "May 2026",
+  "publishedUpdate": "2026-08-05",
+  "accessed": "2026-09-05",
+  "unit": "ppm dry-air mole fraction",
+  "status": "Preliminary global monthly mean; dated observation, not a forecast or live feed",
+  "source": "https://www.gml.noaa.gov/ccgg/trends/global.html",
+  "preindustrialSource": "https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-2/",
+  "preindustrialBoundary": "Approximate historical reference and investigational restoration aspiration, not an established safe or optimal modern setpoint"
+}

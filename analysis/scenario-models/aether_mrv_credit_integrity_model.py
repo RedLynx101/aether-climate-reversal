@@ -105,6 +105,14 @@ def float_value(row, key):
         return 0.0
     return float(value)
 
+
+def apply_mrv_credit_buffers(net_accounting_gtco2e_y, buffer_fractions):
+    """Apply credit buffers only after physical-retention and lifecycle accounting."""
+    if any(not 0.0 <= fraction <= 1.0 for fraction in buffer_fractions):
+        raise ValueError("MRV buffer fractions must be between zero and one")
+    multiplier = math.prod(1.0 - fraction for fraction in buffer_fractions)
+    return multiplier, max(net_accounting_gtco2e_y, 0.0) * multiplier
+
 portfolio = {row["pathway"]: row for row in read_csv("aether_pathway_portfolio_allocation.csv")}
 lifecycle = {row["pathway"]: row for row in read_csv("aether_storage_lifecycle_routes.csv")}
 
@@ -115,21 +123,32 @@ for pathway, assumption in ASSUMPTIONS.items():
     p = portfolio[pathway]
     l = lifecycle[pathway]
     gross = float_value(p, "aether_optimized_allocation_gtco2_y")
-    durable = float_value(l, "durable_100y_credit_gtco2_y")
-    baseline_cost = float_value(p, "aether_optimized_cost_usd_tco2_assumption")
-    lifecycle_fraction = durable / gross if gross else 0.0
-    mrv_multiplier = (
-        (1.0 - assumption["measurement_discount_fraction"])
-        * (1.0 - assumption["method_uncertainty_reserve_fraction"])
-        * (1.0 - assumption["reversal_or_leakage_buffer_fraction"])
-        * (1.0 - assumption["credit_invalidation_reserve_fraction"])
+    physically_retained = float_value(l, "physically_retained_after_100y_gtco2_y")
+    lifecycle_emissions_proxy = float_value(l, "lifecycle_emissions_proxy_gtco2e_y")
+    net_accounting_proxy = float_value(
+        l, "net_after_retention_minus_lifecycle_proxy_gtco2e_y"
     )
-    creditable_fraction = lifecycle_fraction * mrv_multiplier
-    creditable = gross * creditable_fraction
-    gross_to_creditable = 1.0 / creditable_fraction if creditable_fraction else math.inf
+    baseline_cost = float_value(p, "aether_optimized_cost_usd_tco2_assumption")
+    retention_fraction = physically_retained / gross if gross else 0.0
+    net_accounting_fraction = net_accounting_proxy / gross if gross else 0.0
+    mrv_multiplier, creditable = apply_mrv_credit_buffers(
+        net_accounting_proxy,
+        [
+            assumption["measurement_discount_fraction"],
+            assumption["method_uncertainty_reserve_fraction"],
+            assumption["reversal_or_leakage_buffer_fraction"],
+            assumption["credit_invalidation_reserve_fraction"],
+        ],
+    )
+    creditable_fraction = creditable / gross if gross else 0.0
+    gross_to_creditable = 1.0 / creditable_fraction if creditable_fraction > 0.0 else None
     mrv_cost = assumption["mrv_liability_cost_usd_tco2"]
     annual_mrv_liability_cost_billion = gross * mrv_cost
-    cost_per_creditable_tonne = (baseline_cost + mrv_cost) / creditable_fraction if creditable_fraction else math.inf
+    cost_per_creditable_tonne = (
+        (baseline_cost + mrv_cost) / creditable_fraction
+        if creditable_fraction > 0.0
+        else None
+    )
 
     assumption_rows.append({
         "pathway": pathway,
@@ -149,32 +168,58 @@ for pathway, assumption in ASSUMPTIONS.items():
         "pathway": pathway,
         "display_name": p["display_name"],
         "gross_gtco2_y": f(gross, 3),
-        "lifecycle_100y_credit_gtco2_y": f(durable, 3),
-        "lifecycle_credit_fraction": f(lifecycle_fraction, 5),
+        "physically_retained_after_100y_gtco2_y": f(physically_retained, 3),
+        "physical_retention_fraction": f(retention_fraction, 5),
+        "lifecycle_emissions_proxy_gtco2e_y": f(lifecycle_emissions_proxy, 3),
+        "net_after_retention_minus_lifecycle_proxy_gtco2e_y": f(net_accounting_proxy, 3),
+        "net_accounting_proxy_fraction_of_gross": f(net_accounting_fraction, 5),
         "mrv_credit_multiplier_after_buffers": f(mrv_multiplier, 5),
-        "creditable_gtco2_y_after_mrv": f(creditable, 3),
+        "creditable_gtco2e_y_after_mrv": f(creditable, 3),
         "creditable_fraction_of_gross": f(creditable_fraction, 5),
-        "gross_to_creditable_multiplier": f(gross_to_creditable, 3),
+        "gross_to_creditable_multiplier": (
+            f(gross_to_creditable, 3) if gross_to_creditable is not None else ""
+        ),
+        "gross_to_creditable_multiplier_status": (
+            "defined_positive_credit" if gross_to_creditable is not None else "infeasible_zero_credit"
+        ),
         "baseline_cost_usd_tco2_gross": f(baseline_cost, 2),
         "mrv_liability_cost_usd_tco2_gross": f(mrv_cost, 2),
         "annual_mrv_liability_cost_billion_usd": f(annual_mrv_liability_cost_billion, 2),
-        "cost_usd_per_creditable_tco2_after_mrv": f(cost_per_creditable_tonne, 2),
+        "cost_usd_per_creditable_tco2_after_mrv": (
+            f(cost_per_creditable_tonne, 2) if cost_per_creditable_tonne is not None else ""
+        ),
         "risk_class": assumption["risk_class"],
         "source_keys": assumption["source_keys"],
+        "accounting_boundary_note": "MRV buffers convert the separate retention-minus-lifecycle accounting proxy into provisional creditable CO2e; neither quantity is an automatic climate-flow claim.",
     })
 
 gross_total = sum(float(row["gross_gtco2_y"]) for row in pathway_rows)
-lifecycle_total = sum(float(row["lifecycle_100y_credit_gtco2_y"]) for row in pathway_rows)
-creditable_total = sum(float(row["creditable_gtco2_y_after_mrv"]) for row in pathway_rows)
+physically_retained_total = sum(float(row["physically_retained_after_100y_gtco2_y"]) for row in pathway_rows)
+lifecycle_emissions_proxy_total = sum(float(row["lifecycle_emissions_proxy_gtco2e_y"]) for row in pathway_rows)
+net_accounting_proxy_total = sum(
+    float(row["net_after_retention_minus_lifecycle_proxy_gtco2e_y"])
+    for row in pathway_rows
+)
+creditable_total = sum(float(row["creditable_gtco2e_y_after_mrv"]) for row in pathway_rows)
 weighted_creditable_fraction = creditable_total / gross_total
-gross_required_for_100_credit = 100.0 / weighted_creditable_fraction
-additional_gross_required = gross_required_for_100_credit - 100.0
+gross_required_for_100_credit = (
+    100.0 / weighted_creditable_fraction if weighted_creditable_fraction > 0.0 else None
+)
+additional_gross_required = (
+    gross_required_for_100_credit - 100.0
+    if gross_required_for_100_credit is not None
+    else None
+)
 annual_mrv_cost_trillion = sum(float(row["annual_mrv_liability_cost_billion_usd"]) for row in pathway_rows) / 1000.0
 annual_baseline_cost_trillion = sum(
     float(row["gross_gtco2_y"]) * float(row["baseline_cost_usd_tco2_gross"]) for row in pathway_rows
 ) / 1000.0
 annual_cost_with_mrv_at_100_gross_trillion = annual_baseline_cost_trillion + annual_mrv_cost_trillion
-annual_cost_for_100_credit_same_mix_trillion = annual_cost_with_mrv_at_100_gross_trillion * (gross_required_for_100_credit / 100.0)
+annual_cost_for_100_credit_same_mix_trillion = (
+    annual_cost_with_mrv_at_100_gross_trillion * (gross_required_for_100_credit / 100.0)
+    if gross_required_for_100_credit is not None
+    else None
+)
 credit_shortfall_after_mrv = 100.0 - creditable_total
 
 summary_rows = [
@@ -186,30 +231,48 @@ summary_rows = [
         "interpretation": "The current pathway portfolio still starts at the 100 GtCO2/year gross target.",
     },
     {
-        "summary_id": "lifecycle_durable_credit",
-        "metric": "100-year durable credit after current lifecycle/durability filter",
-        "value": f(lifecycle_total, 3),
+        "summary_id": "physically_retained_100y",
+        "metric": "Physical gross removal retained after 100 years under route assumptions",
+        "value": f(physically_retained_total, 3),
         "unit": "GtCO2/year",
-        "interpretation": "The existing storage-lifecycle model already reduces gross tonnes before MRV buffers are applied.",
+        "interpretation": "This is a physical-retention screen before lifecycle-emissions and MRV accounting debits.",
+    },
+    {
+        "summary_id": "lifecycle_emissions_proxy",
+        "metric": "Provisional lifecycle-emissions accounting debit",
+        "value": f(lifecycle_emissions_proxy_total, 3),
+        "unit": "GtCO2e/year",
+        "interpretation": "This provisional CO2e proxy is not a time- or species-resolved climate flow.",
+    },
+    {
+        "summary_id": "net_retention_minus_lifecycle_proxy",
+        "metric": "Physical retention minus provisional lifecycle-emissions debit",
+        "value": f(net_accounting_proxy_total, 3),
+        "unit": "GtCO2e/year accounting proxy",
+        "interpretation": "This scalar screen is the MRV input, not an issued credit or automatic climate outcome.",
     },
     {
         "summary_id": "mrv_creditable_total",
-        "metric": "Creditable removal after provisional MRV, reversal, invalidation, and liability buffers",
+        "metric": "Provisional creditable removal after MRV, reversal, invalidation, and liability buffers",
         "value": f(creditable_total, 3),
-        "unit": "GtCO2/year",
+        "unit": "GtCO2e/year creditable",
         "interpretation": "This is the current stress-test estimate for tonnes that should be treated as creditable under conservative accounting.",
     },
     {
         "summary_id": "gross_required_for_100_credit_same_mix",
         "metric": "Gross removal required for 100 GtCO2/year creditable removal at the same pathway mix",
-        "value": f(gross_required_for_100_credit, 3),
+        "value": (
+            f(gross_required_for_100_credit, 3)
+            if gross_required_for_100_credit is not None
+            else ""
+        ),
         "unit": "GtCO2/year gross",
         "interpretation": "AETHER must overbuild gross removal materially if credit integrity is enforced rather than assumed.",
     },
     {
         "summary_id": "additional_gross_required_vs_100",
         "metric": "Additional gross removal required above the nominal 100 GtCO2/year target",
-        "value": f(additional_gross_required, 3),
+        "value": f(additional_gross_required, 3) if additional_gross_required is not None else "",
         "unit": "GtCO2/year gross",
         "interpretation": "This is the penalty for treating gross tonnes, durable tonnes, and creditable tonnes as different quantities.",
     },
@@ -230,7 +293,11 @@ summary_rows = [
     {
         "summary_id": "annual_cost_for_100_credit_same_mix",
         "metric": "Portfolio annual cost for 100 GtCO2/year creditable removal at the same pathway mix",
-        "value": f(annual_cost_for_100_credit_same_mix_trillion, 3),
+        "value": (
+            f(annual_cost_for_100_credit_same_mix_trillion, 3)
+            if annual_cost_for_100_credit_same_mix_trillion is not None
+            else ""
+        ),
         "unit": "trillion USD/year",
         "interpretation": "This is a first estimate of the cost penalty if the target is creditable tonnes rather than gross tonnes.",
     },
@@ -242,6 +309,20 @@ summary_rows = [
         "interpretation": "Without overbuild or a more durable pathway mix, the nominal 100 Gt gross portfolio is not a 100 Gt creditable-removal system.",
     },
 ]
+
+for summary_row in summary_rows:
+    if summary_row["summary_id"] in {
+        "gross_required_for_100_credit_same_mix",
+        "additional_gross_required_vs_100",
+        "annual_cost_for_100_credit_same_mix",
+    }:
+        summary_row["calculation_status"] = (
+            "defined_positive_credit"
+            if gross_required_for_100_credit is not None
+            else "infeasible_zero_credit"
+        )
+    else:
+        summary_row["calculation_status"] = "reported"
 
 write_csv(
     "aether_mrv_credit_integrity_assumptions.csv",
@@ -267,23 +348,28 @@ write_csv(
         "pathway",
         "display_name",
         "gross_gtco2_y",
-        "lifecycle_100y_credit_gtco2_y",
-        "lifecycle_credit_fraction",
+        "physically_retained_after_100y_gtco2_y",
+        "physical_retention_fraction",
+        "lifecycle_emissions_proxy_gtco2e_y",
+        "net_after_retention_minus_lifecycle_proxy_gtco2e_y",
+        "net_accounting_proxy_fraction_of_gross",
         "mrv_credit_multiplier_after_buffers",
-        "creditable_gtco2_y_after_mrv",
+        "creditable_gtco2e_y_after_mrv",
         "creditable_fraction_of_gross",
         "gross_to_creditable_multiplier",
+        "gross_to_creditable_multiplier_status",
         "baseline_cost_usd_tco2_gross",
         "mrv_liability_cost_usd_tco2_gross",
         "annual_mrv_liability_cost_billion_usd",
         "cost_usd_per_creditable_tco2_after_mrv",
         "risk_class",
         "source_keys",
+        "accounting_boundary_note",
     ],
 )
 write_csv(
     "aether_mrv_credit_integrity_summary.csv",
     summary_rows,
-    ["summary_id", "metric", "value", "unit", "interpretation"],
+    ["summary_id", "metric", "value", "unit", "interpretation", "calculation_status"],
 )
 

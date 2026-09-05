@@ -245,7 +245,7 @@ CASES = [
         "additionality_modifier": 1.00,
         "storage_multiplier": 1.65,
         "firm_share_bonus": 0.10,
-        "paper_use_rule": "Only an upper-tail clean-energy abundance case clears the representative regional dispatch screen.",
+        "paper_use_rule": "Even this upper-tail clean-energy abundance case remains below 100 Gt/year once the repeated representative day has a cyclic storage boundary.",
     },
     {
         "case": "nonadditional_fragmented_grid",
@@ -274,6 +274,129 @@ def adjusted_mix(region: dict, firm_bonus: float) -> tuple[float, float, float]:
     return solar * new_variable_total / variable_total, wind * new_variable_total / variable_total, firm
 
 
+def dispatch_day(
+    generation_by_hour: list[float],
+    hourly_load: float,
+    storage_capacity: float,
+    roundtrip_efficiency: float,
+    initial_storage_state: float,
+) -> tuple[dict[str, float], list[dict[str, float]]]:
+    """Dispatch one repeated representative day while conserving bus and storage energy.
+
+    All energy values are TWh. Storage state is internal stored energy; charge and
+    discharge are measured at the grid bus. This makes conversion losses explicit.
+    """
+    if not 0.0 < roundtrip_efficiency <= 1.0:
+        raise ValueError("roundtrip_efficiency must be in (0, 1]")
+    if storage_capacity < 0.0 or not 0.0 <= initial_storage_state <= storage_capacity:
+        raise ValueError("storage state must lie within non-negative capacity")
+
+    charge_eff = math.sqrt(roundtrip_efficiency)
+    discharge_eff = charge_eff
+    storage_state = initial_storage_state
+    totals = {
+        "generation": 0.0,
+        "served": 0.0,
+        "unserved": 0.0,
+        "curtailed": 0.0,
+        "charge_input": 0.0,
+        "discharge_delivered": 0.0,
+        "storage_conversion_loss": 0.0,
+    }
+    hourly_rows: list[dict[str, float]] = []
+
+    for hour, generation in enumerate(generation_by_hour):
+        start_state = storage_state
+        direct_served = min(generation, hourly_load)
+        surplus = max(0.0, generation - direct_served)
+        deficit = max(0.0, hourly_load - direct_served)
+        charge_input = min(surplus, (storage_capacity - storage_state) / charge_eff)
+        storage_state += charge_input * charge_eff
+        discharge_delivered = min(deficit, storage_state * discharge_eff)
+        storage_state -= discharge_delivered / discharge_eff
+        served = direct_served + discharge_delivered
+        unserved = hourly_load - served
+        curtailed = surplus - charge_input
+        conversion_loss = charge_input * (1.0 - charge_eff) + discharge_delivered * (
+            1.0 / discharge_eff - 1.0
+        )
+
+        totals["generation"] += generation
+        totals["served"] += served
+        totals["unserved"] += unserved
+        totals["curtailed"] += curtailed
+        totals["charge_input"] += charge_input
+        totals["discharge_delivered"] += discharge_delivered
+        totals["storage_conversion_loss"] += conversion_loss
+        hourly_rows.append(
+            {
+                "hour": hour,
+                "load": hourly_load,
+                "generation": generation,
+                "served": served,
+                "unserved": unserved,
+                "curtailed": curtailed,
+                "storage_charge_input": charge_input,
+                "storage_discharge_delivered": discharge_delivered,
+                "storage_conversion_loss": conversion_loss,
+                "storage_state_start": start_state,
+                "storage_state_end": storage_state,
+            }
+        )
+
+    totals["storage_state_start"] = initial_storage_state
+    totals["storage_state_end"] = storage_state
+    totals["bus_balance_residual"] = (
+        totals["generation"]
+        + totals["discharge_delivered"]
+        - totals["served"]
+        - totals["charge_input"]
+        - totals["curtailed"]
+    )
+    totals["full_energy_balance_residual"] = (
+        totals["generation"]
+        + initial_storage_state
+        - totals["served"]
+        - totals["curtailed"]
+        - storage_state
+        - totals["storage_conversion_loss"]
+    )
+    return totals, hourly_rows
+
+
+def cyclic_dispatch_day(
+    generation_by_hour: list[float],
+    hourly_load: float,
+    storage_capacity: float,
+    roundtrip_efficiency: float,
+    tolerance_twh: float = 1e-12,
+    max_days: int = 10_000,
+) -> tuple[dict[str, float], list[dict[str, float]]]:
+    """Find a storage state whose end equals its start for the repeated synthetic day."""
+    state = storage_capacity * 0.5
+    for convergence_days in range(1, max_days + 1):
+        trial, _ = dispatch_day(
+            generation_by_hour,
+            hourly_load,
+            storage_capacity,
+            roundtrip_efficiency,
+            state,
+        )
+        end_state = trial["storage_state_end"]
+        if abs(end_state - state) <= tolerance_twh:
+            totals, hourly_rows = dispatch_day(
+                generation_by_hour,
+                hourly_load,
+                storage_capacity,
+                roundtrip_efficiency,
+                state,
+            )
+            totals["cyclic_convergence_days"] = float(convergence_days)
+            return totals, hourly_rows
+        state = end_state
+    raise RuntimeError("Representative-day storage state did not converge to a cyclic boundary")
+
+
 def dispatch_region(case: dict, region: dict, region_base_share: float) -> tuple[dict, list[dict]]:
     ordinary_claim = case["ordinary_demand_claim_twh_y"] * region_base_share
     gross_regional_clean = region["base_clean_generation_twh_y"] * case["clean_supply_multiplier"]
@@ -292,65 +415,47 @@ def dispatch_region(case: dict, region: dict, region_base_share: float) -> tuple
     target_twh = gate_twh(case["target_gtco2_y"]) * region["aether_allocation_share"]
     hourly_load = target_twh / 365.0 / 24.0
     storage_capacity = hourly_load * region["storage_hours"] * case["storage_multiplier"]
-    storage_state = storage_capacity * 0.5
-    discharge_eff = math.sqrt(region["roundtrip_efficiency"])
-    charge_eff = math.sqrt(region["roundtrip_efficiency"])
-
     solar_share, wind_share, firm_share = adjusted_mix(region, case["firm_share_bonus"])
     solar = solar_shape(region["solar_phase_shift"])
     wind = wind_shape(region["wind_phase_shift"], region["wind_strength"])
+    generation_by_hour = [
+        effective_aether_generation
+        / 365.0
+        / 24.0
+        * (solar_share * solar[hour] + wind_share * wind[hour] + firm_share)
+        for hour in HOURS
+    ]
+    day, raw_hourly = cyclic_dispatch_day(
+        generation_by_hour,
+        hourly_load,
+        storage_capacity,
+        region["roundtrip_efficiency"],
+    )
+    hourly_rows = [
+        {
+            "case": case["case"],
+            "region": region["region"],
+            "hour": int(hour["hour"]),
+            "load_gwh": round(hour["load"] * 1000.0, 3),
+            "effective_generation_gwh": round(hour["generation"] * 1000.0, 3),
+            "served_gwh": round(hour["served"] * 1000.0, 3),
+            "unserved_gwh": round(hour["unserved"] * 1000.0, 3),
+            "curtailed_gwh": round(hour["curtailed"] * 1000.0, 3),
+            "storage_charge_input_gwh": round(hour["storage_charge_input"] * 1000.0, 3),
+            "storage_discharge_delivered_gwh": round(hour["storage_discharge_delivered"] * 1000.0, 3),
+            "storage_conversion_loss_gwh": round(hour["storage_conversion_loss"] * 1000.0, 3),
+            "storage_state_start_gwh": round(hour["storage_state_start"] * 1000.0, 3),
+            "storage_state_end_gwh": round(hour["storage_state_end"] * 1000.0, 3),
+        }
+        for hour in raw_hourly
+    ]
 
-    hourly_rows: list[dict] = []
-    served_day = 0.0
-    unserved_day = 0.0
-    curtail_day = 0.0
-    generation_day = 0.0
-    storage_discharge_day = 0.0
-
-    for hour in HOURS:
-        profile = solar_share * solar[hour] + wind_share * wind[hour] + firm_share
-        generation = effective_aether_generation / 365.0 / 24.0 * profile
-        generation_day += generation
-        if generation >= hourly_load:
-            served = hourly_load
-            surplus = generation - hourly_load
-            charge_possible = max(0.0, storage_capacity - storage_state)
-            charge = min(surplus, charge_possible / charge_eff if charge_eff > 0 else 0.0)
-            storage_state += charge * charge_eff
-            curtail = surplus - charge
-            discharge = 0.0
-            unmet = 0.0
-        else:
-            deficit = hourly_load - generation
-            discharge = min(deficit, storage_state * discharge_eff)
-            storage_state -= discharge / discharge_eff if discharge_eff > 0 else 0.0
-            served = generation + discharge
-            unmet = max(0.0, hourly_load - served)
-            curtail = 0.0
-        served_day += served
-        unserved_day += unmet
-        curtail_day += curtail
-        storage_discharge_day += discharge
-        hourly_rows.append(
-            {
-                "case": case["case"],
-                "region": region["region"],
-                "hour": hour,
-                "load_gwh": round(hourly_load * 1000.0, 3),
-                "effective_generation_gwh": round(generation * 1000.0, 3),
-                "served_gwh": round(served * 1000.0, 3),
-                "unserved_gwh": round(unmet * 1000.0, 3),
-                "curtailed_gwh": round(curtail * 1000.0, 3),
-                "storage_state_gwh": round(storage_state * 1000.0, 3),
-            }
-        )
-
-    served_twh_y = served_day * 365.0
-    unserved_twh_y = unserved_day * 365.0
-    curtail_twh_y = curtail_day * 365.0
-    generation_twh_y = generation_day * 365.0
+    served_twh_y = day["served"] * 365.0
+    unserved_twh_y = day["unserved"] * 365.0
+    curtail_twh_y = day["curtailed"] * 365.0
+    generation_twh_y = day["generation"] * 365.0
     hourly_match = served_twh_y / target_twh if target_twh > 0 else 0.0
-    storage_discharge_twh_y = storage_discharge_day * 365.0
+    storage_discharge_twh_y = day["discharge_delivered"] * 365.0
     colocation_score = (
         0.35 * region["colocation_score"]
         + 0.30 * region["storage_corridor_score"]
@@ -374,6 +479,16 @@ def dispatch_region(case: dict, region: dict, region_base_share: float) -> tuple
         "unserved_load_twh_y": round(unserved_twh_y, 3),
         "curtailed_generation_twh_y": round(curtail_twh_y, 3),
         "storage_discharge_twh_y": round(storage_discharge_twh_y, 3),
+        "storage_charge_input_twh_y": round(day["charge_input"] * 365.0, 3),
+        "storage_conversion_loss_twh_y": round(day["storage_conversion_loss"] * 365.0, 3),
+        "storage_state_start_gwh": round(day["storage_state_start"] * 1000.0, 6),
+        "storage_state_end_gwh": round(day["storage_state_end"] * 1000.0, 6),
+        "storage_boundary_delta_gwh": round(
+            (day["storage_state_end"] - day["storage_state_start"]) * 1000.0, 9
+        ),
+        "energy_balance_residual_gwh_per_day": round(day["full_energy_balance_residual"] * 1000.0, 9),
+        "cyclic_convergence_days": int(day["cyclic_convergence_days"]),
+        "temporal_scope": "one synthetic 24-hour profile repeated 365 times; cyclic storage boundary; not an 8760-hour weather trace",
         "hourly_match_share": round(hourly_match, 6),
         "max_gtco2_y_supported": round(served_twh_y / gate_twh(1.0), 3),
         "storage_capacity_gwh": round(storage_capacity * 1000.0, 3),
@@ -437,6 +552,9 @@ def main() -> None:
         unserved = sum(row["unserved_load_twh_y"] for row in case_region_rows)
         curtail = sum(row["curtailed_generation_twh_y"] for row in case_region_rows)
         effective_generation = sum(row["effective_generation_twh_y"] for row in case_region_rows)
+        storage_charge = sum(row["storage_charge_input_twh_y"] for row in case_region_rows)
+        storage_discharge = sum(row["storage_discharge_twh_y"] for row in case_region_rows)
+        storage_loss = sum(row["storage_conversion_loss_twh_y"] for row in case_region_rows)
         max_gt = served / gate_twh(1.0)
         weighted_match = served / target_power if target_power > 0 else 0.0
         weighted_colocation = sum(row["colocation_score"] * row["served_load_twh_y"] for row in case_region_rows) / served if served > 0 else 0.0
@@ -450,12 +568,19 @@ def main() -> None:
                 "unserved_load_twh_y": round(unserved, 3),
                 "effective_generation_twh_y": round(effective_generation, 3),
                 "curtailed_generation_twh_y": round(curtail, 3),
+                "storage_charge_input_twh_y": round(storage_charge, 3),
+                "storage_discharge_delivered_twh_y": round(storage_discharge, 3),
+                "storage_conversion_loss_twh_y": round(storage_loss, 3),
+                "max_abs_storage_boundary_delta_gwh": max(
+                    abs(row["storage_boundary_delta_gwh"]) for row in case_region_rows
+                ),
                 "weighted_hourly_match_share": round(weighted_match, 6),
                 "max_gtco2_y_supported": round(max_gt, 3),
                 "passes_30gt": max_gt >= 30.0,
                 "passes_50gt": max_gt >= 50.0,
                 "passes_100gt": max_gt >= 100.0,
                 "weighted_colocation_score": round(weighted_colocation, 4),
+                "temporal_scope": "one synthetic 24-hour profile repeated 365 times; cyclic storage boundary; not an 8760-hour weather trace",
                 "paper_use_rule": case["paper_use_rule"],
             }
         )
@@ -475,6 +600,12 @@ def main() -> None:
             )
 
     summary = [
+        {
+            "metric": "temporal_scope",
+            "value": "one synthetic 24-hour profile repeated 365 times with cyclic storage",
+            "unit": "scope",
+            "interpretation": "screening boundary only; not a chronological 8760-hour weather and operations model",
+        },
         {
             "metric": "gate_100gt_twh_y",
             "value": round(gate_twh(100.0), 3),

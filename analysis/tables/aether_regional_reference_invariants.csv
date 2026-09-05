@@ -1,0 +1,29 @@
+invariant_id,passed,evidence
+ordinary_operations.physical_chain_ordered,True,credits <= positive net benefit; signed net <= retained <= stored <= delivered <= captured
+ordinary_operations.signed_net_identity,True,signed net retained = retained storage - project emissions; no zero floor
+ordinary_operations.co2_mass_balance,True,captured = transport loss + injection rejection + gross stored
+ordinary_operations.cash_reconciles,True,cash balance = distinct sources - distinct uses and is nonnegative
+ordinary_operations.electricity_allowance_reconciles,True,allowance = allocated + unallocated; requested = allocated + unserved
+ordinary_operations.cyclic_electric_storage_boundary,True,no electric storage subsystem; initial = final = 0
+ordinary_operations.resource_limits,True,energy use and gross capture remain within every deliverability cap
+automation_assisted.physical_chain_ordered,True,credits <= positive net benefit; signed net <= retained <= stored <= delivered <= captured
+automation_assisted.signed_net_identity,True,signed net retained = retained storage - project emissions; no zero floor
+automation_assisted.co2_mass_balance,True,captured = transport loss + injection rejection + gross stored
+automation_assisted.cash_reconciles,True,cash balance = distinct sources - distinct uses and is nonnegative
+automation_assisted.electricity_allowance_reconciles,True,allowance = allocated + unallocated; requested = allocated + unserved
+automation_assisted.cyclic_electric_storage_boundary,True,no electric storage subsystem; initial = final = 0
+automation_assisted.resource_limits,True,energy use and gross capture remain within every deliverability cap
+paired_cases.only_automation_fields_vary,True,"functional case whitelist=['automation_system_cost_usd_y', 'hourly_task_cost_usd', 'task_hours_by_class', 'uptime_fraction']; all other inputs shared"
+paired_cases.automation_not_worse_under_shared_physical_limits,True,higher assumed uptime/lower task hours cannot reduce output under shared physicals
+ordinary_operations.electricity_delivery_half.nonincreasing_output,True,lower resource/funding input cannot increase gross output
+automation_assisted.electricity_delivery_half.nonincreasing_output,True,lower resource/funding input cannot increase gross output
+ordinary_operations.thermal_delivery_half.nonincreasing_output,True,lower resource/funding input cannot increase gross output
+automation_assisted.thermal_delivery_half.nonincreasing_output,True,lower resource/funding input cannot increase gross output
+ordinary_operations.storage_acceptance_half.nonincreasing_output,True,lower resource/funding input cannot increase gross output
+automation_assisted.storage_acceptance_half.nonincreasing_output,True,lower resource/funding input cannot increase gross output
+ordinary_operations.shrinking_current_load_revenue.nonincreasing_output,True,lower resource/funding input cannot increase gross output
+automation_assisted.shrinking_current_load_revenue.nonincreasing_output,True,lower resource/funding input cannot increase gross output
+ordinary_operations.legacy_drawdown_funding_zero.nonincreasing_output,True,lower resource/funding input cannot increase gross output
+automation_assisted.legacy_drawdown_funding_zero.nonincreasing_output,True,lower resource/funding input cannot increase gross output
+ordinary_operations.verification_fail_closed,True,independent-verification failure stops operation and credit issuance
+automation_assisted.verification_fail_closed,True,independent-verification failure stops operation and credit issuance

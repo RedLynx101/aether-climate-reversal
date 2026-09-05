@@ -276,8 +276,18 @@ def run_samples(parameters: list[Parameter]) -> tuple[list[dict[str, object]], l
                 "samples": SAMPLES_PER_FAMILY,
                 "shift_strength": scenario.shift_strength,
                 "shifted_parameters": ";".join(sorted(scenario.shifts)),
+                "marginal_treatment": (
+                    "unchanged triangular marginals"
+                    if not scenario.shifts
+                    else "marginals shifted toward named favorable or adverse endpoints"
+                ),
+                "dependence_treatment": (
+                    "independent parameter draws"
+                    if not scenario.shifts
+                    else "shared family shock plus parameter-specific noise"
+                ),
                 "description": scenario.description,
-                "paper_use_rule": "correlated scenario-family screen; not calibrated probability forecast",
+                "paper_use_rule": "hand-set scenario-family sensitivity; shifted families change both marginals and dependence, so deltas are not correlation-only effects or calibrated probabilities",
             }
         )
         for sample_index in range(1, SAMPLES_PER_FAMILY + 1):
@@ -292,6 +302,8 @@ def run_samples(parameters: list[Parameter]) -> tuple[list[dict[str, object]], l
                     "scenario_family": scenario.key,
                     "scenario_label": scenario.label,
                     "common_family_shock": common_shock,
+                    "marginals_changed_from_reference": 1.0 if scenario.shifts else 0.0,
+                    "dependence_introduced": 1.0 if scenario.shifts else 0.0,
                     **sample,
                     **evaluated,
                 }
@@ -352,7 +364,9 @@ def summarize(rows: list[dict[str, object]], scenarios: list[dict[str, object]])
                 "scenario_family": key,
                 "label": labels[key],
                 **{k: f"{v:.8f}" if isinstance(v, float) else v for k, v in values.items()},
-                "paper_use_rule": "scenario-family sensitivity only; do not read as calibrated probability",
+                "marginals_changed_from_reference": "yes" if scenario["shift_strength"] else "no",
+                "dependence_introduced": "yes" if scenario["shift_strength"] else "no",
+                "paper_use_rule": "scenario-family sensitivity only; shifted-family differences combine changed marginals with dependence and are not calibrated probabilities",
             }
         )
         if key != "independent_reference":
@@ -366,10 +380,54 @@ def summarize(rows: list[dict[str, object]], scenarios: list[dict[str, object]])
                     "delta_strong_reversal_probability_vs_independent": f"{float(values['strong_reversal_probability']) - float(reference['strong_reversal_probability']):.8f}",
                     "delta_median_durable_credit_gtco2_y_vs_independent": f"{float(values['durable_credit_p50']) - float(reference['durable_credit_p50']):.8f}",
                     "delta_median_net_gtco2_y_vs_independent": f"{float(values['net_after_emissions_rebound_p50']) - float(reference['net_after_emissions_rebound_p50']):.8f}",
-                    "interpretation": "directional effect of moving correlated assumptions together rather than independently",
+                    "comparison_scope": "combined marginal-shift and dependence sensitivity",
+                    "marginals_changed": "yes",
+                    "dependence_changed": "yes",
+                    "correlation_only_effect_identified": "no",
+                    "interpretation": "The family changes parameter marginals and introduces shared dependence. Its delta from the independent reference cannot be attributed to correlation alone.",
                 }
             )
     return summary_rows, effect_rows
+
+
+def marginal_diagnostics(
+    rows: list[dict[str, object]],
+    scenarios: list[dict[str, object]],
+    parameters: list[Parameter],
+) -> list[dict[str, object]]:
+    """Expose scenario-level marginal shifts instead of hiding them behind outcome deltas."""
+    by_scenario = {
+        str(scenario["scenario_family"]): [
+            row for row in rows if row["scenario_family"] == scenario["scenario_family"]
+        ]
+        for scenario in scenarios
+    }
+    reference_rows = by_scenario["independent_reference"]
+    reference_means = {
+        parameter.field: statistics.fmean(float(row[parameter.field]) for row in reference_rows)
+        for parameter in parameters
+    }
+    diagnostics: list[dict[str, object]] = []
+    for scenario in scenarios:
+        key = str(scenario["scenario_family"])
+        scenario_rows = by_scenario[key]
+        shifted = set(str(scenario["shifted_parameters"]).split(";")) - {""}
+        for parameter in parameters:
+            values = [float(row[parameter.field]) for row in scenario_rows]
+            mean = statistics.fmean(values)
+            diagnostics.append(
+                {
+                    "scenario_family": key,
+                    "parameter": parameter.field,
+                    "parameter_was_shifted": "yes" if parameter.field in shifted else "no",
+                    "sample_mean": f"{mean:.10f}",
+                    "independent_reference_sample_mean": f"{reference_means[parameter.field]:.10f}",
+                    "mean_delta_vs_independent_reference": f"{mean - reference_means[parameter.field]:.10f}",
+                    "unit": parameter.unit,
+                    "interpretation": "Empirical marginal diagnostic only; sampling variation affects unshifted parameters, while endpoint shifting intentionally changes shifted-parameter marginals.",
+                }
+            )
+    return diagnostics
 
 
 def write_csv(path: Path, rows: list[dict[str, object]]) -> None:
@@ -386,10 +444,12 @@ def main() -> None:
     parameters = read_parameters()
     sample_rows, scenario_rows = run_samples(parameters)
     summary_rows, effect_rows = summarize(sample_rows, scenario_rows)
+    marginal_rows = marginal_diagnostics(sample_rows, scenario_rows, parameters)
     write_csv(TABLE_DIR / "aether_correlated_uncertainty_scenarios.csv", scenario_rows)
     write_csv(TABLE_DIR / "aether_correlated_uncertainty_samples.csv", sample_rows)
     write_csv(TABLE_DIR / "aether_correlated_uncertainty_summary.csv", summary_rows)
     write_csv(TABLE_DIR / "aether_correlated_uncertainty_family_effects.csv", effect_rows)
+    write_csv(TABLE_DIR / "aether_correlated_uncertainty_marginal_diagnostics.csv", marginal_rows)
 
 
 if __name__ == "__main__":

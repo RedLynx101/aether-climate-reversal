@@ -1,39 +1,30 @@
-# AETHER Submission Checklist
+# AETHER review and submission checklist
 
-Last updated: 2026-08-10
+**Revision:** v0.46, September 2026
 
-Use this before sending AETHER to a scientist, advisor, or potential collaborator.
+This checklist prevents a clean package from being mistaken for a validated one. Counts in earlier v0.45 gate ledgers are historical engineering checks, not current scientific readiness evidence.
 
-## Current Package
+## Before sharing for bounded expert feedback
 
-- Review manuscript: `manuscript/submission/aether_submission_manuscript.md`
-- Package manifest: `manuscript/submission/aether_submission_manifest.md`
-- Figure inventory: `analysis/tables/aether_figure_inventory.csv`
-- Readiness gates: `analysis/tables/aether_submission_readiness_gates.csv`
-- Style audit: `analysis/tables/aether_manuscript_style_audit.csv`
+- [x] Use the v0.46 principal paper, technical supplement, and correction notice.
+- [x] State Noah Hicks's authorship and the internal, non-peer-reviewed status.
+- [x] State that gross, durable, creditable, and net-climate layers differ.
+- [x] Label the corrected dispatch result as synthetic representative-day work, not 8760-hour evidence.
+- [x] Quarantine the first RCMIP/Joos absolute-output method; do not call it a hybrid baseline until reservoir initialization is resolved.
+- [x] Label the integrated model as partially coupled screening and Monte Carlo shares as non-probabilistic scenario behavior.
+- [ ] Package only the relevant code, input data, exact command, checksums, and expected outputs for the requested review question.
+- [ ] Ask the reviewer a finite falsification question rather than for endorsement of the whole program.
 
-## Gate Summary
+## Before a scientific or policy submission
 
-| Gate | Status | Current evidence |
-| --- | --- | --- |
-| S01_citation_coverage | pass | 83 cited keys; 0 missing BibTeX entries |
-| S02_figure_resolution | pass | 41 paper figure references; 0 missing files |
-| S03_equation_reproducibility | pass | 10 unit checks; 0 failures |
-| S04_claim_evidence | pass | 14 claim-evidence rows |
-| S05_climate_model_publication_grade | fail | Forcing-driven FAIR diagnostic exists, but species-emissions handoff still blocks publication-grade climate claims. |
-| S06_species_emissions_inputs | fail | 7 failing species-emissions gates out of 10 |
-| S07_clean_power_delivery | partial | 7 clean-power deliverability summary rows plus regional dispatch screen |
-| S08_storage_mrv_lifecycle | partial | Route-level storage, lifecycle, MRV, and credit-integrity screens exist. |
-| S09_robotics_field_productivity | partial | Production verification and field-productivity distribution screens exist, but multipliers remain provisional. |
-| S10_adversarial_review | partial | 10 falsification-test rows in the adversarial review packet |
-| S11_style_and_duplicate_scan | pass | old repeated FAIR phrase count: 0; editorial placeholder hits: 0 |
-| S12_submission_format | partial | Generated Markdown submission package exists; final journal format is not selected. |
+- [ ] Select the target venue and required citation/rendering format.
+- [ ] Complete independent carbon-cycle review and a paired species-emissions climate workflow with stated initialization and uncertainty.
+- [ ] Complete a reproducible 8760-hour regional electricity-and-heat study with cyclic storage, transmission, outages, maintenance, ordinary demand, and additionality.
+- [ ] Complete a named basin storage study covering injection rate, pressure, permitting, MRV, financial responsibility, and long-term liability.
+- [ ] Replace scalar lifecycle/MRV placeholders with pathway-specific evidence and state the climate-accounting scope.
+- [ ] Validate any claimed automation advantage against measured or independently reviewed productivity evidence.
+- [ ] Build and stress-test the public-carbon-service stock-flow model, including legacy drawdown, reversal reserves, and declining fee revenue.
+- [ ] Establish one jointly compatible scenario contract across power, process, storage, lifecycle, MRV, capital, and automation inputs.
+- [ ] Obtain external review appropriate to each specialist domain and record the resulting claim changes.
 
-## Minimum Before Formal Submission
-
-1. Pick the target venue or advisor-facing format.
-2. Render citations through the required CSL, Pandoc, or LaTeX pipeline.
-3. Add final numbered captions for all paper figures.
-4. Replace the climate-response proxy with species-emissions FAIR-class or Earth-system modeling.
-5. Upgrade field-productivity, storage, lifecycle, MRV, and regional dispatch assumptions from screens to source-backed distributions.
-6. Run adversarial review against the P0 falsification tests and narrow the claim where needed.
+Until these checks are met, AETHER is best shared as conditional feasibility research and a request for criticism, not as a deployment-ready plan or a forecast.

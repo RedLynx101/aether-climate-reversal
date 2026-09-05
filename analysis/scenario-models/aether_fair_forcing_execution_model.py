@@ -4,6 +4,8 @@ import csv
 from collections import defaultdict
 from pathlib import Path
 
+from aether_carbon_cycle_model import PUBLICATION_METADATA
+
 import numpy as np
 from fair import FAIR
 from fair.interface import fill, initialise
@@ -159,9 +161,13 @@ for scenario_id in scenario_ids:
             fair_temp = float(surface[idx])
             emulator_temp = f(row, "surface_temperature_anomaly_c")
             pathway_rows.append({
+                **PUBLICATION_METADATA,
                 "scenario_id": scenario_id,
                 "case": row["case"],
                 "display_name": row["display_name"],
+                "emissions_policy": row["emissions_policy"],
+                "matched_no_aether_case": row["matched_no_aether_case"],
+                "carbon_baseline_id": row["carbon_baseline_id"],
                 "forcing_policy": row["forcing_policy"],
                 "forcing_policy_name": row["forcing_policy_name"],
                 "config": config_name,
@@ -175,7 +181,7 @@ for scenario_id in scenario_ids:
                 "non_co2_positive_forcing_w_m2": row["non_co2_positive_forcing_w_m2"],
                 "aerosol_forcing_w_m2": row["aerosol_forcing_w_m2"],
                 "total_erf_w_m2": row["total_erf_w_m2"],
-                "run_caveat": "Forcing-driven FAIR 2.2.4 diagnostic run using aggregate non-CO2 and aerosol forcing; not a full species-emissions FAIR run.",
+                "run_caveat": "Forcing-driven FAIR diagnostic using conditional hybrid carbon inputs and aggregate forcing; not a full species-emissions run, historical calibration, or carbon-cycle validation. Absolute temperature is not a validated prediction.",
             })
         year_to_idx = {int(row["year"]): idx for idx, row in enumerate(source_rows)}
         idx_2026 = year_to_idx[2026]
@@ -184,9 +190,13 @@ for scenario_id in scenario_ids:
         peak_idx = int(np.argmax(surface))
         min_idx = int(np.argmin(surface))
         summary_rows.append({
+            **PUBLICATION_METADATA,
             "scenario_id": scenario_id,
             "case": first["case"],
             "display_name": first["display_name"],
+            "emissions_policy": first["emissions_policy"],
+            "matched_no_aether_case": first["matched_no_aether_case"],
+            "carbon_baseline_id": first["carbon_baseline_id"],
             "forcing_policy": first["forcing_policy"],
             "forcing_policy_name": first["forcing_policy_name"],
             "config": config_name,
@@ -203,9 +213,10 @@ for scenario_id in scenario_ids:
             "co2_ppm_2100": source_rows[idx_2100]["co2_ppm_reduced_form"],
             "total_erf_2100_w_m2": source_rows[idx_2100]["total_erf_w_m2"],
             "config_interpretation": config["interpretation"],
-            "publication_use": "Diagnostic FAIR package execution; use as a bridge, not a full species-emissions FAIR result.",
+            "publication_use": "Forcing-mode diagnostic only; does not validate upstream carbon cycle or absolute temperature. Matched controls isolate AETHER conditional on shared policy and response assumptions.",
         })
         delta_rows.append({
+            **PUBLICATION_METADATA,
             "scenario_id": scenario_id,
             "case": first["case"],
             "forcing_policy": first["forcing_policy"],
@@ -214,6 +225,15 @@ for scenario_id in scenario_ids:
             "absolute_delta_2100_c": round(abs(float(surface[idx_2100]) - f(source_rows[idx_2100], "surface_temperature_anomaly_c")), 6),
             "interpretation": "Positive means the FAIR forcing execution is warmer than the AETHER screening emulator in 2100.",
         })
+
+by_path_key = {(row["case"], row["forcing_policy"], row["config"], row["year"]): row for row in pathway_rows}
+for row in pathway_rows:
+    control = by_path_key[(row["matched_no_aether_case"], row["forcing_policy"], row["config"], row["year"])]
+    row["avoided_temperature_vs_matched_no_aether_c"] = round(float(control["fair_surface_temperature_c"]) - float(row["fair_surface_temperature_c"]), 6)
+by_summary_key = {(row["case"], row["forcing_policy"], row["config"]): row for row in summary_rows}
+for row in summary_rows:
+    control = by_summary_key[(row["matched_no_aether_case"], row["forcing_policy"], row["config"])]
+    row["avoided_temperature_vs_matched_no_aether_2100_c"] = round(float(control["fair_temperature_2100_c"]) - float(row["fair_temperature_2100_c"]), 6)
 
 config_rows = []
 for config_name, config in CONFIGS.items():
@@ -229,9 +249,14 @@ for config_name, config in CONFIGS.items():
     })
 
 pathway_fields = [
+    *PUBLICATION_METADATA,
     "scenario_id",
     "case",
     "display_name",
+    "emissions_policy",
+    "matched_no_aether_case",
+    "carbon_baseline_id",
+    "avoided_temperature_vs_matched_no_aether_c",
     "forcing_policy",
     "forcing_policy_name",
     "config",
@@ -248,9 +273,14 @@ pathway_fields = [
     "run_caveat",
 ]
 summary_fields = [
+    *PUBLICATION_METADATA,
     "scenario_id",
     "case",
     "display_name",
+    "emissions_policy",
+    "matched_no_aether_case",
+    "carbon_baseline_id",
+    "avoided_temperature_vs_matched_no_aether_2100_c",
     "forcing_policy",
     "forcing_policy_name",
     "config",
@@ -280,6 +310,7 @@ config_fields = [
     "interpretation",
 ]
 delta_fields = [
+    *PUBLICATION_METADATA,
     "scenario_id",
     "case",
     "forcing_policy",

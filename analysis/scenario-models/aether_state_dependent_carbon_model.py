@@ -5,12 +5,14 @@ import math
 from dataclasses import dataclass
 from pathlib import Path
 
+from aether_carbon_cycle_model import BASELINE_ID, BASELINE_METHOD, PUBLICATION_METADATA, REFERENCE_BASELINE, START_CO2_PPM
+
 
 ROOT = Path(__file__).resolve().parents[2]
 TABLE_DIR = ROOT / "analysis" / "tables"
 
 GTCO2_PER_PPM = 7.8
-INITIAL_PPM_2025 = 428.53
+INITIAL_PPM_2025 = START_CO2_PPM
 START_YEAR = 2026
 END_YEAR = 2100
 
@@ -137,32 +139,36 @@ def simulate_case(base_case: str, rows: list[dict[str, str]], eff_case: Effectiv
         year = int(row["year"])
         prior_year = year - 1
         prior_burden = atmospheric_burden(pulses, prior_year) if pulses else 0.0
-        prior_ppm = INITIAL_PPM_2025 + prior_burden / GTCO2_PER_PPM
+        prior_ppm = REFERENCE_BASELINE[prior_year]["co2_ppm"] + prior_burden / GTCO2_PER_PPM
+        reference = REFERENCE_BASELINE[year]
 
         baseline = float(row["baseline_emissions_gtco2_y"])
-        induced = float(row["induced_or_delayed_emissions_gtco2_y"])
-        positive = baseline + induced
+        rebound_fraction = float(row["rebound_fraction_of_removal"])
         planned_gross = float(row["planned_gross_aether_removal_gtco2_y"])
         eff = effectiveness(eff_case, prior_ppm, cumulative_gross, cumulative_positive)
         desired_effective_removal = planned_gross * eff
         actual_effective_removal = desired_effective_removal
         actual_gross = planned_gross
 
-        preliminary_pulse = positive - desired_effective_removal
+        preliminary_pulse = baseline + rebound_fraction * planned_gross - desired_effective_removal - reference["emissions_gtco2_y"]
         preliminary_burden = atmospheric_burden(pulses + [(year, preliminary_pulse)], year)
-        preliminary_ppm = INITIAL_PPM_2025 + preliminary_burden / GTCO2_PER_PPM
+        preliminary_ppm = reference["co2_ppm"] + preliminary_burden / GTCO2_PER_PPM
         throttled = False
         floor_gap = eff_case.management_floor_ppm - preliminary_ppm
-        if floor_gap > 0 and desired_effective_removal > 0:
+        if floor_gap > 0 and desired_effective_removal > 0 and eff > rebound_fraction:
             required_pulse_increase = floor_gap * GTCO2_PER_PPM
-            actual_effective_removal = max(0.0, desired_effective_removal - required_pulse_increase)
-            actual_gross = actual_effective_removal / eff if eff > 0 else 0.0
+            actual_gross = max(0.0, planned_gross - required_pulse_increase / (eff - rebound_fraction))
+            actual_effective_removal = actual_gross * eff
             throttled = actual_gross < planned_gross - 1e-9
 
+        induced = rebound_fraction * actual_gross
+        positive = baseline + induced
         direct_net_pulse = positive - actual_effective_removal
-        pulses.append((year, direct_net_pulse))
+        anomaly_pulse = direct_net_pulse - reference["emissions_gtco2_y"]
+        pulses.append((year, anomaly_pulse))
         burden = atmospheric_burden(pulses, year)
-        ppm = INITIAL_PPM_2025 + burden / GTCO2_PER_PPM
+        ppm = reference["co2_ppm"] + burden / GTCO2_PER_PPM
+        atmosphere_only_ppm = reference["co2_ppm"] + sum(pulse for _, pulse in pulses) / GTCO2_PER_PPM
 
         cumulative_positive += positive
         cumulative_planned_gross += planned_gross
@@ -173,10 +179,18 @@ def simulate_case(base_case: str, rows: list[dict[str, str]], eff_case: Effectiv
         output.append(
             {
                 "base_case": base_case,
+                **PUBLICATION_METADATA,
                 "base_display_name": display_name,
+                "emissions_policy": row["emissions_policy"],
+                "matched_no_aether_case": row["matched_no_aether_case"],
+                "carbon_baseline_id": BASELINE_ID,
+                "carbon_baseline_method": BASELINE_METHOD,
                 "effectiveness_case": eff_case.key,
                 "effectiveness_display_name": eff_case.name,
                 "year": year,
+                "reference_co2_ppm": f(reference["co2_ppm"]),
+                "reference_emissions_gtco2_y": f(reference["emissions_gtco2_y"]),
+                "future_emissions_anomaly_vs_reference_gtco2_y": f(anomaly_pulse),
                 "baseline_emissions_gtco2_y": f(baseline, 6),
                 "induced_or_delayed_emissions_gtco2_y": f(induced, 6),
                 "positive_emissions_gtco2_y": f(positive, 6),
@@ -186,8 +200,8 @@ def simulate_case(base_case: str, rows: list[dict[str, str]], eff_case: Effectiv
                 "effective_removal_gtco2_y": f(actual_effective_removal, 6),
                 "direct_net_pulse_gtco2_y": f(direct_net_pulse, 6),
                 "atmospheric_co2_ppm_reduced_form": f(ppm, 6),
-                "atmosphere_only_ppm_same_direct_net": f(INITIAL_PPM_2025 + cumulative_direct_net / GTCO2_PER_PPM, 6),
-                "compensation_vs_atmosphere_only_ppm": f(ppm - (INITIAL_PPM_2025 + cumulative_direct_net / GTCO2_PER_PPM), 6),
+                "atmosphere_only_ppm_same_direct_net": f(atmosphere_only_ppm, 6),
+                "compensation_vs_atmosphere_only_ppm": f(ppm - atmosphere_only_ppm, 6),
                 "management_floor_ppm": f(eff_case.management_floor_ppm, 6),
                 "floor_throttled": "true" if throttled else "false",
                 "cumulative_positive_emissions_gtco2": f(cumulative_positive, 6),
@@ -235,9 +249,15 @@ def build_summary(pathway_rows: list[dict[str, object]]) -> list[dict[str, objec
         summary.append(
             {
                 "base_case": base_case,
+                **PUBLICATION_METADATA,
                 "base_display_name": str(final["base_display_name"]),
                 "effectiveness_case": eff_case,
                 "effectiveness_display_name": str(final["effectiveness_display_name"]),
+                "emissions_policy": final["emissions_policy"],
+                "matched_no_aether_case": final["matched_no_aether_case"],
+                "carbon_baseline_id": BASELINE_ID,
+                "carbon_baseline_method": BASELINE_METHOD,
+                "co2_difference_vs_matched_no_aether_2100_ppm": final["co2_difference_vs_matched_no_aether_ppm"],
                 "co2_ppm_2046": f(float(by_year[2046]["atmospheric_co2_ppm_reduced_form"]), 6),
                 "co2_ppm_2050": f(float(by_year[2050]["atmospheric_co2_ppm_reduced_form"]), 6),
                 "co2_ppm_2100": f(float(by_year[2100]["atmospheric_co2_ppm_reduced_form"]), 6),
@@ -249,7 +269,7 @@ def build_summary(pathway_rows: list[dict[str, object]]) -> list[dict[str, objec
                 "actual_to_planned_gross_ratio": f(cumulative_gross / cumulative_planned if cumulative_planned > 0 else 0.0, 6),
                 "effective_to_actual_gross_ratio": f(cumulative_effective / cumulative_gross if cumulative_gross > 0 else 0.0, 6),
                 "ppm_penalty_vs_fixed_current_2100": f(ppm_penalty, 6),
-                "paper_use_rule": "screening only; replace with FAIR-class or Earth-system modeling before publication-grade climate claims",
+                "paper_use_rule": "quarantined off-reference diagnostic; requires internally consistent historically initialized emissions-driven validation, not forcing-mode agreement",
             }
         )
     return summary
@@ -261,6 +281,11 @@ def main() -> None:
     for base_case, rows in sorted(base_rows.items()):
         for eff_case in EFFECTIVENESS_CASES:
             pathway_rows.extend(simulate_case(base_case, rows, eff_case))
+
+    by_key = {(row["base_case"], row["effectiveness_case"], row["year"]): row for row in pathway_rows}
+    for row in pathway_rows:
+        control = by_key[(row["matched_no_aether_case"], row["effectiveness_case"], row["year"])]
+        row["co2_difference_vs_matched_no_aether_ppm"] = f(float(row["atmospheric_co2_ppm_reduced_form"]) - float(control["atmospheric_co2_ppm_reduced_form"]))
 
     case_rows = [
         {

@@ -7,7 +7,7 @@ This directory contains the production website for [aetherclimate.com](https://a
 ## Routes
 
 - `/` - canonical project introduction
-- `/evidence` - submission gates, uncertainty results, model figures, and source-table links
+- `/evidence` - paired regional case, carbon/resource/funding ledgers, three current figures, and explicit research limitations
 - `/model` - permanent compatibility redirect to `/evidence`
 - `/living-atmosphere` - permanent compatibility redirect to the canonical introduction
 
@@ -32,7 +32,9 @@ Native Next.js is the only supported build and deployment target. `npm test` bui
 - `public/favicon.svg` and `public/brand/aether-mark.svg` contain the AETHER orbit mark.
 - `public/art/` contains original conceptual project art.
 - `public/charts/` contains public copies of selected generated research figures.
-- `public/papers/` contains the current proposal and working-paper PDFs.
+- `public/papers/` contains the v0.46 working paper and technical supplement. Earlier public PDF URLs redirect to the corrected working paper.
+
+`app/evidence.generated.json` and the three `regional-*.png` figures come from `../scripts/export_public_evidence.py`. Do not hand-edit their numbers. Regenerate the regional model, run that exporter, then its `--check` mode. PDF sources, figures and artifacts are checked by `../scripts/build_current_publication.py --check`. Historical charts retained in Git are not current public evidence.
 
 Concept art is not evidence of deployed infrastructure. The future video/channel plan remains at `../docs/AETHER_VIDEO_AND_CHANNEL_PLAN.md`; no nonexistent video appears on the site.
 

@@ -1,13 +1,35 @@
 ﻿from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+# This v0.45 builder mutates the canonical paper and obsolete submission
+# metadata. Keep the implementation for historical recovery only; an explicit
+# flag is required before any of its top-level legacy mutations can run.
+CANONICAL_ROOT = Path(__file__).resolve().parents[1]
+if "--legacy-v0-45-rebuild" not in sys.argv[1:]:
+    raise SystemExit(
+        "Retired v0.45 builder. Use `python scripts/build_current_publication.py` "
+        "or `--check`; historical recovery requires --legacy-v0-45-rebuild."
+    )
+try:
+    legacy_target = Path(sys.argv[sys.argv.index("--legacy-output-dir") + 1]).resolve()
+except (ValueError, IndexError):
+    raise SystemExit(
+        "Legacy recovery requires --legacy-output-dir PATH naming a separate, "
+        "complete isolated AETHER checkout. The active checkout is never a legacy target."
+    )
+if legacy_target == CANONICAL_ROOT or not (legacy_target / "pyproject.toml").is_file():
+    raise SystemExit("--legacy-output-dir must be a complete AETHER checkout distinct from the active checkout.")
+LEGACY_ROOT = legacy_target
+
 import csv
 import re
 import struct
 from collections import Counter
-from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = LEGACY_ROOT
 PAPER_PATH = ROOT / "manuscript" / "paper" / "aether_scientific_paper.md"
 SUBMISSION_CHECKLIST_PATH = ROOT / "manuscript" / "review" / "aether_submission_checklist.md"
 SUBMISSION_DIR = ROOT / "manuscript" / "submission"
