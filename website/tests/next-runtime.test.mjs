@@ -89,7 +89,7 @@ test.after(() => {
 
 test("serves the Vercel production story and canonical redirect", async () => {
   const routes = [
-    ["/", "The atmosphere is infrastructure"],
+    ["/", "The atmosphere is shared"],
     ["/evidence", "Show the system"],
   ];
 
@@ -102,11 +102,10 @@ test("serves the Vercel production story and canonical redirect", async () => {
     assert.match(html, /AETHER/);
   }
 
-  // The evidence page must keep publishing the failing gates; a silent drop
-  // would turn the ledger into a selective highlight reel.
+  // Corrections and unresolved scientific boundaries must remain visible.
   const evidence = await requestSite("/evidence");
   const evidenceHtml = evidence.body.toString("utf8");
-  for (const expected of ["Publication-grade climate modeling", "Species-level emissions inputs"]) {
+  for (const expected of ["Absolute climate projections", "quarantined", "NOT A PROBABILITY", "NOT FULLY COUPLED", "758.7", "803.3"]) {
     assert.match(evidenceHtml, new RegExp(expected, "i"), expected);
   }
 
@@ -114,6 +113,8 @@ test("serves the Vercel production story and canonical redirect", async () => {
   for (const [pathname, destination] of [
     ["/model", "/evidence"],
     ["/living-atmosphere", "/"],
+    ["/papers/AETHER_v0.45_working_paper.pdf", "/papers/AETHER_v0.46_working_paper.pdf"],
+    ["/papers/AETHER_Conditional_Feasibility_Proposal.pdf", "/papers/AETHER_v0.46_working_paper.pdf"],
   ]) {
     const response = await requestSite(pathname);
     assert.equal(response.status, 308, pathname);
@@ -125,15 +126,19 @@ test("serves the Vercel production story and canonical redirect", async () => {
     assert.equal(response.status, 404, pathname);
   }
 
-  const paper = await requestSite("/papers/AETHER_v0.45_working_paper.pdf");
+  const paper = await requestSite("/papers/AETHER_v0.46_working_paper.pdf");
   assert.equal(paper.status, 200);
   assert.match(paper.headers["content-type"] ?? "", /^application\/pdf\b/i);
-  assert.ok(paper.body.length > 3_000_000, "working paper PDF should not be empty");
+  assert.equal(paper.body.subarray(0, 5).toString(), "%PDF-");
+  assert.ok(paper.body.length > 100_000, "current paper includes embedded fonts and figures");
+  const supplement = await requestSite("/papers/AETHER_v0.46_technical_supplement.pdf");
+  assert.equal(supplement.status, 200);
+  assert.equal(supplement.body.subarray(0, 5).toString(), "%PDF-");
 
   for (const pathname of [
-    "/charts/integrated-capacity-paths-2026-2046.png",
-    "/charts/feasibility-gate-scorecard.png",
-    "/charts/robotics-field-productivity-gate.png",
+    "/charts/regional-carbon-ledger.png",
+    "/charts/regional-resource-limits.png",
+    "/charts/regional-funding-ledger.png",
   ]) {
     const chart = await requestSite(pathname);
     assert.equal(chart.status, 200, pathname);

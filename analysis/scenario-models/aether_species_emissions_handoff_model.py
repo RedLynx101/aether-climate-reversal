@@ -4,6 +4,8 @@ import csv
 from collections import Counter, defaultdict
 from pathlib import Path
 
+from aether_carbon_cycle_model import PUBLICATION_METADATA
+
 
 ROOT = Path(__file__).resolve().parents[2]
 TABLE_DIR = ROOT / "analysis" / "tables"
@@ -185,7 +187,7 @@ SPECIES_REQUIREMENTS = [
         "proxy_units": "deg C screening initial state",
         "current_status": "provisional_proxy",
         "priority": "P0",
-        "publication_gap": "The 2026 initialization is a screening state, not a full historical reconstruction.",
+        "publication_gap": "CO2 history now comes from published RCMIP concentrations, but non-CO2 history and thermal state remain synthetic/unvalidated; historical carbon reservoirs are not calibrated.",
         "next_dataset": "historical emissions, concentration, forcing, and observed-temperature spin-up through 2026",
     },
     {
@@ -203,6 +205,7 @@ SPECIES_REQUIREMENTS = [
 
 
 PUBLICATION_GATE_DEFS = [
+    ("G0_carbon_baseline_response", PUBLICATION_METADATA["failure_reason"], "fail", "P0"),
     ("G1_CO2_split", "Separate fossil/industrial CO2, land-use CO2, and CDR removals before a full FAIR run.", "partial", "P0"),
     ("G2_CDR_methods", "Split CDR by method, durability, leakage, MRV, and lifecycle boundary.", "partial", "P0"),
     ("G3_CH4_N2O", "Replace aggregate non-CO2 forcing with CH4 and N2O trajectories.", "fail", "P0"),
@@ -266,8 +269,12 @@ for deck_row in deck_rows:
     for requirement in SPECIES_REQUIREMENTS:
         status = requirement["current_status"]
         pathway_rows.append({
+            **PUBLICATION_METADATA,
             "scenario_id": deck_row["scenario_id"],
             "case": deck_row["case"],
+            "emissions_policy": deck_row["emissions_policy"],
+            "matched_no_aether_case": deck_row["matched_no_aether_case"],
+            "carbon_baseline_id": deck_row["carbon_baseline_id"],
             "forcing_policy": deck_row["forcing_policy"],
             "year": deck_row["year"],
             "species_group": requirement["species_group"],
@@ -298,8 +305,12 @@ for scenario_id, rows in sorted(rows_by_scenario.items()):
     rows = sorted(rows, key=lambda row: int(row["year"]))
     row_2100 = rows[-1]
     summary_rows.append({
+        **PUBLICATION_METADATA,
         "scenario_id": scenario_id,
         "case": row_2100["case"],
+        "emissions_policy": row_2100["emissions_policy"],
+        "matched_no_aether_case": row_2100["matched_no_aether_case"],
+        "carbon_baseline_id": row_2100["carbon_baseline_id"],
         "forcing_policy": row_2100["forcing_policy"],
         "year_count": len(rows),
         "species_group_count": len(SPECIES_REQUIREMENTS),
@@ -329,8 +340,12 @@ for gate_id, test, status, priority in PUBLICATION_GATE_DEFS:
     })
 
 write_csv(PATHWAYS, pathway_rows, [
+    *PUBLICATION_METADATA,
     "scenario_id",
     "case",
+    "emissions_policy",
+    "matched_no_aether_case",
+    "carbon_baseline_id",
     "forcing_policy",
     "year",
     "species_group",
@@ -358,8 +373,12 @@ write_csv(REQUIREMENTS, requirement_rows, [
     "paper_use_rule",
 ])
 write_csv(SUMMARY, summary_rows, [
+    *PUBLICATION_METADATA,
     "scenario_id",
     "case",
+    "emissions_policy",
+    "matched_no_aether_case",
+    "carbon_baseline_id",
     "forcing_policy",
     "year_count",
     "species_group_count",

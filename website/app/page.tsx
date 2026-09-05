@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
 import { Arrow, EvidenceBadge, ReadLinks, SiteFooter, SiteNav } from "./components";
-import { atmosphere, constraints, gateTally, tableUrl, uncertainty } from "./data";
+import { atmosphere, constraints, correctionUrl, githubUrl, tableUrl } from "./data";
 
 export const metadata: Metadata = {
   title: "Climate recovery as public infrastructure",
   description:
-    "AETHER models what it would take to run atmospheric carbon as a metered public utility, and publishes the points where that model breaks.",
+    "Explore atmospheric carbon as public infrastructure: a regional research case, accountable automation, and an open working paper by Noah Hicks.",
   alternates: { canonical: "/" },
 };
 
 const navLinks = [
   { href: "#utility", label: "The utility" },
-  { href: "#strain", label: "Where it strains" },
+  { href: "#regional", label: "Regional case" },
   { href: "#target", label: "Target" },
   { href: "/evidence", label: "Evidence" },
 ] as const;
@@ -35,7 +35,7 @@ const utilityLedger = [
   {
     number: "04",
     title: "Maintain the system",
-    copy: "Revenue funds removal, storage, monitoring, liability reserves, and public benefit. Operators move capacity as the measurements move.",
+    copy: "Operating fees and separately identified legacy-removal funding cover service, monitoring and reserves. Independent verification keeps operators accountable.",
   },
 ] as const;
 
@@ -69,8 +69,6 @@ const scenarioLinks = [
   },
 ] as const;
 
-const percent = (share: number, digits = 2) => `${(share * 100).toFixed(digits)}%`;
-
 export default function Home() {
   return (
     <main className="aether-site" id="main">
@@ -81,9 +79,9 @@ export default function Home() {
         <div className="public-hero-shade" aria-hidden="true" />
         <div className="public-hero-copy">
           <p className="section-code">AETHER / OPEN RESEARCH / NOAH HICKS</p>
-          <h1>The atmosphere is infrastructure. <em>Nobody controls it.</em></h1>
+          <h1>The atmosphere is shared. <em>What if we managed it?</em></h1>
           <p className="public-hero-deck">
-            AETHER models what it would take to run atmospheric carbon as a metered public utility. It lays out a scenario for highly autonomous systems to manage our atmosphere directly.
+            AETHER explores atmospheric carbon as public infrastructure: autonomous systems doing the work, useful industry inside a measured budget, and institutions accountable for the balance.
           </p>
           <div className="hero-actions">
             <a className="button button-primary" href="#utility">See the system <Arrow direction="down" /></a>
@@ -92,36 +90,32 @@ export default function Home() {
         </div>
         <div className="hero-status" aria-label="Project status">
           <span>STATUS / CONDITIONAL WORKING PAPER</span>
-          <p>This is a feasibility test built to be attacked. And when the time comes, it is meant to remind us to push for incredible goals.</p>
+          <p>An ambitious research direction, with a smaller operating case you can inspect. No deployment or probability of success is claimed.</p>
         </div>
       </section>
 
-      <section className="honest-band" aria-labelledby="honest-heading">
-        <p className="section-code">01 / THE NUMBER THAT KEEPS THIS HONEST</p>
-        <h2 id="honest-heading">
-          Across {uncertainty.samples.toLocaleString()} model draws, <em>{percent(uncertainty.durableHundredShare)}</em> deliver 100 Gt of durable credited removal a year.
-        </h2>
+      <section className="honest-band" id="regional" aria-labelledby="regional-heading">
+        <p className="section-code">01 / START WITH ONE OPERATING SYSTEM</p>
+        <h2 id="regional-heading">A planetary ambition.<br /><em>A regional test of the idea.</em></h2>
         <div className="honest-figures">
           <div>
-            <strong>{uncertainty.durableCredit.p50} Gt</strong>
-            <span>Median durable credit per year</span>
-            <p>Well under a third of the headline case the paper stress-tests.</p>
+            <strong>1 Mt / yr</strong>
+            <span>Illustrative nameplate capacity</span>
+            <p>A regional direct-air-capture and storage benchmark. Actual output is limited by its resources and operating assumptions.</p>
           </div>
           <div>
-            <strong>{percent(uncertainty.positiveReversalShare, 0)}</strong>
-            <span>Draws with any net removal at all</span>
-            <p>After residual emissions and rebound are subtracted.</p>
+            <strong>Same physics</strong>
+            <span>Two operating cases</span>
+            <p>Compare ordinary operations with assumed automation assistance. Electricity, heat and storage requirements do not disappear.</p>
           </div>
           <div>
-            <strong>{percent(uncertainty.strongReversalShare, 1)}</strong>
-            <span>Draws reversing at today&rsquo;s emission rate</span>
-            <p>Strong reversal is a tail outcome, not the central expectation.</p>
+            <strong>Open ledger</strong>
+            <span>Carbon and cash, separately</span>
+            <p>See gross capture, lifecycle burdens, durability and funding. Change a constraint and the supported output must change with it.</p>
           </div>
         </div>
         <p className="honest-note">
-          The 100 GtCO₂/year case is an extreme boundary chosen to expose hidden dependencies, not a forecast. Publishing the distribution rather than the best branch is the whole point of the exercise.
-          {" "}
-          <a href={tableUrl(uncertainty.table)}>Inspect the uncertainty table <Arrow /></a>
+          This is an analytical example, not a proposed construction site or a validated plant design. The original 100 Gt/year global case remains a stress test, not the project&rsquo;s predicted scale. <a href="/evidence#regional-case">Explore the paired case <Arrow /></a>
         </p>
       </section>
 
@@ -133,10 +127,10 @@ export default function Home() {
           </p>
           <div className="proposition-columns">
             <p>
-              This is a model of the whole operating problem rather than one capture machine — energy and materials at the front, storage and verification at the back, capital and public authority holding it together. Component models pass on their own. The integrated system is where the trouble lives.
+              A capture machine provides one service. A working system also needs power and heat, storage, maintenance, a solvent operator and an independent account of what happened to the carbon. AETHER studies those connections through a regional example and a wider set of screening models.
             </p>
             <p>
-              The premise is not that every emission disappears. Useful activity continues inside a measured budget. The optimistic bet is that capable AI and autonomous systems make that budget physically manageable. Thermodynamics, geology, supply chains, and consent still set the terms.
+              The optimistic premise is that increasingly capable AI and robotics could make this infrastructure easier to build and operate. The research question is where that improvement survives contact with physical constraints, competing uses of resources and public consent.
             </p>
           </div>
         </div>
@@ -145,9 +139,9 @@ export default function Home() {
       <section className="public-utility" id="utility">
         <div className="utility-intro">
           <p className="section-code">03 / A PUBLIC CARBON UTILITY</p>
-          <h2>Use atmospheric capacity. Pay for it. Keep the balance public.</h2>
+          <h2>A shared service.<br />A measured balance.</h2>
           <p>
-            An institutional proposal, not a description of current law: citizens hold the atmospheric service through a public trust or comparable commons institution. Industry can draw a defined share when the social value justifies it, and that draw is metered, priced, and reconciled against durable removal.
+            AETHER examines a public carbon utility: an institution that sets an operating budget, procures removal and carries long-term obligations. Public trusts, regulated operators and regional procurement arrangements have different authority and incentive problems. None is assumed to work merely because it is public.
           </p>
         </div>
         <div className="utility-ledger" aria-label="Four-part public carbon utility model">
@@ -161,16 +155,16 @@ export default function Home() {
         </div>
         <div className="utility-rule">
           <strong>Industrial activity remains possible.</strong>
-          <p>What ends is the assumption that the shared sink is free, unlimited, and governed only after the damage lands.</p>
+          <p>Managing ongoing emissions and drawing down historical accumulation are different services. Their physical obligations and funding need to be accounted for separately.</p>
         </div>
       </section>
 
       <section className="strain-section" id="strain">
         <div className="strain-head">
           <p className="section-code">04 / WHERE THE MODEL STRAINS</p>
-          <h2>Six places the system stops being clever and starts being physics.</h2>
+          <h2>What determines<br />how far it can go.</h2>
           <p>
-            Each anchor below is quoted from a generated table, not restated from the argument. Four are bottlenecks, one is an open research gap, one is a governance problem that no amount of engineering fixes.
+            These are the constraints the research has to connect. A correct calculation can expose a requirement; it cannot establish that the necessary infrastructure or institution will exist.
           </p>
         </div>
         <ul className="strain-list">
@@ -205,7 +199,7 @@ export default function Home() {
             AI could compress materials discovery, plant design, dispatch, anomaly detection, and system-wide optimization. Robots could build modules, service sites, inspect wells, maintain contactors, and gather field evidence.
           </p>
           <p>
-            The model does not assume that software capability becomes reliable field robotics. In the automation-push case, duty-cycle, autonomy, task-fit, maintenance, and supervision penalties raise median annual production from about 234,000 to 840,000 robots and reduce the count-screen pass share to zero. The deep-modular branch still clears that count screen, but only by assuming infrastructure redesigned around automation. That gap is the research, not a footnote to it.
+            The paired regional example asks a narrower question: what changes if maintenance takes fewer labor hours or equipment stays available longer? Those improvements are explicit assumptions, not demonstrated robot performance. Measuring them in the field is a useful next contribution.
           </p>
           <div className="role-ledger">
             <div><span>AI systems</span><p>Search, model, allocate, schedule, monitor, diagnose.</p></div>
@@ -221,25 +215,25 @@ export default function Home() {
           <p className="section-code">06 / THE ATMOSPHERIC NORTH STAR</p>
           <h2>From {atmosphere.current} ppm toward roughly {atmosphere.preindustrial}.</h2>
           <p>
-            NOAA&rsquo;s April 2026 global monthly mean is a dated baseline, not a permanent &ldquo;current&rdquo; value. The preindustrial anchor is approximate. What sits between them is a carbon-cycle and governance problem, not subtraction.
+            NOAA&rsquo;s preliminary {atmosphere.observationMonth} global monthly mean is a dated observation, not a live feed. Roughly 280 ppm is our long-horizon restoration aspiration, not a demonstrated safe or optimal modern setpoint. Getting there is a carbon-cycle and governance problem, not subtraction.
           </p>
         </div>
         <div className="ppm-compare">
           <div className="ppm-row ppm-now">
-            <div><span>APRIL 2026 / NOAA GLOBAL MEAN</span><strong>{atmosphere.current} <small>ppm</small></strong></div>
+            <div><span>{atmosphere.observationMonth.toUpperCase()} / NOAA GLOBAL MEAN</span><strong>{atmosphere.current} <small>ppm</small></strong></div>
             <div className="ppm-track" aria-label={`${atmosphere.current} parts per million`}><i /></div>
-            <p>0.042855% of dry air · 1.53× the {atmosphere.preindustrial} ppm anchor · about 53% above it</p>
+            <p>{atmosphere.dryAirPercent.toFixed(6)}% of dry air · {atmosphere.referenceRatio.toFixed(2)}× the {atmosphere.preindustrial} ppm anchor · about {((atmosphere.referenceRatio - 1) * 100).toFixed(0)}% above it</p>
           </div>
           <div className="ppm-row ppm-goal">
             <div><span>LONG-HORIZON RESTORATION NORTH STAR</span><strong>≈{atmosphere.preindustrial} <small>ppm</small></strong></div>
             <div className="ppm-track" aria-label={`Approximately ${atmosphere.preindustrial} parts per million`}><i /></div>
-            <p>0.028% of dry air · a 148.55 ppm gap from the April baseline · about 34.7% below that concentration</p>
+            <p>0.028% of dry air · a {atmosphere.gapPpm.toFixed(2)} ppm gap from the dated observation · about {atmosphere.reductionPercent.toFixed(1)}% below that concentration</p>
           </div>
         </div>
         <div className="target-note">
-          <EvidenceBadge kind="model" />
+            <EvidenceBadge kind="open" />
           <p>
-            The current paper uses a {atmosphere.controlFloor} ppm control floor to test whether a managed system throttles instead of removing blindly. It is not the recommended final target. Modeling a responsible path to a preindustrial range is still ahead.
+            No credible arrival date is established here. Absolute climate projections have been withdrawn after a failed baseline diagnostic. A responsible trajectory must account for land, oceans, other climate forcings and ecological effects.
           </p>
           <a href={atmosphere.source}>NOAA measurement source <Arrow /></a>
         </div>
@@ -255,7 +249,7 @@ export default function Home() {
             As concentration approaches an agreed operating range, the removal system should throttle down. Captured carbon can become feedstock for durable materials or tightly closed industrial cycles, provided lifecycle accounting shows where it went and for how long.
           </p>
           <p>
-            Treating carbon as a managed resource keeps useful industrial flows running while the public balance sheet stops net loading from outrunning verified removal.
+            Carbon use is not automatically durable removal. Fuels and short-lived products can release it again; long-lived products need a verified fate. Product revenue also cannot be assumed to fund the entire removal system.
           </p>
         </div>
       </section>
@@ -289,7 +283,7 @@ export default function Home() {
           <p className="section-code">09 / AI SCENARIO CONTEXT</p>
           <h2>Borrow the timelines. Don&rsquo;t borrow the certainty.</h2>
           <p>
-            These projects explore very different futures for advanced AI, and AETHER uses them as boundary conditions. None of them establishes robot field productivity, clean-power availability, capture energy, or storage throughput — which is exactly where this model spends its time.
+            These projects explore different AI futures. They provide scenario context, not measured inputs for construction speed, robot reliability, capture energy or storage throughput.
           </p>
         </div>
         <div className="scenario-list">
@@ -317,13 +311,14 @@ export default function Home() {
       <section className="public-invitation">
         <div>
           <p className="section-code">11 / OPEN THE MODEL</p>
-          <h2>Make the optimistic claim precise enough to break.</h2>
+          <h2>Help turn the idea<br />into evidence.</h2>
         </div>
         <div>
           <p>
-            {gateTally.pass} of twelve submission gates pass, {gateTally.partial} are partial, and {gateTally.fail} fail outright. Those two failures are published, named, and linked to the work that would close them. Reproduce a model, replace a weak parameter, or take apart a claim that deserves it.
+            Start with a specific question: check the regional energy balance, replace an automation assumption with field evidence, or test the utility&rsquo;s funding under failure. The working paper is not externally peer reviewed. <a className="inline-link" href={`${githubUrl}/blob/main/docs/REVIEW_GUIDE.md`}>The review guide</a> identifies contributions that could change its conclusions.
           </p>
           <ReadLinks />
+          <a className="text-link" href={correctionUrl}>What changed in v0.46 <Arrow /></a>
         </div>
       </section>
 

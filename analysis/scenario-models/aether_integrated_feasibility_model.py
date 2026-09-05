@@ -19,6 +19,24 @@ BASE_ROBOT_OUTPUT_Y = 542_076.0
 TWH_PER_GJ_PER_TON_FOR_1_GT = 277.77777777777777
 ROBOT_SERVICE_LIFE_Y = 8
 
+# This is a deliberately narrow, legacy screen.  It jointly applies the
+# constraints implemented in this file, but it does not yet import compatible
+# regional dispatch, field-productivity, lifecycle, or MRV results.  Those
+# model outputs use different scenario identities and accounting layers.
+INTEGRATION_SCOPE = "partially_coupled_screening"
+INTEGRATION_NOTE = (
+    "Joint screen of this model's planned capacity, clean-energy, robot, storage, "
+    "budget, emissions, and rebound assumptions only; it does not establish a "
+    "common feasible scenario with the separate regional, lifecycle, MRV, or "
+    "field-productivity screens."
+)
+LEARNING_BASIS = "cumulative_realized_removal_gtco2"
+# The previous screen used current annual novel-CDR deployment as its learning
+# reference.  Retaining that numerical reference avoids inventing historical
+# production, but it is explicitly a proxy until a sourced cumulative series is
+# supplied.  Every subsequent increment comes only from modeled operation.
+LEARNING_REFERENCE_CUMULATIVE_PRODUCTION_GTCO2 = CURRENT_NOVEL_CDR_GT_Y
+
 
 @dataclass(frozen=True)
 class FeasibilityScenario:
@@ -156,20 +174,35 @@ def robots_in_service(s: FeasibilityScenario, year_index: int) -> float:
     )
 
 
-def learned_cost(s: FeasibilityScenario, planned_capacity_gt_y: float) -> float:
-    capacity = max(planned_capacity_gt_y, CURRENT_NOVEL_CDR_GT_Y)
-    doublings = math.log(capacity / CURRENT_NOVEL_CDR_GT_Y, 2)
+def learning_doublings(cumulative_realized_production_gtco2: float) -> float:
+    production = max(
+        cumulative_realized_production_gtco2,
+        LEARNING_REFERENCE_CUMULATIVE_PRODUCTION_GTCO2,
+    )
+    return math.log(production / LEARNING_REFERENCE_CUMULATIVE_PRODUCTION_GTCO2, 2)
+
+
+def learned_cost(s: FeasibilityScenario, cumulative_realized_production_gtco2: float) -> float:
+    """Return cost from removal actually realized before the modeled year.
+
+    A planned capacity target is deliberately not an argument.  Production is
+    updated only after that year's constrained capacity has been determined, so
+    an unbuilt schedule cannot reduce the same year's cost.
+    """
+    doublings = learning_doublings(cumulative_realized_production_gtco2)
     raw = s.initial_cost_usd_tco2 * ((1 - s.learning_rate) ** doublings)
     return max(s.floor_cost_usd_tco2, raw)
 
 
 def capacity_limited_path(s: FeasibilityScenario) -> list[dict[str, object]]:
     rows: list[dict[str, object]] = []
+    cumulative_realized_production = LEARNING_REFERENCE_CUMULATIVE_PRODUCTION_GTCO2
     for year in range(START_YEAR, END_YEAR + 1):
         i = year - START_YEAR
         progress = i / YEARS if YEARS else 1
         planned_capacity = TARGET_GTCO2_Y * progress
-        cost = learned_cost(s, max(planned_capacity, CURRENT_NOVEL_CDR_GT_Y))
+        realized_production_at_start = cumulative_realized_production
+        cost = learned_cost(s, realized_production_at_start)
         clean_twh = cumulative_clean_twh(s, i)
         energy_capacity = clean_twh / (s.energy_gj_tco2 * TWH_PER_GJ_PER_TON_FOR_1_GT)
         available_robots = robots_in_service(s, i)
@@ -191,7 +224,12 @@ def capacity_limited_path(s: FeasibilityScenario) -> list[dict[str, object]]:
         emissions = 42.2 + (s.emissions_2046_gtco2_y - 42.2) * progress
         rebound = actual_capacity * s.rebound_fraction_of_gross_removal
         net_removal = actual_capacity - emissions - rebound
+        # Capacity is an annualized rate.  Each yearly step therefore adds one
+        # year's actually operated removal to the cumulative learning state.
+        cumulative_realized_production += actual_capacity
         rows.append({
+            "integration_scope": INTEGRATION_SCOPE,
+            "integration_note": INTEGRATION_NOTE,
             "scenario": s.key,
             "display_name": s.display_name,
             "year": year,
@@ -205,11 +243,16 @@ def capacity_limited_path(s: FeasibilityScenario) -> list[dict[str, object]]:
             "robot_limited_capacity_gtco2_y": robot_capacity,
             "storage_limited_capacity_gtco2_y": storage_capacity,
             "budget_limited_capacity_gtco2_y": budget_capacity,
+            "learning_basis": LEARNING_BASIS,
+            "learning_reference_cumulative_production_gtco2": LEARNING_REFERENCE_CUMULATIVE_PRODUCTION_GTCO2,
+            "cumulative_realized_production_at_start_gtco2": realized_production_at_start,
+            "learning_doublings_from_realized_production": learning_doublings(realized_production_at_start),
             "learned_cost_usd_tco2": cost,
             "annual_cost_trillion_usd": actual_capacity * cost / 1000,
             "emissions_gtco2_y": emissions,
             "rebound_gtco2_y": rebound,
             "net_removal_after_emissions_and_rebound_gtco2_y": net_removal,
+            "cumulative_realized_production_at_end_gtco2": cumulative_realized_production,
         })
     return rows
 
@@ -217,7 +260,7 @@ def capacity_limited_path(s: FeasibilityScenario) -> list[dict[str, object]]:
 def summarize_scenario(s: FeasibilityScenario, path_rows: list[dict[str, object]]) -> dict[str, object]:
     final = path_rows[-1]
     target_energy_twh = TARGET_GTCO2_Y * s.energy_gj_tco2 * TWH_PER_GJ_PER_TON_FOR_1_GT
-    terminal_cost = learned_cost(s, TARGET_GTCO2_Y)
+    terminal_cost = float(final["learned_cost_usd_tco2"])
     annual_cost_at_target = TARGET_GTCO2_Y * terminal_cost / 1000
     fleet_required = s.robots_per_mtco2_y_capacity * TARGET_GTCO2_Y * 1000
     terminal_robots = float(final["robots_in_service_for_aether"])
@@ -249,6 +292,8 @@ def summarize_scenario(s: FeasibilityScenario, path_rows: list[dict[str, object]
     else:
         screen = "fails_or_offset_only"
     return {
+        "integration_scope": INTEGRATION_SCOPE,
+        "integration_note": INTEGRATION_NOTE,
         "scenario": s.key,
         "display_name": s.display_name,
         "description": s.description,
@@ -258,6 +303,10 @@ def summarize_scenario(s: FeasibilityScenario, path_rows: list[dict[str, object]
         "terminal_clean_energy_available_twh_y": terminal_clean_twh,
         "energy_adequacy_ratio": ratios["energy_adequacy_ratio"],
         "terminal_cost_usd_tco2": terminal_cost,
+        "learning_basis": LEARNING_BASIS,
+        "learning_reference_cumulative_production_gtco2": LEARNING_REFERENCE_CUMULATIVE_PRODUCTION_GTCO2,
+        "terminal_cumulative_realized_production_gtco2": final["cumulative_realized_production_at_end_gtco2"],
+        "terminal_learning_doublings_from_realized_production": final["learning_doublings_from_realized_production"],
         "annual_cost_at_100gt_trillion_usd": annual_cost_at_target,
         "annual_budget_trillion_usd": s.annual_budget_trillion_usd,
         "budget_adequacy_ratio": ratios["budget_adequacy_ratio"],
@@ -305,6 +354,7 @@ def main() -> None:
             "net_target_ratio_vs_current_emissions",
         ]:
             bottleneck_rows.append({
+                "integration_scope": INTEGRATION_SCOPE,
                 "scenario": s.key,
                 "display_name": s.display_name,
                 "metric": metric,

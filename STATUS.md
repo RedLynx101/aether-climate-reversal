@@ -1,44 +1,31 @@
-# AETHER current state
+# AETHER status
 
-Last updated: 2026-08-10
+**Revision:** v0.46, September 2026
 
-## Release posture
+## Research posture
 
-The repository is prepared as a public working-research project. Its history is intentionally flattened to one public-release root so obsolete private workflow material and personal commit metadata are not part of the public record.
+AETHER is an open conditional-research program. It has not received external peer review, field validation, engineering certification, or a deployment decision. It should be shared as a bounded request for criticism, not as evidence that a 100 GtCO2/year system is viable or that a particular climate outcome is forecast.
 
-The public site is deployed at `https://aetherclimate.com`. `https://aetherclimate.org` permanently redirects to the `.com` domain with path and query preservation. The site presents the possibility and public-infrastructure thesis; the paper and repository remain authoritative for evidence and caveats.
+The current paper and technical supplement are:
 
-## Security and privacy
+- `manuscript/submission/AETHER_v0.46_working_paper.pdf`
+- `manuscript/submission/AETHER_v0.46_technical_supplement.pdf`
+- `manuscript/submission/current-publication.json`
 
-- No credentials, private keys, API tokens, or strong secret matches are tracked.
-- Machine-specific paths, private workflow notes, course/submission material, and prompt archives have been removed.
-- Document image inputs are constrained to approved repository directories.
-- The Word-to-PDF fallback resolves the Windows system PowerShell executable without ambient search-path lookup.
-- The unused secondary website toolchain has been removed; production and development now use the same Next.js/Vercel target.
-- CI checks Python syntax, security regressions, the public-release tree, arithmetic consistency, website lint, website runtime behavior, and production dependency advisories.
+All older proposal PDF/DOCX files, v0.45 submission materials, and prior generated packages are historical and superseded. They remain for provenance, not current quantitative evidence.
 
-## Scientific readiness
+## Current result boundary
 
-The generated submission ledger contains twelve gates:
+The strongest current artifact is a generic approximately 1 MtCO2/year regional analytical benchmark. It keeps the physical contract shared between ordinary and automation-assisted operations, then tests an explicit uptime mechanism. It is not an actual plant, site, permit, cost forecast, or field result.
 
-- **Pass (5):** citation coverage, figure resolution, equation reproducibility, claim/evidence mapping, and duplicate/style screening.
-- **Partial (5):** clean-power delivery, storage/MRV/lifecycle treatment, robotics field productivity, adversarial review, and submission formatting.
-- **Fail (2):** publication-grade climate modeling and species-level emissions inputs.
+The synthetic representative-day dispatch screen now enforces cyclic storage. Its former upper-tail 100 GtCO2/year claim is withdrawn. The RCMIP/Joos absolute carbon-output method is quarantined after a failed zero-future-emissions diagnostic; no absolute ppm, temperature, or target-date claim is current evidence. The integrated model is partially coupled screening, and legacy Monte Carlo results are non-probabilistic scenario behavior.
 
-The independent calculation audit currently passes all 31 arithmetic and consistency checks. That establishes internal calculation consistency only. It does not validate the assumptions, forecasts, or physical feasibility of the integrated system.
+## Evidence and validation
 
-## Current release artifacts
+Repository checks help detect regressions and reproduce declared calculations. They are not scientific validation, and this status file does not report a passing-check count. The remaining substantive work is external and domain-specific: paired carbon-cycle/climate modeling, 8760-hour power and heat modeling, basin-level storage/MRV/liability analysis, measured automation productivity, path-specific lifecycle evidence, and a solvent public-carbon-service stock-flow model.
 
-- Proposal: `manuscript/proposal/AETHER_Conditional_Feasibility_Proposal.pdf`
-- Working paper source: `manuscript/paper/aether_scientific_paper.md`
-- Current review DOCX/PDF: `manuscript/submission/AETHER_Atmospheric_Engineering_Through_High_Energy_Removal_v0.45.*`
-- Readiness note: `manuscript/review/aether_review_readiness.md`
-- Gate ledger: `analysis/tables/aether_submission_readiness_gates.csv`
-- Calculation audit: `analysis/tables/aether_independent_calculation_audit.csv`
-- Public website: `website/`
+No live deployment or website state is asserted here.
 
-## What still has to be learned
+## Attribution and licenses
 
-The main research risks are not hidden behind a general disclaimer. AETHER still needs species-level climate inputs and ensembles; regional 8760-hour power modeling; basin-level storage and injection analysis; method-specific lifecycle and MRV evidence; source-backed field-robotics distributions; component-level cost and material models; and external specialist review of the P0 falsification tests.
-
-The honest description remains: stronger than an idea memo, useful for review, and not yet a scientific publication or validated deployment plan.
+Noah Hicks is the project originator and principal author. Code remains Apache-2.0; original research content remains CC BY 4.0.

@@ -138,6 +138,31 @@ def read_portfolio() -> list[dict[str, str]]:
         return list(csv.DictReader(f))
 
 
+def account_retention_and_lifecycle(
+    gross_gtco2_y: float,
+    retained_fraction: float,
+    lifecycle_emissions_gtco2e_y: float,
+) -> tuple[float, float]:
+    """Return physical retention and the separate scalar lifecycle accounting result."""
+    if gross_gtco2_y < 0.0 or lifecycle_emissions_gtco2e_y < 0.0:
+        raise ValueError("Gross removal and lifecycle emissions must be non-negative")
+    if not 0.0 <= retained_fraction <= 1.0:
+        raise ValueError("Retained fraction must be between zero and one")
+    physically_retained = gross_gtco2_y * retained_fraction
+    return physically_retained, physically_retained - lifecycle_emissions_gtco2e_y
+
+
+def gross_required_for_positive_net(
+    gross_gtco2_y: float, net_gtco2e_y: float, target_gtco2e_y: float = 100.0
+) -> float | None:
+    """Scale gross to a positive net target, or return None for a non-positive denominator."""
+    if gross_gtco2_y < 0.0 or target_gtco2e_y < 0.0:
+        raise ValueError("Gross removal and target must be non-negative")
+    if net_gtco2e_y <= 0.0:
+        return None
+    return gross_gtco2_y * target_gtco2e_y / net_gtco2e_y
+
+
 def route_rows() -> list[dict[str, object]]:
     assumptions = route_assumptions()
     rows: list[dict[str, object]] = []
@@ -148,9 +173,12 @@ def route_rows() -> list[dict[str, object]]:
         total_energy_gj_t = float(portfolio_row["aether_optimized_energy_gj_tco2_assumption"]) + route.storage_energy_penalty_gj_tco2
         annual_storage_energy_twh = gross * route.storage_energy_penalty_gj_tco2 * TWH_PER_GJ_PER_TON_FOR_1_GT
         retained_100y = (1 - route.annual_reversal_or_leakage_rate) ** route.monitoring_duration_y
-        lifecycle_adjusted = gross * (1 - route.lifecycle_penalty_fraction)
-        durable_100y = lifecycle_adjusted * retained_100y
-        gross_to_net_multiplier = gross / durable_100y if durable_100y else float("inf")
+        lifecycle_emissions_proxy = gross * route.lifecycle_penalty_fraction
+        physically_retained_100y, net_accounting_proxy = account_retention_and_lifecycle(
+            gross, retained_100y, lifecycle_emissions_proxy
+        )
+        gross_required = gross_required_for_positive_net(gross, net_accounting_proxy)
+        gross_to_net_multiplier = gross_required / 100.0 if gross_required is not None else ""
         supercritical_volume_km3_y = gross * 1e12 / SUPERCRITICAL_CO2_DENSITY_KG_M3 / 1e9
         one_mt_wells = gross * 1000 / DEFAULT_WELL_INJECTION_MT_Y if route.one_mt_well_equivalent else 0.0
         ten_mt_hubs = gross * 1000 / 10.0
@@ -172,32 +200,47 @@ def route_rows() -> list[dict[str, object]]:
             "lifecycle_penalty_fraction": route.lifecycle_penalty_fraction,
             "annual_reversal_or_leakage_rate": route.annual_reversal_or_leakage_rate,
             "retained_fraction_after_100y": retained_100y,
-            "lifecycle_adjusted_gtco2_y": lifecycle_adjusted,
-            "durable_100y_credit_gtco2_y": durable_100y,
-            "durability_and_lifecycle_shortfall_gtco2_y": gross - durable_100y,
+            "physically_retained_after_100y_gtco2_y": physically_retained_100y,
+            "lifecycle_emissions_proxy_gtco2e_y": lifecycle_emissions_proxy,
+            "net_after_retention_minus_lifecycle_proxy_gtco2e_y": net_accounting_proxy,
+            "retention_and_lifecycle_accounting_shortfall_gtco2e_y": gross - net_accounting_proxy,
             "gross_to_net_multiplier_for_same_route": gross_to_net_multiplier,
+            "gross_to_net_multiplier_status": (
+                "defined_positive_net" if gross_required is not None else "infeasible_nonpositive_net"
+            ),
             "supercritical_volume_km3_y_if_geologic": supercritical_volume_km3_y if route.one_mt_well_equivalent else "",
             "source_key": route.source_key,
             "model_note": route.note,
+            "accounting_boundary_note": "Physical 100-year retention is calculated before subtracting the provisional lifecycle CO2e proxy. The scalar result is an accounting screen, not a time- or species-resolved climate flow and not an issued credit.",
         })
     return rows
 
 
 def summary_rows(rows: list[dict[str, object]]) -> list[dict[str, object]]:
     gross = sum(float(r["gross_allocation_gtco2_y"]) for r in rows)
-    durable = sum(float(r["durable_100y_credit_gtco2_y"]) for r in rows)
+    physically_retained = sum(float(r["physically_retained_after_100y_gtco2_y"]) for r in rows)
+    lifecycle_emissions_proxy = sum(float(r["lifecycle_emissions_proxy_gtco2e_y"]) for r in rows)
+    net_accounting_proxy = sum(float(r["net_after_retention_minus_lifecycle_proxy_gtco2e_y"]) for r in rows)
     storage_energy = sum(float(r["annual_storage_energy_penalty_twh_y"]) for r in rows)
     base_energy = 56527.77777777778
     one_mt_wells = sum(float(r["one_mt_injection_well_equivalents"]) for r in rows)
     geologic_volume = sum(float(r["supercritical_volume_km3_y_if_geologic"] or 0) for r in rows)
     geologic_gross = sum(float(r["gross_allocation_gtco2_y"]) for r in rows if float(r["one_mt_injection_well_equivalents"]) > 0)
+    gross_required = gross_required_for_positive_net(gross, net_accounting_proxy)
     return [{
         "scenario": "aether_v0_7_storage_lifecycle_filter",
         "gross_portfolio_gtco2_y": gross,
-        "durable_100y_credit_gtco2_y": durable,
-        "durability_and_lifecycle_shortfall_gtco2_y": gross - durable,
-        "gross_required_for_100gt_durable_credit_at_same_mix_gtco2_y": gross * 100 / durable,
-        "portfolio_net_durability_fraction": durable / gross,
+        "physically_retained_after_100y_gtco2_y": physically_retained,
+        "lifecycle_emissions_proxy_gtco2e_y": lifecycle_emissions_proxy,
+        "net_after_retention_minus_lifecycle_proxy_gtco2e_y": net_accounting_proxy,
+        "retention_and_lifecycle_accounting_shortfall_gtco2e_y": gross - net_accounting_proxy,
+        "gross_required_for_100gt_net_accounting_proxy_at_same_mix_gtco2_y": (
+            gross_required if gross_required is not None else ""
+        ),
+        "gross_required_for_100gt_net_accounting_proxy_status": (
+            "defined_positive_net" if gross_required is not None else "infeasible_nonpositive_net"
+        ),
+        "portfolio_net_accounting_proxy_fraction": net_accounting_proxy / gross,
         "base_portfolio_energy_twh_y": base_energy,
         "additional_storage_lifecycle_energy_twh_y": storage_energy,
         "energy_with_storage_lifecycle_penalty_twh_y": base_energy + storage_energy,
@@ -205,7 +248,7 @@ def summary_rows(rows: list[dict[str, object]]) -> list[dict[str, object]]:
         "one_mt_geologic_injection_well_equivalents": one_mt_wells,
         "geologic_storage_gross_gtco2_y": geologic_gross,
         "geologic_supercritical_volume_km3_y": geologic_volume,
-        "interpretation": "At the current portfolio mix, lifecycle penalties and 100-year durability haircuts turn 100 Gt/y gross removal into materially less durable credited removal; AETHER needs buffer capacity, better MRV, lower lifecycle emissions, or a more durable pathway mix.",
+        "interpretation": "At the current portfolio mix, physical 100-year retention is separated from a provisional lifecycle CO2e debit. Their scalar difference is an accounting screen, not a climate-flow calculation or an issued credit; MRV buffers are applied separately.",
     }]
 
 

@@ -4,6 +4,8 @@ import csv
 import math
 from pathlib import Path
 
+from aether_carbon_cycle_model import PUBLICATION_METADATA
+
 ROOT = Path(__file__).resolve().parents[2]
 TABLE_DIR = ROOT / "analysis" / "tables"
 
@@ -69,8 +71,13 @@ def main() -> None:
             equilibrium = equilibrium_proxy(forcing)
             transient = transient_proxy(forcing)
             output_rows.append({
+                **PUBLICATION_METADATA,
                 "case": case,
                 "display_name": row["display_name"],
+                "emissions_policy": row["emissions_policy"],
+                "matched_no_aether_case": row["matched_no_aether_case"],
+                "carbon_baseline_id": row["carbon_baseline_id"],
+                "carbon_baseline_method": row["carbon_baseline_method"],
                 "year": row["year"],
                 "co2_ppm": f(ppm, 6),
                 "co2_erf_w_m2": f(forcing, 6),
@@ -87,21 +94,26 @@ def main() -> None:
     for row in output_rows:
         response_by_case.setdefault(str(row["case"]), []).append(row)
 
-    baseline_case = "baseline_constant_emissions_no_aether"
-    baseline_by_year = {
-        int(row["year"]): row for row in response_by_case[baseline_case]
-    }
+    by_key = {(row["case"], int(row["year"])): row for row in output_rows}
+    for row in output_rows:
+        control = by_key[(row["matched_no_aether_case"], int(row["year"]))]
+        row["transient_proxy_avoided_vs_matched_no_aether_c"] = f(float(control["co2_only_transient_warming_proxy_c"]) - float(row["co2_only_transient_warming_proxy_c"]))
 
     summary_rows: list[dict[str, object]] = []
     for case, rows in response_by_case.items():
         row_by_year = {int(row["year"]): row for row in rows}
         final = row_by_year[2100]
-        baseline_final = baseline_by_year[2100]
+        baseline_final = by_key[(final["matched_no_aether_case"], 2100)]
         peak = max(rows, key=lambda row: float(row["co2_only_transient_warming_proxy_c"]))
         minimum = min(rows, key=lambda row: float(row["co2_only_transient_warming_proxy_c"]))
         summary_rows.append({
+            **PUBLICATION_METADATA,
             "case": case,
             "display_name": str(rows[0]["display_name"]),
+            "emissions_policy": final["emissions_policy"],
+            "matched_no_aether_case": final["matched_no_aether_case"],
+            "carbon_baseline_id": final["carbon_baseline_id"],
+            "carbon_baseline_method": final["carbon_baseline_method"],
             "co2_ppm_2050": row_by_year[2050]["co2_ppm"],
             "co2_erf_w_m2_2050": row_by_year[2050]["co2_erf_w_m2"],
             "co2_only_transient_proxy_2050_c": row_by_year[2050]["co2_only_transient_warming_proxy_c"],
@@ -118,7 +130,7 @@ def main() -> None:
             "peak_transient_proxy_year": peak["year"],
             "minimum_transient_proxy_c": minimum["co2_only_transient_warming_proxy_c"],
             "minimum_transient_proxy_year": minimum["year"],
-            "caveat": "CO2-only proxy; excludes non-CO2 forcing, aerosols, ocean heat uptake dynamics, ice sheets, regional effects, and full carbon-climate feedbacks.",
+            "caveat": "Conditional hybrid CO2-only proxy, not validated absolute temperature; matched CO2-policy attribution. Excludes non-CO2 forcing, aerosols, ocean heat uptake dynamics, ice sheets, regional effects, and full carbon-climate feedbacks.",
         })
 
     write_rows(PATHWAY_OUTPUT, output_rows)

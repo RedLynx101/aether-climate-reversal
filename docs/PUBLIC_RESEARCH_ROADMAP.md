@@ -1,24 +1,25 @@
-﻿# AETHER Public Research Roadmap
+# AETHER public research roadmap
 
-The paper is one presentation layer for a broader research program. The project advances only when its weakest coupled constraints become better measured.
+## Current aim
 
-## Priority zero: claims that can change the headline
+AETHER investigates whether durable carbon management could become an accountable public service under explicit physical and financial constraints. The present contribution is conditional research design and a reproducible regional analytical benchmark, not a viability or deployment claim.
 
-- Run publication-grade species-emissions climate modeling with ensembles, historical spin-up, non-CO2 forcing, zero-emissions commitment, and ocean-chemistry treatment where relevant.
-- Replace clean-power capacity arithmetic with regional 8760-hour dispatch, additionality, interconnection, transmission, storage-duration, and competing-demand models.
-- Replace storage archetypes with basin-level injection, pressure, permitting, pore-space, monitoring, leakage, and liability models.
-- Replace robotics announcements and hand-set productivity ranges with field measurements by task family.
-- Replace provisional MRV, lifecycle, durability, and rebound ranges with method-specific evidence and expert elicitation.
+## Claims that can change the project
 
-## Priority one: make review cumulative
+1. **Carbon and climate:** Repair the quarantined baseline with a defensible reservoir initialization, matched controls, species-resolved emissions where needed, and uncertainty treatment. Do not use current absolute paths as evidence.
+2. **Power and heat:** Move from generic annual quantities to a named 8760-hour regional case with weather, demand, transmission, firming, outages, maintenance, and additionality.
+3. **Storage and MRV:** Demonstrate a named storage route's injection rate, pressure, permit, measurement, financial responsibility, reversal, and post-closure obligations.
+4. **Automation:** Test a measured mechanism such as uptime, maintenance, construction duration, supervision, or monitoring cost. Keep physical inputs shared with an ordinary case.
+5. **Finance and governance:** Model distinct current-load, legacy-drawdown, capital, reserve, and closure accounts. Compare institutional options as mechanisms and tradeoffs, not political conclusions.
 
-- Publish parameter provenance and versioned scenario definitions.
-- Add tests for equations, units, generated tables, and manuscript claims.
-- Invite structured specialist reviews and record accepted, rejected, and unresolved objections.
-- Preserve the selected Apache-2.0 software and CC BY 4.0 research-content licenses, attribution to Noah Hicks, and third-party material notices through public release.
-- Specify and test the public-carbon-utility hypothesis: legal authority, atmospheric operating band, net-use budget, metering, tariff formation, removal procurement, revenue allocation, liability, local-harm protections, and cross-border coordination.
+## Review method
 
-## Longer-horizon transfer
+Each public artifact should name its evidence class, scenario contract, accounting layer, source links, and failure condition. Gross capture, retained carbon, signed net-after-lifecycle result, crediting, and net climate outcome are not interchangeable. A failed specialist review changes or withdraws the corresponding claim.
 
-AETHER qualifies as a low form of terraforming because it studies deliberate, planetary-scale alteration of atmospheric composition. That label raises the governance standard on Earth; it does not reduce it. Descendant tools for atmosphere processing, gas separation, mineralization, autonomous construction, closed-loop power, and environmental monitoring could eventually support habitat engineering on other celestial bodies. The present models do not establish off-world feasibility, and this remains a speculative research branch rather than a current claim.
+## Long horizon
 
+Approximately 280 ppm is an investigational restoration aspiration and preindustrial reference range, not a proven setpoint or schedule. AETHER's atmospheric-management work resembles a limited form of terraforming and therefore needs high standards for consent, reversibility, monitoring, liability, and coordination. Off-world applications are speculative and not current evidence.
+
+## Public record
+
+Use the v0.46 [working paper](../manuscript/submission/AETHER_v0.46_working_paper.pdf), [technical supplement](../manuscript/submission/AETHER_v0.46_technical_supplement.pdf), [publication manifest](../manuscript/submission/current-publication.json), and [correction notice](CORRECTIONS_v0.46.md). Older PDFs, DOCX files, and generated packages are historical/superseded and should not be cited as current quantitative evidence.

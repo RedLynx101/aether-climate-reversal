@@ -125,6 +125,31 @@ def f(value: float, digits: int = 6) -> str:
     return f"{value:.{digits}f}"
 
 
+def account_retention_and_lifecycle(
+    gross_gtco2_y: float,
+    retained_fraction: float,
+    lifecycle_emissions_gtco2e_y: float,
+) -> tuple[float, float]:
+    """Separate retained physical CO2 from the lifecycle CO2e accounting debit."""
+    if gross_gtco2_y < 0.0 or lifecycle_emissions_gtco2e_y < 0.0:
+        raise ValueError("Gross removal and lifecycle emissions must be non-negative")
+    if not 0.0 <= retained_fraction <= 1.0:
+        raise ValueError("Retained fraction must be between zero and one")
+    physically_retained = gross_gtco2_y * retained_fraction
+    return physically_retained, physically_retained - lifecycle_emissions_gtco2e_y
+
+
+def gross_required_for_positive_net(
+    gross_gtco2_y: float, net_gtco2e_y: float, target_gtco2e_y: float = 100.0
+) -> float | None:
+    """Return scaling for a positive net denominator; non-positive net is infeasible."""
+    if gross_gtco2_y < 0.0 or target_gtco2e_y < 0.0:
+        raise ValueError("Gross removal and target must be non-negative")
+    if net_gtco2e_y <= 0.0:
+        return None
+    return gross_gtco2_y * target_gtco2e_y / net_gtco2e_y
+
+
 def main() -> None:
     portfolio = {row["pathway"]: row for row in read_csv(PORTFOLIO)}
     storage = {row["pathway"]: row for row in read_csv(STORAGE)}
@@ -167,11 +192,16 @@ def main() -> None:
             )
             total_lca_tco2e_tco2 = operational_tco2e_tco2 + non_power_lca
             lifecycle_emissions_gt = gross * total_lca_tco2e_tco2
-            net_before_retention = max(gross - lifecycle_emissions_gt, 0.0)
             retained_fraction = float(s["retained_fraction_after_100y"])
-            durable_after_lca = net_before_retention * retained_fraction
+            physically_retained, net_after_retention_minus_lifecycle = (
+                account_retention_and_lifecycle(
+                    gross, retained_fraction, lifecycle_emissions_gt
+                )
+            )
             mrv_multiplier = float(m["mrv_credit_multiplier_after_buffers"])
-            creditable_after_lca_mrv = durable_after_lca * mrv_multiplier
+            creditable_after_lca_mrv = (
+                max(net_after_retention_minus_lifecycle, 0.0) * mrv_multiplier
+            )
 
             by_pathway_rows.append({
                 "power_case": power_case["power_case"],
@@ -186,13 +216,16 @@ def main() -> None:
                 "non_power_lifecycle_tco2e_tco2": f(non_power_lca, 6),
                 "total_lifecycle_emissions_tco2e_tco2": f(total_lca_tco2e_tco2, 6),
                 "annual_lifecycle_emissions_gtco2e_y": f(lifecycle_emissions_gt, 6),
-                "net_removal_before_retention_gtco2_y": f(net_before_retention, 6),
                 "retained_fraction_after_100y": f(retained_fraction, 6),
-                "durable_after_lca_100y_gtco2_y": f(durable_after_lca, 6),
+                "physically_retained_after_100y_gtco2_y": f(physically_retained, 6),
+                "net_after_retention_minus_lifecycle_emissions_gtco2e_y": f(
+                    net_after_retention_minus_lifecycle, 6
+                ),
                 "mrv_credit_multiplier_after_buffers": f(mrv_multiplier, 6),
-                "creditable_after_lca_and_mrv_gtco2_y": f(creditable_after_lca_mrv, 6),
+                "creditable_after_lca_and_mrv_gtco2e_y": f(creditable_after_lca_mrv, 6),
                 "source_keys": assumption["source_keys"],
                 "evidence_class": assumption["evidence_class"],
+                "accounting_boundary_note": "Physical retention is applied only to gross captured CO2; lifecycle CO2e is then debited in a scalar accounting screen. This is not a time- or species-resolved climate flow.",
             })
 
     summary_rows: list[dict[str, object]] = []
@@ -200,21 +233,39 @@ def main() -> None:
         rows = [row for row in by_pathway_rows if row["power_case"] == power_case["power_case"]]
         gross = sum(float(row["gross_gtco2_y"]) for row in rows)
         emissions = sum(float(row["annual_lifecycle_emissions_gtco2e_y"]) for row in rows)
-        durable = sum(float(row["durable_after_lca_100y_gtco2_y"]) for row in rows)
-        creditable = sum(float(row["creditable_after_lca_and_mrv_gtco2_y"]) for row in rows)
-        gross_required_creditable = 100.0 * gross / creditable if creditable else float("inf")
-        gross_required_durable = 100.0 * gross / durable if durable else float("inf")
+        physically_retained = sum(
+            float(row["physically_retained_after_100y_gtco2_y"]) for row in rows
+        )
+        net_accounting = sum(
+            float(row["net_after_retention_minus_lifecycle_emissions_gtco2e_y"])
+            for row in rows
+        )
+        creditable = sum(float(row["creditable_after_lca_and_mrv_gtco2e_y"]) for row in rows)
+        gross_required_creditable = gross_required_for_positive_net(gross, creditable)
+        gross_required_net = gross_required_for_positive_net(gross, net_accounting)
         summary_rows.append({
             "power_case": power_case["power_case"],
             "power_emissions_kgco2_mwh": f(power_case["power_emissions_kgco2_mwh"], 3),
             "gross_portfolio_gtco2_y": f(gross, 6),
             "annual_lifecycle_emissions_gtco2e_y": f(emissions, 6),
             "lifecycle_emissions_fraction_of_gross": f(emissions / gross, 6),
-            "durable_after_lca_100y_gtco2_y": f(durable, 6),
-            "creditable_after_lca_and_mrv_gtco2_y": f(creditable, 6),
-            "gross_required_for_100gt_durable_after_lca_gtco2_y": f(gross_required_durable, 6),
-            "gross_required_for_100gt_creditable_after_lca_mrv_gtco2_y": f(gross_required_creditable, 6),
+            "physically_retained_after_100y_gtco2_y": f(physically_retained, 6),
+            "net_after_retention_minus_lifecycle_emissions_gtco2e_y": f(net_accounting, 6),
+            "creditable_after_lca_and_mrv_gtco2e_y": f(creditable, 6),
+            "gross_required_for_100gt_net_accounting_gtco2_y": (
+                f(gross_required_net, 6) if gross_required_net is not None else ""
+            ),
+            "gross_required_for_100gt_net_accounting_status": (
+                "defined_positive_net" if gross_required_net is not None else "infeasible_nonpositive_net"
+            ),
+            "gross_required_for_100gt_creditable_after_lca_mrv_gtco2_y": (
+                f(gross_required_creditable, 6) if gross_required_creditable is not None else ""
+            ),
+            "gross_required_for_100gt_creditable_after_lca_mrv_status": (
+                "defined_positive_credit" if gross_required_creditable is not None else "infeasible_zero_credit"
+            ),
             "interpretation": power_case["interpretation"],
+            "accounting_boundary_note": "Retention, lifecycle-emissions accounting, and provisional MRV credit are separate layers. The scalar CO2e subtraction is not a climate-flow simulation.",
         })
 
     write_csv(ASSUMPTIONS_OUT, assumption_rows)

@@ -1,191 +1,79 @@
-/* eslint-disable @next/next/no-img-element -- Static research figures are already optimized publication assets. */
+/* eslint-disable @next/next/no-img-element -- Reproducible publication figures, shared with the paper. */
 import type { Metadata } from "next";
-import { Arrow, EvidenceBadge, GateLedger, SiteFooter, SiteNav } from "../components";
-import { githubUrl, paperUrl, tableUrl, uncertainty } from "../data";
+import { Arrow, EvidenceBadge, SiteFooter, SiteNav } from "../components";
+import { correctionUrl, githubUrl, paperUrl, regional, supplementUrl, tableUrl } from "../data";
 
 export const metadata: Metadata = {
-  title: "Evidence and open gates",
-  description:
-    "The AETHER submission ledger, the uncertainty distribution behind the headline case, and selected model figures with their source tables.",
+  title: "Evidence, assumptions and limits",
+  description: "A reproducible regional carbon-service example, its physical and financial ledgers, and the evidence AETHER still needs.",
   alternates: { canonical: "/evidence" },
 };
-
-const navLinks = [
-  { href: "/#utility", label: "The utility" },
-  { href: "#gates", label: "Gates" },
-  { href: "#uncertainty", label: "Uncertainty" },
-  { href: "#figures", label: "Figures" },
+const navLinks = [{ href: "/#utility", label: "The idea" }, { href: "#regional-case", label: "Regional case" }, { href: "#figures", label: "Figures" }, { href: "#limits", label: "Open questions" }];
+const format = (value: number, digits=0) => value.toLocaleString("en-US", { maximumFractionDigits: digits, minimumFractionDigits: digits });
+const rows = [
+  ["Gross capture", "gross_capture_tco2_y", "tCO₂/year"],
+  ["Gross stored", "gross_stored_tco2_y", "tCO₂/year"],
+  ["Physical retention", "retained_tco2_y", "tCO₂/year"],
+  ["Project emissions (debit)", "project_emissions_tco2e_y", "tCO₂e/year"],
+  ["Net after project emissions", "net_retained_tco2e_y", "tCO₂e/year"],
+  ["Risk-adjusted credits", "risk_adjusted_credits_tco2e_y", "tCO₂e/year"],
 ] as const;
-
 const figures = [
-  {
-    id: "capacity",
-    number: "01",
-    title: "Capacity under integrated constraints",
-    src: "/charts/integrated-capacity-paths-2026-2046.png",
-    alt: "AETHER modeled removal-capacity paths from 2026 to 2046 under integrated constraints",
-    badge: "model" as const,
-    interpretation:
-      "Actual capacity is the minimum of the target schedule, clean energy, robot supply, storage, and budget. Only upper-tail branches approach the 100 GtCO₂/year stress-test target by 2046.",
-    caution:
-      "A conditional scenario comparison. It assigns no probability to the upper-tail branches and does not show their joint assumptions are achievable.",
-    table: "aether_integrated_feasibility_timepaths.csv",
-  },
-  {
-    id: "gates-figure",
-    number: "02",
-    title: "The gates have to clear together",
-    src: "/charts/feasibility-gate-scorecard.png",
-    alt: "AETHER feasibility gate scorecard across physical, economic, scientific, and governance constraints",
-    badge: "model" as const,
-    interpretation:
-      "First-order physical possibility is not enough. Clean power, contactor scale, durable credited storage, delivered cost, climate modeling, robotics evidence, uncertainty, and governance each remain a bottleneck or an open gap.",
-    caution:
-      "Status labels are internal research judgments synthesized from the current model suite. They are not expert consensus or peer-reviewed validation.",
-    table: "aether_feasibility_gate_scorecard.csv",
-  },
-  {
-    id: "robotics",
-    number: "03",
-    title: "Robotics is a field-productivity problem",
-    src: "/charts/robotics-field-productivity-gate.png",
-    alt: "AETHER robotics field-productivity distribution gate comparing annual robot requirements",
-    badge: "open" as const,
-    interpretation:
-      "Uptime, autonomy, task-fit, maintenance, and supervision multipliers are applied before AETHER robot requirements are compared with current annual industrial robot installations.",
-    caution:
-      "The optimistic deep-modular case clears the count comparison only because infrastructure is assumed to be redesigned for automation. That task suitability still needs field evidence.",
-    table: "aether_robotics_field_productivity_distribution_summary.csv",
-  },
-] as const;
-
-const percent = (share: number, digits = 2) => `${(share * 100).toFixed(digits)}%`;
-
-/** Percentile bars are drawn against the 100 Gt stress-test target. */
-const barWidth = (value: number) => `${Math.min(100, (value / 100) * 100).toFixed(1)}%`;
+  { id: "carbon-ledger", title: "A captured tonne is the start of the ledger.", src: "regional-carbon-ledger", alt: "Grouped bars distinguish gross capture, stored carbon, retention, net benefit and risk-adjusted credits in two regional cases.", table: "aether_regional_reference_summary.csv", reading: "Ordinary and automation-assisted cases share all per-tonne physical assumptions. The assumed availability improvement raises gross capture from 850,000 to 900,000 tonnes/year. Losses, project emissions and credit buffers remain explicit.", caution: "The difference is conditional on assumed uptime and task productivity. It is not measured automation performance. CO₂e accounting is not a species- and time-resolved climate prediction." },
+  { id: "resources", title: "The tightest constraint sets the output.", src: "regional-resource-limits", alt: "Resource-limit comparison shows uptime limits ordinary and assisted output below their electricity, heat, storage and budget ceilings.", table: "aether_regional_reference_resource_ledger.csv", reading: "The model takes the minimum of nameplate, availability, electricity, useful heat, injection and budget. Halving electricity, heat or storage removes the output advantage of the automation case.", caution: "This is an annual resource envelope, not hourly dispatch, a permitted site or a construction design. The graph's vertical axis starts at 700,000 tonnes/year to make differences readable." },
+  { id: "funding", title: "Two services need two identified funding sources.", src: "regional-funding-ledger", alt: "Both regional cases assume 120 million dollars of current-load settlements and 180 million dollars of separate legacy funding; modeled uses are about 281 and 276 million dollars.", table: "aether_regional_reference_utility_ledger.csv", reading: "An illustrative current-load settlement funds part of the annual service. Separate legacy funding covers the wider drawdown program. Capital charges, labor, automation, energy, storage and reserves are counted once.", caution: "These are explicit funding and price assumptions, not available revenue, a recommended tariff, an investment return or a cost forecast. A positive annual balance does not establish full long-term solvency." },
+];
 
 export default function Evidence() {
-  return (
-    <main className="aether-site evidence-page" id="main">
-      <SiteNav links={navLinks} label="Evidence navigation" />
+  return <main className="aether-site evidence-page" id="main">
+    <SiteNav links={navLinks} label="Evidence navigation" />
+    <section className="evidence-hero">
+      <p className="section-code">AETHER / EVIDENCE YOU CAN INSPECT</p>
+      <h1>Show the system.<br /><em>Show its limits.</em></h1>
+      <div><p>The ambition is planetary. The useful next test is regional: one process, shared physical constraints, two operating cases and a ledger that can be checked.</p><p>This is conditional research. The example below is neither a real plant proposal nor a forecast. It shows how a carbon service would have to account for its work.</p></div>
+    </section>
 
-      <section className="evidence-hero">
-        <p className="section-code">AETHER / WHAT THE MODEL ACTUALLY SHOWS</p>
-        <h1>Show the system.<br /><em>Show where it breaks.</em></h1>
-        <div>
-          <p>
-            These are outputs from a coupled feasibility-boundary model. They expose how energy, industrial capacity, storage, economics, robotics, climate response, verification, and governance interact.
-          </p>
-          <p>
-            They are not forecasts. The 100 GtCO₂/year reference case is deliberately extreme so that hidden dependencies become visible rather than staying buried in an optimistic branch.
-          </p>
+    <section className="regional-section" id="regional-case">
+      <div className="regional-head"><p className="section-code">01 / A BOUNDED OPERATING EXAMPLE</p><h2>Same process.<br />Different execution.</h2><p>A 1 MtCO₂/year gross nameplate benchmark anchored to a published NETL solvent-DAC process. Only assumed uptime, task hours and explicit automation costs change between the two cases.</p></div>
+      <div className="regional-pair">
+        {regional.cases.map((item) => <article key={item.scenario_id}>
+          <span className="section-code">{item.case_label}</span><strong>{format(item.risk_adjusted_credits_tco2e_y / 1000, 1)}<small>thousand risk-adjusted tCO₂e/year</small></strong>
+          <dl><div><dt>Assumed uptime</dt><dd>{format(item.uptime_fraction * 100)}%</dd></div><div><dt>Assumed task hours/year</dt><dd>{format(item.total_task_hours_y)}</dd></div><div><dt>Annual modeled uses</dt><dd>${format(item.total_uses_usd_y / 1e6, 1)}m</dd></div></dl>
+        </article>)}
+      </div>
+      <p className="regional-caution">The automation-assisted case includes $12m/year of additional system cost. Higher uptime and fewer task hours are hypotheses to test—not capabilities already demonstrated by AETHER.</p>
+      <details className="evidence-disclosure"><summary>Open the physical ledger and energy requirements <Arrow direction="down" /></summary>
+        {/* The horizontally scrollable table needs keyboard focus on narrow screens. */}
+        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
+        <div className="ledger-scroll" tabIndex={0} role="region" aria-label="Regional carbon accounting table">
+          <table><caption>Annual analytical outputs; displayed values rounded to whole tonnes.</caption><thead><tr><th scope="col">Accounting layer</th><th scope="col">Ordinary</th><th scope="col">Assisted</th></tr></thead><tbody>{rows.map(([label, key, unit]) => <tr key={key}><th scope="row">{label}<small>{unit}</small></th>{regional.cases.map(item => <td key={item.scenario_id}>{format(item[key])}</td>)}</tr>)}</tbody></table>
         </div>
-      </section>
+        <p>Electricity and thermal energy have separate boundaries. Ordinary operations use {format(regional.cases[0].electricity_used_mwh_y / 1000, 1)} GWh/year and {format(regional.cases[0].thermal_used_gj_y / 1e6, 2)} PJ/year of fuel-input-equivalent thermal energy; the assisted case uses {format(regional.cases[1].electricity_used_mwh_y / 1000, 1)} GWh and {format(regional.cases[1].thermal_used_gj_y / 1e6, 2)} PJ. The thermal proxy derives from NETL&rsquo;s natural-gas HHV input, not delivered useful heat. Low-carbon substitution, temperature, conversion efficiency and hourly availability still need engineering evidence.</p>
+        <a className="text-link" href={`${githubUrl}/blob/main/data/regional-reference/parameters.csv`}>Every parameter, unit and evidence label <Arrow /></a>
+      </details>
+    </section>
 
-      <section className="gates-section" id="gates">
-        <div className="gates-head">
-          <p className="section-code">01 / SUBMISSION READINESS</p>
-          <h2>Twelve gates. Two of them fail.</h2>
-          <p>
-            This ledger is generated, not written by hand. The two failing gates are the honest reason AETHER is a working paper rather than a submission: temperature claims currently rest on a forcing-driven diagnostic, and the species-level emissions inputs that would make them publication-grade do not exist yet.
-          </p>
-        </div>
-        <GateLedger />
-      </section>
+    <section className="figure-gallery" id="figures">
+      <div className="gallery-head"><p className="section-code">02 / FOLLOW THE ACCOUNTING</p><h2>Three views of the same case.</h2><p>These figures and the website numbers are generated from the same checked-in regional outputs used by the paper.</p></div>
+      {figures.map((figure, n) => <article id={figure.id} key={figure.id}>
+        <header><span className="figure-number">0{n+1}</span><h3>{figure.title}</h3><EvidenceBadge kind="model" /></header>
+        <figure><div className="figure-scroll"><img src={`/charts/${figure.src}.png`} alt={figure.alt} loading="lazy" /></div></figure>
+        <div className="figure-reading"><div><span>WHAT IT SHOWS</span><p>{figure.reading}</p></div><div><span>READ WITH CAUTION</span><p>{figure.caution}</p></div><a href={tableUrl(figure.table)}>Inspect the source table <Arrow /></a></div>
+      </article>)}
+    </section>
 
-      <section className="uncertainty-section" id="uncertainty">
-        <div className="uncertainty-head">
-          <p className="section-code">02 / THE UNCERTAINTY SCREEN</p>
-          <h2>What {uncertainty.samples.toLocaleString()} draws say about the headline number.</h2>
-          <p>
-            A Monte Carlo screen over the stated assumption ranges. It measures how much of the possibility space actually reaches the target — which is the question a single optimistic curve cannot answer.
-          </p>
-        </div>
+    <section className="research-limits" id="limits">
+      <p className="section-code">03 / WHAT IS NOT ESTABLISHED</p><h2>Confidence should follow evidence.</h2>
+      <div className="limit-grid">
+        <article><span>WITHDRAWN</span><h3>Absolute climate projections</h3><p>The replacement baseline failed a zero-future-emissions diagnostic. Absolute concentration, temperature and arrival-date claims are quarantined. Historical carbon reservoirs and consistent emissions inputs must be resolved first.</p></article>
+        <article><span>NOT A PROBABILITY</span><h3>The old Monte Carlo headline</h3><p>Sampling hand-set ranges measures those assumptions, not the likelihood of AETHER succeeding. The public headline no longer uses a pass percentage. Correlated cases also change marginal assumptions.</p></article>
+        <article><span>NOT FULLY COUPLED</span><h3>The global model suite</h3><p>Power, robotics, storage and cost screens do not yet share a complete regional, chronological resource contract. Favorable standalone outputs cannot be added into a validated deployment path.</p></article>
+        <article><span>EVIDENCE STILL NEEDED</span><h3>Real operating conditions</h3><p>Hourly power and heat, field automation data, basin-specific storage, independent verification, full lifecycle impacts and long-term funding remain open research tasks.</p></article>
+      </div>
+      <a className="text-link" href={correctionUrl}>Read the v0.46 correction record <Arrow /></a>
+    </section>
 
-        <div className="distribution" aria-label="Durable credited removal distribution against the 100 Gt target">
-          <div className="distribution-scale"><span>0</span><span>50 Gt</span><span>100 Gt target</span></div>
-          {[
-            { label: "10th percentile", value: uncertainty.durableCredit.p10 },
-            { label: "Median", value: uncertainty.durableCredit.p50, emphasis: true },
-            { label: "90th percentile", value: uncertainty.durableCredit.p90 },
-          ].map((row) => (
-            <div className={`distribution-row${row.emphasis ? " distribution-median" : ""}`} key={row.label}>
-              <span className="distribution-label">{row.label}</span>
-              <div className="distribution-track">
-                <i style={{ width: barWidth(row.value) }} />
-              </div>
-              <span className="distribution-value">{row.value} Gt/yr</span>
-            </div>
-          ))}
-        </div>
-
-        <dl className="uncertainty-stats">
-          <div>
-            <dt>Draws reaching 100 Gt gross</dt>
-            <dd>{percent(uncertainty.grossHundredShare)}</dd>
-          </div>
-          <div>
-            <dt>Draws reaching 100 Gt durable credit</dt>
-            <dd>{percent(uncertainty.durableHundredShare)}</dd>
-          </div>
-          <div>
-            <dt>Draws with any net removal</dt>
-            <dd>{percent(uncertainty.positiveReversalShare, 0)}</dd>
-          </div>
-          <div>
-            <dt>Draws reversing at today&rsquo;s emission rate</dt>
-            <dd>{percent(uncertainty.strongReversalShare, 1)}</dd>
-          </div>
-        </dl>
-
-        <div className="uncertainty-caveat">
-          <EvidenceBadge kind="open" />
-          <p>
-            These ranges are currently hand-set rather than elicited from experts, and the sampling does not yet model correlation between optimistic assumptions properly. That makes this a screen, not a probability estimate — and it is itself one of the open gates above.
-          </p>
-          <a href={tableUrl(uncertainty.table)}>Inspect the table <Arrow /></a>
-        </div>
-      </section>
-
-      <section className="figure-gallery" id="figures">
-        <div className="gallery-head">
-          <p className="section-code">03 / SELECTED FIGURES</p>
-          <h2>Every curve should lead back to assumptions, units, and a source table.</h2>
-        </div>
-        {figures.map((figure) => (
-          <article id={figure.id} key={figure.id}>
-            <header>
-              <span className="figure-number">{figure.number}</span>
-              <h3>{figure.title}</h3>
-              <EvidenceBadge kind={figure.badge} />
-            </header>
-            <figure>
-              <div className="figure-scroll">
-                <img src={figure.src} alt={figure.alt} loading="lazy" />
-              </div>
-            </figure>
-            <div className="figure-reading">
-              <div><span>WHAT IT SHOWS</span><p>{figure.interpretation}</p></div>
-              <div><span>READ WITH CAUTION</span><p>{figure.caution}</p></div>
-              <a href={tableUrl(figure.table)}>Inspect the source table <Arrow /></a>
-            </div>
-          </article>
-        ))}
-      </section>
-
-      <section className="evidence-close">
-        <p className="section-code">CONTRIBUTE</p>
-        <h2>Scientific criticism is a contribution.</h2>
-        <p>
-          Reproduce a model, replace a weak parameter, add a missing constraint, or take apart a claim that deserves it. The review guide explains how to challenge a specific number.
-        </p>
-        <div>
-          <a className="button button-primary" href={paperUrl}>Read the working paper <Arrow /></a>
-          <a className="button button-secondary" href={`${githubUrl}/blob/main/docs/REVIEW_GUIDE.md`}>Open the review guide <Arrow /></a>
-        </div>
-      </section>
-
-      <SiteFooter note="Selected outputs from the AETHER model suite. Scenario results are not deployment claims." />
-    </main>
-  );
+    <section className="evidence-close"><p className="section-code">CONTRIBUTE</p><h2>A better parameter can change the conclusion.</h2><p>Reproduce the regional case, challenge its assumptions, or bring evidence for one missing constraint. The most useful contribution has a source, a unit, an uncertainty range and a clear account of what it changes.</p><div><a className="button button-primary" href={paperUrl}>Read the working paper <Arrow /></a><a className="button button-secondary" href={supplementUrl}>Technical supplement <Arrow /></a></div><a className="text-link" href={`${githubUrl}/blob/main/docs/REVIEW_GUIDE.md`}>Review and contribution guide <Arrow /></a></section>
+    <SiteFooter note="Analytical scenarios, not deployment claims. Internal review is not external peer review." />
+  </main>;
 }

@@ -1,4 +1,4 @@
-﻿[project]
+[project]
 name = "aether-research"
 version = "0.1.0"
 description = "AETHER: Atmospheric Engineering Through High-Energy Removal research scaffolding for climate reversal, durable carbon removal, robotics scaling, and clean energy scenario modeling."
@@ -13,4 +13,11 @@ dependencies = [
 
 [tool.ruff]
 line-length = 100
+
+[dependency-groups]
+publication = [
+    "markdown-it-py>=4.2.0",
+    "pypdf>=6.17.0",
+    "reportlab>=5.0.1",
+]
 

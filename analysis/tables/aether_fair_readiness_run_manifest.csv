@@ -1,6 +1,6 @@
 artifact,role,row_count,status,next_action
-aether_fair_readiness_input_deck.csv,Annual joined emissions/removal/forcing/temperature deck for FAIR-class handoff,1800,generated,Run a real FAIR package or ESM workflow against this deck.
-aether_fair_readiness_summary.csv,Scenario summary for input deck and climate-emulator consistency,24,generated,Compare against FAIR output after species trajectories exist.
+aether_fair_readiness_input_deck.csv,Annual joined emissions/removal/forcing/temperature deck for FAIR-class handoff,2400,quarantined_hybrid_off_reference,Replace rejected carbon response with a validated historically initialized emissions-driven workflow; forcing-mode continuation does not repair it.
+aether_fair_readiness_summary.csv,Scenario summary for input deck and climate-emulator consistency,32,quarantined_hybrid_off_reference,Compare against FAIR output after species trajectories exist.
 aether_fair_readiness_gap_matrix.csv,Variable-family gap matrix for publication-grade climate modeling,17,generated,Close P0 gaps before presenting temperature claims as publication-grade.
-aether_climate_emulator_pathways.csv,Source climate-emulator annual forcing and temperature paths,1800,upstream,Replace with FAIR/ESM outputs later.
-aether_state_dependent_carbon_pathways.csv,"Source annual positive emissions, removal, and net-pulse paths",450,upstream,Replace hand-set removal effectiveness with calibrated response.
+aether_climate_emulator_pathways.csv,Source climate-emulator annual forcing and temperature paths,2400,quarantined_hybrid_off_reference,Replace with FAIR/ESM outputs later.
+aether_state_dependent_carbon_pathways.csv,"Source annual positive emissions, removal, and net-pulse paths",600,quarantined_hybrid_off_reference,Replace hand-set removal effectiveness with calibrated response.

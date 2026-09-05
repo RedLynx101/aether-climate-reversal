@@ -1,0 +1,39 @@
+{
+  "dataset_doi": "10.5281/zenodo.4589756",
+  "version": "v5.1.0",
+  "retrieved_date": "2026-09-05",
+  "files": {
+    "concentrations": {
+      "url": "https://zenodo.org/records/4589756/files/rcmip-concentrations-annual-means-v5-1-0.csv",
+      "md5": "0d82c3c3cdd4dd632b2bb9449a5c315f",
+      "sha256": "b6749ea32cc36eb0badc5d028b5b7b7bbcc56606144155fa2c0c3f9ceeac18c9",
+      "byte_count": 21268575,
+      "selected_metadata": {
+        "Model": "MESSAGE-GLOBIOM",
+        "Scenario": "ssp245",
+        "Region": "World",
+        "Variable": "Atmospheric Concentrations|CO2",
+        "Unit": "ppm",
+        "Activity_Id": "input4MIPs",
+        "Mip_Era": "CMIP6"
+      }
+    },
+    "emissions": {
+      "url": "https://zenodo.org/records/4589756/files/rcmip-emissions-annual-means-v5-1-0.csv",
+      "md5": "4044106f55ca65b094670e7577eaf9b3",
+      "sha256": "2af9f90c42f9baa813199a902cdd83513fff157a0f96e1d1e6c48b58ffb8b0c1",
+      "byte_count": 48047695,
+      "selected_metadata": {
+        "Model": "MESSAGE-GLOBIOM",
+        "Scenario": "ssp245",
+        "Region": "World",
+        "Variable": "Emissions|CO2",
+        "Unit": "Mt CO2/yr",
+        "Mip_Era": "CMIP6",
+        "Activity_Id": "not_applicable"
+      }
+    }
+  },
+  "extract_sha256": "2e157fb6eec2432dc6e53a17d8a0f6fa71f9d6cc47f05597e3d1b2bfa44f0041",
+  "extract_hash_line_endings": "LF"
+}

@@ -1,4 +1,5 @@
 gate_id,test,gate_status,priority,paper_use_rule
+G0_carbon_baseline_response,Hybrid zero-future CO2 response fails (late rebound above initial); absolute ppm/temperature trajectories quarantined.,fail,P0,must pass before publication-grade temperature claims
 G1_CO2_split,"Separate fossil/industrial CO2, land-use CO2, and CDR removals before a full FAIR run.",partial,P0,must pass before publication-grade temperature claims
 G2_CDR_methods,"Split CDR by method, durability, leakage, MRV, and lifecycle boundary.",partial,P0,must pass before publication-grade temperature claims
 G3_CH4_N2O,Replace aggregate non-CO2 forcing with CH4 and N2O trajectories.,fail,P0,must pass before publication-grade temperature claims

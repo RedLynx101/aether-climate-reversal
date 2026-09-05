@@ -5,8 +5,8 @@ type: software
 authors:
   - family-names: Hicks
     given-names: Noah
-version: 0.45
-date-released: 2026-08-10
+version: 0.46
+date-released: 2026-09-05
 url: "https://aetherclimate.com"
 repository-code: "https://github.com/RedLynx101/aether-climate-reversal"
 abstract: "An open, conditional feasibility research program for climate reversal through AI- and robotics-accelerated carbon-removal infrastructure."

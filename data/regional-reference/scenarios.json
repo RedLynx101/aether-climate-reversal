@@ -1,0 +1,73 @@
+{
+  "model_id": "aether_regional_reference_v1",
+  "benchmark_scope": "Generic approximately 1 MtCO2/year liquid-solvent DAC plus geologic-storage corridor archetype; not an actual plant design, siting, permit, cost forecast, or investment recommendation.",
+  "paired_case_rule": "Only uptime, task hours, and automation-task costs differ. All physical, emissions, deliverability, crediting, price, capital, and funding parameters come from the shared parameter table.",
+  "cases": [
+    {
+      "scenario_id": "ordinary_operations",
+      "case_label": "Ordinary operations",
+      "uptime_fraction": 0.85,
+      "task_hours_by_class": {
+        "operations": 420000,
+        "maintenance": 180000,
+        "measurement_reporting_verification": 60000
+      },
+      "hourly_task_cost_usd": 85,
+      "automation_system_cost_usd_y": 0,
+      "evidence_class": "scenario_assumption",
+      "interpretation": "Reference operating organization at the NETL conceptual-case capacity factor; staffing hours are placeholders, not observed workforce data."
+    },
+    {
+      "scenario_id": "automation_assisted",
+      "case_label": "Automation-assisted operations",
+      "uptime_fraction": 0.90,
+      "task_hours_by_class": {
+        "operations": 200000,
+        "maintenance": 100000,
+        "measurement_reporting_verification": 45000
+      },
+      "hourly_task_cost_usd": 85,
+      "automation_system_cost_usd_y": 12000000,
+      "evidence_class": "scenario_assumption_not_forecast",
+      "interpretation": "Mechanism test only: fewer task hours and higher uptime offset by an explicit automation-system cost. This is not field validation or a forecast cost reduction."
+    }
+  ],
+  "verification": {
+    "independent_verification_passed": true,
+    "storage_mrv_plan_accepted": true,
+    "measurement_discrepancy_fraction": 0.01,
+    "reserve_coverage_fraction": 1.0
+  },
+  "failure_cases": [
+    {
+      "failure_id": "electricity_delivery_half",
+      "description": "Only half of baseline annual electricity is deliverable.",
+      "parameter_multipliers": {"electricity_budget": 0.5}
+    },
+    {
+      "failure_id": "thermal_delivery_half",
+      "description": "Only half of the baseline annual thermal-service allowance, expressed as an HHV fuel-input-equivalent proxy, is available.",
+      "parameter_multipliers": {"thermal_budget": 0.5}
+    },
+    {
+      "failure_id": "storage_acceptance_half",
+      "description": "Only half of baseline annual storage acceptance is available.",
+      "parameter_multipliers": {"storage_injection_budget": 0.5}
+    },
+    {
+      "failure_id": "shrinking_current_load_revenue",
+      "description": "The current-load settlement base falls by half without compensating legacy funding.",
+      "parameter_multipliers": {"current_load_subject_to_settlement": 0.5}
+    },
+    {
+      "failure_id": "legacy_drawdown_funding_zero",
+      "description": "Current-load settlements remain, but the separate legacy-drawdown funding source is absent.",
+      "parameter_multipliers": {"legacy_drawdown_funding": 0.0}
+    },
+    {
+      "failure_id": "independent_verification_failure",
+      "description": "Independent verification is unavailable; the benchmark's fail-closed rule stops operation and credit issuance.",
+      "verification_overrides": {"independent_verification_passed": false}
+    }
+  ]
+}

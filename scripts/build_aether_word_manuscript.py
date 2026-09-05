@@ -1,8 +1,30 @@
 ﻿from __future__ import annotations
 
 import re
-import zipfile
+import sys
 from pathlib import Path
+
+# This v0.45 builder writes obsolete submission metadata. Keep it only for
+# explicit historical recovery, and fail before optional legacy dependencies
+# or any mutation are reached during normal use.
+CANONICAL_ROOT = Path(__file__).resolve().parents[1]
+if "--legacy-v0-45-rebuild" not in sys.argv[1:]:
+    raise SystemExit(
+        "Retired v0.45 Word builder. Use `python scripts/build_current_publication.py` "
+        "or `--check`; historical recovery requires --legacy-v0-45-rebuild."
+    )
+try:
+    legacy_target = Path(sys.argv[sys.argv.index("--legacy-output-dir") + 1]).resolve()
+except (ValueError, IndexError):
+    raise SystemExit(
+        "Legacy recovery requires --legacy-output-dir PATH naming a separate, "
+        "complete isolated AETHER checkout. The active checkout is never a legacy target."
+    )
+if legacy_target == CANONICAL_ROOT or not (legacy_target / "pyproject.toml").is_file():
+    raise SystemExit("--legacy-output-dir must be a complete AETHER checkout distinct from the active checkout.")
+LEGACY_ROOT = legacy_target
+
+import zipfile
 
 from docx import Document
 from docx.enum.section import WD_SECTION
@@ -21,7 +43,7 @@ except Exception:  # pragma: no cover - render-time dependency check
     Image = None
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = LEGACY_ROOT
 PAPER = ROOT / "manuscript" / "paper" / "aether_scientific_paper.md"
 OUTPUT = ROOT / "manuscript" / "submission" / "AETHER_Atmospheric_Engineering_Through_High_Energy_Removal_v0.45.docx"
 MANIFEST = ROOT / "manuscript" / "submission" / "aether_word_export_manifest.md"
@@ -635,7 +657,7 @@ def validate_docx(path: Path, expected_figures: int) -> dict[str, int | str]:
     }
 
 
-def main() -> None:
+def legacy_main() -> None:
     stats = make_docx()
     validation = validate_docx(OUTPUT, stats["figures"])
 
@@ -689,5 +711,5 @@ The DOCX is intended for Word-based academic review. It is not a journal-formatt
 
 
 if __name__ == "__main__":
-    main()
+    legacy_main()
 

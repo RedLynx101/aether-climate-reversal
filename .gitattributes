@@ -1,0 +1,8 @@
+# Publication/media bytes must survive Windows checkout unchanged.
+*.pdf binary
+*.docx binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.woff2 binary

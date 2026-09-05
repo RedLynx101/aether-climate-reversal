@@ -108,7 +108,7 @@ def main() -> None:
         failures.append(f"required public-release file is missing: {path}")
 
     citation = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
-    for required_text in ("version: 0.45", "Apache-2.0", "CC-BY-4.0"):
+    for required_text in ("version: 0.46", "Apache-2.0", "CC-BY-4.0"):
         if required_text not in citation:
             failures.append(f"CITATION.cff is missing: {required_text}")
 
