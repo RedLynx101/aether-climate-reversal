@@ -57,7 +57,12 @@ export default function Evidence() {
       <div className="gallery-head"><p className="section-code">02 / FOLLOW THE ACCOUNTING</p><h2>Three views of the same case.</h2><p>These figures and the website numbers are generated from the same checked-in regional outputs used by the paper.</p></div>
       {figures.map((figure, n) => <article id={figure.id} key={figure.id}>
         <header><span className="figure-number">0{n+1}</span><h3>{figure.title}</h3><EvidenceBadge kind="model" /></header>
-        <figure><div className="figure-scroll"><img src={`/charts/${figure.src}.png`} alt={figure.alt} loading="lazy" /></div></figure>
+        <figure>
+          <figcaption className="figure-caption"><span className="figure-pan-hint">Swipe sideways to explore the chart.</span><a href={`/charts/${figure.src}.png`} target="_blank" rel="noreferrer">Open full-size chart <Arrow /></a></figcaption>
+          {/* Native overflow regions need keyboard focus for arrow-key scrolling. */}
+          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
+          <div className="figure-scroll" role="region" aria-label={`${figure.title} Scrollable chart`} tabIndex={0}><img src={`/charts/${figure.src}.png`} alt={figure.alt} loading="lazy" /></div>
+        </figure>
         <div className="figure-reading"><div><span>WHAT IT SHOWS</span><p>{figure.reading}</p></div><div><span>READ WITH CAUTION</span><p>{figure.caution}</p></div><a href={tableUrl(figure.table)}>Inspect the source table <Arrow /></a></div>
       </article>)}
     </section>

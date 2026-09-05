@@ -1063,6 +1063,14 @@ a:hover .arrow-down { transform: translateY(3px); }
    here rather than being allowed to widen the page on small screens. */
 .figure-scroll { background: var(--figure-bg); border: 1px solid var(--figure-line); overflow-x: auto; }
 .figure-scroll img { height: auto; min-width: 680px; width: 100%; }
+.figure-caption { align-items: center; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .65rem 1.5rem; margin-bottom: 1rem; font-size: .85rem; line-height: 1.5; }
+.figure-caption a { text-decoration: underline; text-underline-offset: .2em; }
+.figure-pan-hint { display: none; }
+.figure-scroll:focus-visible { outline: 2px solid var(--green); outline-offset: 4px; }
+@media (max-width: 780px) {
+  .figure-caption { justify-content: space-between; }
+  .figure-pan-hint { display: inline; }
+}
 
 .figure-reading { display: grid; gap: 3rem; grid-template-columns: 1fr 1fr auto; padding-top: 2rem; }
 .figure-reading div span { font-family: var(--mono); font-size: .61rem; letter-spacing: .06em; }
